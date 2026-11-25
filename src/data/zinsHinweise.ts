@@ -220,10 +220,8 @@ const HAUS: Record<string, Eintrag> = {
   norisbank: gut("Zinsen gibt es nur auf dem Top-Zinskonto, einem eigenen Konto. Zahle dort nichts ein."),
   bunq: {
     ...dreiKategorien(gut("Zinsen gibt es nur auf Sparkonten, die du in der App selbst eröffnen müsstest. Eröffne keines.")),
-    geschaeftskonto: offen(
-      "bunq",
-      "Die Geschäfts-AGB nennen Zinsen nur für Sparkonten, die du in der App selbst eröffnen müsstest: Eröffne keines. Zum Hauptkonto steht dort nichts.",
-    ),
+    // VG12 (25.11.2026): bunq Support schriftlich, das reguläre Konto wird nicht verzinst.
+    geschaeftskonto: gut("bunq verzinst dein Geschäftskonto nicht. Zinsen gibt es nur auf Sparkonten, die du selbst eröffnen müsstest: Eröffne keines."),
   },
   fyrst: {
     geschaeftskonto: offen(
@@ -250,10 +248,8 @@ const HAUS: Record<string, Eintrag> = {
     ),
   },
   finom: {
-    geschaeftskonto: offen(
-      "Finom",
-      "Für Solo, Basic und Smart steht kein Satz zu Zinsen auf dem Hauptkonto. Das Zinskonto ist ein eigenes Wallet, das du selbst eröffnen müsstest: Eröffne es nicht.",
-    ),
+    // VG12 (25.11.2026): Finom Support schriftlich, keine Zinsen auf dem normalen Geschäftskonto.
+    geschaeftskonto: gut("Finom verzinst dein Geschäftskonto nicht. Zinsen gibt es nur im Interest Wallet, wenn du selbst Geld dorthin schiebst: Lass es leer."),
   },
   tomorrow: gut(
     "Dein Guthaben auf dem Girokonto wird nicht verzinst. Zinsen gibt es nur auf dem Tagesgeldkonto: Eröffne es nicht.",

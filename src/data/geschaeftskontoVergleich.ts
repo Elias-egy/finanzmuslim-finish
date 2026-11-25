@@ -66,6 +66,9 @@ const FINANZFLUSS = "https://www.finanzfluss.de/vergleich/geschaeftskonto/";
 const FF_STAND = "11.11.2026";
 
 const beleg = (url: string, anzeige: string, hinweis: string): Quelle => ({ url, stand: BELEG, anzeige, hinweis });
+/** Schriftliche Antwort des Anbieters per Mail (Mailrunde VG10, 25.11.2026), Wortlaut unter ~/rebrand/data/vergleiche/belege/<haus>/. */
+const MAILRUNDE = "25.11.2026";
+const schriftlich = (url: string, anzeige: string, hinweis: string): Quelle => ({ url, stand: MAILRUNDE, anzeige, hinweis });
 
 type Halal = { zinsfreiAbStart: Quelle; keinDispoAbStart: Quelle; karteOhneKredit: Quelle };
 
@@ -73,7 +76,7 @@ const TIDE: Halal = {
   zinsfreiAbStart: beleg(
     "https://www.tide.co/de-DE/terms/membership-terms/",
     "Tide Mitgliedschaftsbedingungen 3.5 und Anhang 2",
-    "Adyen-Geschäftskontovereinbarung 9.8: „Your Tide Business Account is subject to 0% interest, unless otherwise agreed between you and Tide.“ Mitgliedschaftsbedingungen 3.5: „Jedes Mitglied, das ein Tide Geschäftskonto eröffnet, erhält automatisch ein Tide Tagesgeldkonto („Tide Tagesgeldkonto“).“ Anhang 2, 2.: „Sämtliche Ein- und Auszahlungen müssen über das mit Adyen verknüpfte Tide Geschäftskonto des Mitglieds erfolgen.“ Zins gibt es nur auf Guthaben, das der Kunde selbst auf das Tagesgeldkonto bucht. Wie bei norisbank und 1822direkt zählt das als zinsfrei nutzbar, wenn man dort nichts einzahlt.",
+    "Adyen-Geschäftskontovereinbarung 9.8: „Your Tide Business Account is subject to 0% interest, unless otherwise agreed between you and Tide.“ Mitgliedschaftsbedingungen 3.5: „Jedes Mitglied, das ein Tide Geschäftskonto eröffnet, erhält automatisch ein Tide Tagesgeldkonto („Tide Tagesgeldkonto“).“ Anhang 2, 2.: „Sämtliche Ein- und Auszahlungen müssen über das mit Adyen verknüpfte Tide Geschäftskonto des Mitglieds erfolgen.“ Zins gibt es nur auf Guthaben, das der Kunde selbst auf das Tagesgeldkonto bucht. Schriftlich bestätigt vom Tide Support am 25.11.2026: „Bei der Eröffnung eines Hauptkontos wird automatisch auch ein Tagesgeldkonto eröffnet. In der Regel muss der Kunde lediglich Guthaben auf das Tagesgeldkonto überweisen. Die Zinsen werden einmal im Monat automatisch ausgezahlt“. Wie bei norisbank und 1822direkt zählt das als zinsfrei nutzbar, wenn man dort nichts einzahlt.",
   ),
   keinDispoAbStart: beleg(
     "https://assets.ctfassets.net/3h69mkdgxn20/36BiP6qMbKi2z9c8qcNrB8/763c91240816bdff49253922d963b52e/260716_DE_Preis-_und_Leistungsverzeichnis_DEU.pdf",
@@ -406,12 +409,16 @@ const HOLVI: Halal = {
 
 const BUNQ_AGB = "https://www.bunq.com/en-us/documents/business-account-terms-conditions";
 const BUNQ: Halal = {
-  zinsfreiAbStart: offen(
+  zinsfreiAbStart: schriftlich(
     BUNQ_AGB,
-    "bunq Business AGB Ziffer 17",
-    "Business-AGB, Ziffer 17: „With MassInterest , you can earn interest by opening one or more dedicated savings accounts in the bunq app.“ Ein Satz zum Guthaben auf dem Hauptkonto steht dort nicht.",
+    "bunq Support, Mail vom 25.11.2026",
+    "Schriftlich bestätigt vom bunq Support am 25.11.2026: „Nein, Guthaben auf dem regulären Bankkonto wird nicht automatisch verzinst. Zinsen gibt es ausschließlich auf einem separaten Sparkonto (Savings Account), das der Kunde selbst eröffnen muss.“ Dazu Business-AGB, Ziffer 17: „With MassInterest , you can earn interest by opening one or more dedicated savings accounts in the bunq app.“ Wer kein Sparkonto eröffnet, bekommt keinen Zins.",
   ),
-  keinDispoAbStart: beleg(BUNQ_AGB, "bunq Business AGB Ziffer 26", "Business-AGB, Ziffer 26: „We usually don't offer an arranged overdraft, so negative balances are generally not allowed.“"),
+  keinDispoAbStart: schriftlich(
+    BUNQ_AGB,
+    "bunq Support, Mail vom 25.11.2026, und Business AGB Ziffer 26",
+    "Schriftlich bestätigt vom bunq Support am 25.11.2026: „bunq bietet weder Dispositionskredite noch Überziehungen noch persönliche Darlehen an.“ Business-AGB, Ziffer 26: „We usually don't offer an arranged overdraft, so negative balances are generally not allowed.“",
+  ),
   karteOhneKredit: beleg(
     BUNQ_AGB,
     "bunq Business AGB",
@@ -449,17 +456,17 @@ const KONTIST: Halal = {
 };
 
 const finom = (dispoSolo: boolean): Halal => ({
-  zinsfreiAbStart: offen(
+  zinsfreiAbStart: schriftlich(
     "https://help.finom.co/de/articles/13653128-was-ist-das-zinskonto-interest-wallet-und-wie-funktioniert-es",
-    "Finom Hilfe, Zinskonto",
-    "Hilfe-Center: „Um ein Interest Wallet zu eröffnen, müssen Sie der Kontoinhaber sein.“ Das Zinskonto ist ein eigenes Wallet. Für den Tarif Core steht im Hilfe-Center ein Zins auf dem Kontoguthaben, für Solo, Basic und Smart steht dort kein Satz zum Hauptkonto.",
+    "Finom Support, Mail vom 25.11.2026",
+    "Schriftlich bestätigt vom Finom Support (KI-Assistent Fin) am 25.11.2026: „Nein. Auf dem normalen Geschäftskonto werden keine Zinsen gewährt; Zinsen entstehen nur, wenn Sie Geld aktiv in das Interest Wallet übertragen.“ Hilfe-Center: „Um ein Interest Wallet zu eröffnen, müssen Sie der Kontoinhaber sein.“ Gilt für Solo, Basic und Smart; für den Tarif Core nennt das Hilfe-Center einen Zins auf dem Kontoguthaben, er steht nicht in diesem Vergleich.",
   ),
   keinDispoAbStart: beleg(
     "https://help.finom.co/de/articles/17463404-wie-aktiviere-ich-den-dispokredit",
     "Finom Hilfe, Dispokredit",
     dispoSolo
       ? "Hilfe-Center: Der Dispokredit setzt voraus, „Bestehender Finom-Kunde mit einem kostenpflichtigen Tarif sein (Basic und höher)“. Im Tarif Solo gibt es ihn damit nicht."
-      : "Hilfe-Center: „Wir schalten den Dispokredit nie ohne Ihre Bestätigung frei.“ Ein Kredit gibt es also nur nach eigener Aktivierung.",
+      : "Hilfe-Center: „Wir schalten den Dispokredit nie ohne Ihre Bestätigung frei.“ Schriftlich bestätigt vom Finom Support am 25.11.2026: „Der Dispokredit wird nicht automatisch eingerichtet; er erscheint in der App als Angebot und muss vom Kontoinhaber aktiviert werden.“",
   ),
   karteOhneKredit: beleg(
     "https://help.finom.co/de/articles/4815568-kann-ich-eine-kreditkarte-bekommen",
@@ -817,14 +824,14 @@ const TARIFE: Tarif[] = [
   { id: "holvi-pro", haus: "holvi", name: "Holvi", produkt: "Pro", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Pro", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(2), ein: p(2), unter: 5, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
   { id: "holvi-business", haus: "holvi", name: "Holvi", produkt: "Business", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Business", kosten: ke({ f: 70.21, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(0), ein: p(2), unter: 15, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
 
-  { id: "bunq-free-business", haus: "bunq", name: "bunq", produkt: "Free Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Free Business", kosten: ke({ f: 0, frei: 0, kb: 0.13, debit: 0, ab: e(2.99), ein: p(0.5), unter: 3, buch: [], sich: "ja" }), fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
-  { id: "bunq-core-business", haus: "bunq", name: "bunq", produkt: "Core Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Core Business", kosten: ke({ f: 7.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0.99), ein: e(0), unter: 5, buch: [], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
-  { id: "bunq-pro-business", haus: "bunq", name: "bunq", produkt: "Pro Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Pro Business", kosten: ke({ f: 13.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
-  { id: "bunq-elite-business", haus: "bunq", name: "bunq", produkt: "Elite Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Elite Business", kosten: ke({ f: 23.99, frei: 500 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "500 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-free-business", haus: "bunq", name: "bunq", produkt: "Free Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Free Business", kosten: ke({ f: 0, frei: 0, kb: 0.13, debit: 0, ab: e(2.99), ein: p(0.5), unter: 3, buch: [], sich: "ja" }), fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-core-business", haus: "bunq", name: "bunq", produkt: "Core Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Core Business", kosten: ke({ f: 7.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0.99), ein: e(0), unter: 5, buch: [], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-pro-business", haus: "bunq", name: "bunq", produkt: "Pro Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Pro Business", kosten: ke({ f: 13.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-elite-business", haus: "bunq", name: "bunq", produkt: "Elite Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Elite Business", kosten: ke({ f: 23.99, frei: 500 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "500 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
 
-  { id: "finom-solo", haus: "finom", name: "Finom", produkt: "Solo", domain: "finom.co", halal: finom(true), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Solo", kosten: ke({ f: 0, frei: "unbegrenzt", kb: 0, debit: 3, ab: p(1), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FREELANCE_FUER, einlagenLand: "keins" },
-  { id: "finom-basic", haus: "finom", name: "Finom", produkt: "Basic", domain: "finom.co", halal: finom(false), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Basic", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
-  { id: "finom-smart", haus: "finom", name: "Finom", produkt: "Smart", domain: "finom.co", halal: finom(false), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Smart", kosten: ke({ f: 28.56, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
+  { id: "finom-solo", haus: "finom", name: "Finom", produkt: "Solo", domain: "finom.co", halal: finom(true), karte: "gut", marke: "Visa", zeile: "Finom Solo", kosten: ke({ f: 0, frei: "unbegrenzt", kb: 0, debit: 3, ab: p(1), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FREELANCE_FUER, einlagenLand: "keins" },
+  { id: "finom-basic", haus: "finom", name: "Finom", produkt: "Basic", domain: "finom.co", halal: finom(false), karte: "gut", marke: "Visa", zeile: "Finom Basic", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
+  { id: "finom-smart", haus: "finom", name: "Finom", produkt: "Smart", domain: "finom.co", halal: finom(false), karte: "gut", marke: "Visa", zeile: "Finom Smart", kosten: ke({ f: 28.56, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
 
   { id: "kontist-free", haus: "kontist", name: "Kontist", produkt: "Free", domain: "kontist.com", halal: KONTIST, zins: "unbekannt", dispo: "unbekannt", karte: "gut", marke: "Visa", zeile: "Kontist Free", kosten: ke({ f: 0, frei: 5, kb: 0.4, debit: 0, ab: e(2), ein: p(2.9), unter: 0, buch: ["SevDesk"], sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
   { id: "kontist-start", haus: "kontist", name: "Kontist", produkt: "Start", domain: "kontist.com", halal: KONTIST, zins: "unbekannt", dispo: "unbekannt", karte: "gut", marke: "Visa", zeile: "Kontist Start", kosten: ke({ f: 13.09, frei: 30, kb: 0.4, debit: 0, ab: e(2), ein: p(2.9), unter: 3, buch: ["DATEV", "SevDesk", "Sonstige"], sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },

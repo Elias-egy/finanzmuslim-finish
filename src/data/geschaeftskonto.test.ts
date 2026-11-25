@@ -28,7 +28,9 @@ const NEU: Record<string, number> = {
   bunq: 4, commerzbank: 4, "deutsche-bank": 4, finom: 3, fyrst: 3, gls: 1, holvi: 4, hvb: 1, kontist: 3, postbank: 4, qonto: 7, targobank: 3, wise: 1,
 };
 /** Zins offen: Der Anbieter schreibt nichts Ausdrückliches. Wise ist belegt mit Zins. */
-const OFFENE = Object.keys(NEU).filter((h) => h !== "wise");
+/** VG12 (25.11.2026): bunq und Finom schriftlich ohne Zins aufs Geschäftskonto (Mailrunde VG10). */
+const MAILRUNDE_GRUEN = ["bunq", "finom"];
+const OFFENE = Object.keys(NEU).filter((h) => h !== "wise" && !MAILRUNDE_GRUEN.includes(h));
 /** VG3 KT Bank (23.11.2026): kein Tarif aus dem Finanzfluss-Vergleich, Werte von kt-bank.de. */
 const KT_HAUS = "kt-bank";
 const ausFinanzfluss = (liste: RohAnbieter[]) => liste.filter((a) => a.haus !== KT_HAUS);
@@ -64,7 +66,8 @@ describe("Geschäftskonto: Daten", () => {
       for (const k of ["zinsfreiAbStart", "keinDispoAbStart", "karteOhneKredit"]) {
         const q = a.quellen?.[k];
         expect(q?.url, `${a.id} ${k}`).toMatch(/^https:\/\//);
-        expect(q?.stand, `${a.id} ${k}`).toBe("23.11.2026");
+        // VG12 (25.11.2026): Antworten aus der Mailrunde tragen ihr Datum.
+        expect(["23.11.2026", "25.11.2026"], `${a.id} ${k}`).toContain(q?.stand);
         // Ein gesetzter Wert (grün, rot) trägt ein wörtliches Zitat. Ein offener Wert nur, wo es etwas Wörtliches gibt.
         if (a.werte[k] !== "unbekannt") expect(q?.hinweis, `${a.id} ${k}`).toContain("„");
       }
@@ -91,11 +94,13 @@ describe("Geschäftskonto: Daten", () => {
     }
   });
 
-  it("stellt den Zins bei den 12 offenen Häusern auf offen (kein Urteil), bei Wise auf rot, nie auf grün", () => {
+  it("stellt den Zins bei den 10 offenen Häusern auf offen (kein Urteil), bei Wise auf rot, nie auf grün", () => {
     for (const a of geschaeftskontoVergleich.filter((x) => OFFENE.includes(x.haus!))) expect(a.werte.zinsfreiAbStart, a.id).toBe("unbekannt");
     for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "wise")) expect(a.werte.zinsfreiAbStart, a.id).toBe("schlecht");
     // VG3 KT Bank: 29 erste Tarife plus das KT GeschäftsKonto (Zins im Antrag wörtlich belegt).
-    expect(geschaeftskontoVergleich.filter((a) => a.werte.zinsfreiAbStart === "gut")).toHaveLength(30);
+    // VG12: dazu 4 Tarife bunq und 3 Tarife Finom, schriftlich belegt.
+    for (const a of geschaeftskontoVergleich.filter((x) => MAILRUNDE_GRUEN.includes(x.haus!))) expect(a.werte.zinsfreiAbStart, a.id).toBe("gut");
+    expect(geschaeftskontoVergleich.filter((a) => a.werte.zinsfreiAbStart === "gut")).toHaveLength(37);
     // Wo der Bericht Dispo oder Karte nicht belegt, steht „offen“, nirgends rot.
     const offen = geschaeftskontoVergleich.filter((a) => !HAEUSER.includes(a.haus!) && (a.werte.keinDispoAbStart === "unbekannt" || a.werte.karteOhneKredit === "unbekannt")).map((a) => a.haus);
     // VG3 KT Bank: Auch beim KT GeschäftsKonto steht die Karte auf offen (die Bedingungen der Bank widersprechen sich).
@@ -231,7 +236,7 @@ describe("Geschäftskonto: Partnerlinks", () => {
     }
     // Ein Tarif hat genau dann einen Link, wenn sein Partner aktiv ist (Tide: "tide", Vivid: "vivid-business", Accountable: "accountable").
     const aktiv = new Set(partnerLinks.filter((p) => p.aktiv).map((p) => p.kurzname));
-    const partner: Record<string, string> = { tide: "tide", vivid: "vivid-business", accountable: "accountable", n26: "n26-business" };
+    const partner: Record<string, string> = { tide: "tide", vivid: "vivid-business", accountable: "accountable", n26: "n26-business", bunq: "bunq" };
     for (const a of geschaeftskontoVergleich) expect(Boolean(a.link), a.id).toBe(Boolean(partner[a.haus!]) && aktiv.has(partner[a.haus!]));
   });
 
@@ -276,12 +281,12 @@ describe("Geschäftskonto: Rangfolge", () => {
     for (const b of r.gerankt) expect(b.note, b.anbieter.id).toBeGreaterThan(0);
   });
 
-  it("ordnet in drei Stufen: erst belegt ohne Zins (30, VG3 KT Bank: 29 plus KT GeschäftsKonto), dann offen (41), ganz hinten belegt mit Zins (Wise)", () => {
+  it("ordnet in drei Stufen: erst belegt ohne Zins (37: 29, KT GeschäftsKonto, VG12 bunq 4 und Finom 3), dann offen (34), ganz hinten belegt mit Zins (Wise)", () => {
     const r = rang(geschaeftskontoAnzeige);
     const stufen = r.gerankt.map((b) => stufe(b.anbieter));
     expect(stufen).toEqual([...stufen].sort((x, y) => x - y));
-    expect(stufen.filter((x) => x === 0)).toHaveLength(30);
-    expect(stufen.filter((x) => x === 1)).toHaveLength(41);
+    expect(stufen.filter((x) => x === 0)).toHaveLength(37);
+    expect(stufen.filter((x) => x === 1)).toHaveLength(34);
     expect(stufen.filter((x) => x === 2)).toHaveLength(1);
     expect(r.gerankt[71].anbieter.haus).toBe("wise");
     expect(r.gerankt[71].platz).toBe(72);
@@ -314,7 +319,8 @@ describe("Geschäftskonto: Rangfolge", () => {
       expect(b.halal, b.anbieter.id).toBe(2.5);
     }
     // VG3 KT Bank: Das KT GeschäftsKonto (Karte offen, Halal-Teil ebenfalls 2,5) steht mit den drei Grenke-Tarifen am Ende der belegten Stufe.
-    expect(r.gerankt.slice(26, 30).map((b) => b.anbieter.haus).sort()).toEqual(["grenke", "grenke", "grenke", "kt-bank"]);
+    // VG12: die belegte Stufe hat jetzt 37 Tarife (bunq und Finom dazu), ihr Ende liegt auf Platz 34 bis 37.
+    expect(r.gerankt.slice(33, 37).map((b) => b.anbieter.haus).sort()).toEqual(["grenke", "grenke", "grenke", "kt-bank"]);
     // Auch mit Partnerlink bleibt Grenke von Platz 1 weg.
     expect(rang(mitLink(geschaeftskontoAnzeige, "grenke")).gerankt[0].anbieter.haus).not.toBe("grenke");
   });
@@ -398,9 +404,9 @@ describe("Geschäftskonto: Sätze zu Zinsen", () => {
     for (const s of ALLE_ZINS_SAETZE) expect(s).not.toMatch(/[–—]/);
   });
 
-  it("sagt bei den 41 offenen Tarifen neutral „Noch offen“ und nennt den Anbieter, ohne Urteil und ohne Gedankenstrich", () => {
+  it("sagt bei den 34 offenen Tarifen neutral „Noch offen“ und nennt den Anbieter, ohne Urteil und ohne Gedankenstrich", () => {
     const offene = geschaeftskontoAnzeige.filter((x) => x.werte.zinsfreiAbStart === "unbekannt");
-    expect(offene).toHaveLength(41);
+    expect(offene).toHaveLength(34);
     for (const a of offene) {
       const s = zinsHinweis("geschaeftskonto", a)!;
       expect(s, a.id).toMatch(/^Noch offen: Wir fragen bei .+ nach, ob das Konto ohne Zinsen läuft\./);
@@ -459,7 +465,7 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).toContain("Die besten Geschäftskonten für Muslime 11/2026");
   });
 
-  it("zeigt mit Link an Platz 1 (N26 Business, VG6-04) den Kasten und trägt alle Konten mit den Kennzahlen 72, 30 und 41 (VG3 KT Bank) und „Offen“ in den Zellen", () => {
+  it("zeigt mit Link an Platz 1 (N26 Business, VG6-04) den Kasten und trägt alle Konten mit den Kennzahlen 72, 37 und 34 (VG3 KT Bank) und „Offen“ in den Zellen", () => {
     expect(html).toContain('aria-label="Bestes Geschäftskonto"');
     expect(html).toContain("Offen");
     expect(html).toContain("Wise");
@@ -467,9 +473,9 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).not.toMatch(/Aktion: \d/);
     expect(html).not.toMatch(/Geldmarktfonds-Rendite/);
     const text = html.replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-    // Mit Kasten zeigt die Seite die Kennzahlen im Kopf wie die anderen Vergleiche (72 überprüft, 30 ohne Zinsen nutzbar).
+    // Mit Kasten zeigt die Seite die Kennzahlen im Kopf wie die anderen Vergleiche (72 überprüft, 37 ohne Zinsen nutzbar).
     expect(text).toMatch(/72 Überprüfte Konten/);
-    expect(text).toMatch(/30 Ohne Zinsen nutzbar/);
+    expect(text).toMatch(/37 Ohne Zinsen nutzbar/);
     expect(text).toContain("Zusätzlich ist die KT Bank drin (Angaben von kt-bank.de, Stand 23.11.2026)");
   });
 

@@ -5971,6 +5971,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "25.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "N26",
         "haus": "n26",
         "beleg": {
@@ -6077,7 +6089,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [],
-    "stand": "17.11.2026"
+    "stand": "25.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [
