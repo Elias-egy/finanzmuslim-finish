@@ -26,7 +26,7 @@ const BESONDERS: Record<string, string[]> = Object.fromEntries(
 
 const ReihenfolgeSatz = () => (
   <>
-    {sortiertSatz()}{" "}
+    {sortiertSatz("Girokonto")}{" "}
     <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
       So bewerten wir
     </Link>

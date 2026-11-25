@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, KREDIT_NIE_PLATZ_EINS, nummerEins, rangfolge, sterne, STUFEN_ALLE_REIN, stufe, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
-import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
+import { reihenfolgeAntwort, SPITZE_SATZ_GIRO, sortiertSatz } from "@/data/reihenfolgeText";
 import { LESER_EROEFFNUNGEN } from "@/data/leserEroeffnungen";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "@/data/brokerVergleich";
@@ -17,7 +17,7 @@ import { screenerVergleich } from "@/data/screenerVergleich";
 import { edelmetallVergleich, EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { ROYAL_MINT, ROYAL_MINT_HAEUSER } from "@/data/royalMint";
-import { DEPOT_SPITZE, GEWICHT_ROYAL_MINT, HALAL_GEWICHT, halalPunkte, spitzenRang } from "@/lib/rangfolge";
+import { DEPOT_SPITZE, GIRO_SPITZE, GEWICHT_ROYAL_MINT, HALAL_GEWICHT, halalPunkte, spitzenRang } from "@/lib/rangfolge";
 
 /**
  * Rechenkern der Rangfolge, Spezifikation `docs/rangfolge/P3-SPEC.md` (Abschnitt 10 hat Vorrang).
@@ -683,10 +683,9 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
     // Seit 24.11.2026 (Regel 13, Elias VG5-03): feste Spitze, S Broker auf 1.
     expect(ids(eins(brokerVergleich, "depot"))).toEqual(["s-broker-direkt-depot"]);
-    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“. Seit 25.11.2026 (VG5-05, „beliebt“ raus) hat BBBank BetterSmart dieselbe Note
-    // wie norisbank (4,89), dieselben Kosten und denselben Halal-Teil; die Kleinigkeiten (Feinwert: App, Geldautomaten, Support) stellen BBBank
-    // auf Platz 1. Elias' Wunsch norisbank auf 1 ist damit offen, die Rangfolge erzwingt ihn nicht.
-    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
+    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“. Seit 25.11.2026 (VG5-05, „beliebt“ raus) hatte BBBank BetterSmart dieselbe Note
+    // wie norisbank (4,89) und stand durch den Feinwert vorn. Seit 25.11.2026 (Regel 15, Elias VG5-07) steht norisbank fest auf 1.
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
       const r = rangfolge(liste, kategorie);
@@ -927,15 +926,40 @@ describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein 
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
     expect(r.gerankt.slice(7).every((b) => anzeigeNote(b.note) <= 4.3)).toBe(true);
   });
-  it("Girokonto: BBBank 1, norisbank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
+  it("Girokonto: norisbank fest auf 1 (Regel 15), dann BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
     const r = rangfolge(girokontoVergleich, "girokonto");
-    expect(ids(r.gerankt.slice(0, 4))).toEqual(["bbbank-bettersmart", "norisbank-top-girokonto", "consorsbank-girokonto", "trade-republic-girokonto"]);
+    expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "consorsbank-girokonto", "trade-republic-girokonto"]);
     // meine Bank (1 % im Ausland) steht hinter DKB und Revolut, nicht mehr auf Platz 3.
     expect(ids(r.gerankt.slice(4, 7))).toEqual(["dkb-girokonto", "revolut-standard", "meine-bank-mein-girokonto"]);
-    // Seit 25.11.2026 (kein „beliebt“): BBBank und norisbank 4,89 mit gleichen Kosten und gleichem Halal-Teil, der Feinwert entscheidet für BBBank.
+    // Seit 25.11.2026 (kein „beliebt“): BBBank und norisbank 4,89 mit gleichen Kosten und gleichem Halal-Teil, der Feinwert hätte BBBank vorn
+    // gehalten; Regel 15 (Elias VG5-07) setzt norisbank fest auf 1. Die Noten bleiben gerechnet.
     expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.8, 4.8, 4.7]);
-    expect(r.gerankt[0].anbieter.link).toBe("/out/bbbank-bettersmart");
+    expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+    expect(r.gerankt.slice(0, 2).map((b) => b.platz)).toEqual([1, 2]);
+    expect(r.gerankt.some((b) => typeof b.noteGerechnet === "number")).toBe(false);
+  });
+  it("Girokonto Regel 15: ohne die feste Spitze stünde BBBank vorn, nur norisbank wird bewegt, der Rest bleibt in seiner Reihenfolge", () => {
+    const id = (b: { anbieter: { id: string } }) => b.anbieter.id;
+    const mitSpitze = rangfolge(girokontoVergleich, "girokonto").gerankt.map(id);
+    expect(GIRO_SPITZE).toEqual(["norisbank-top-girokonto"]);
+    expect(spitzenRang("girokonto", "norisbank-top-girokonto")).toBe(0);
+    expect(spitzenRang("girokonto", "bbbank-bettersmart")).toBe(-1);
+    // Ohne norisbank ist die Reihenfolge der übrigen Konten dieselbe wie mit ihr: Regel 15 ändert nur Platz 1.
+    const ohneNoris = rangfolge(girokontoVergleich.filter((a) => a.id !== "norisbank-top-girokonto"), "girokonto").gerankt.map(id);
+    expect(mitSpitze.filter((x) => x !== "norisbank-top-girokonto")).toEqual(ohneNoris);
+    expect(ohneNoris[0]).toBe("bbbank-bettersmart");
+  });
+  it("Girokonto Regel 15: der Satz über der Liste sagt offen, dass Platz 1 festgelegt ist, auf Hauptliste, Studenten und Umrah", () => {
+    expect(sortiertSatz("Girokonto")).toContain("Platz 1 lege ich selbst fest.");
+    expect(sortiertSatz("Girokonto")).toContain("je zur Hälfte");
+    expect(sortiertSatz("Girokonto")).not.toMatch(/Gedankenstrich|–|—/);
+    expect(reihenfolgeAntwort("Konto")).toContain(SPITZE_SATZ_GIRO);
+    expect(sortiertSatz()).not.toContain("selbst fest");
+    for (const datei of ["VergleichGirokonto.tsx", "VergleichAbgeleitet.tsx"]) {
+      const t = readFileSync(join(__dirname, "..", "pages", datei), "utf8");
+      expect(t, datei).toMatch(/sortiertSatz\("Girokonto"\)|was="Girokonto"/);
+    }
   });
   it("rechnet Halal und Kosten je zur Hälfte, ein Partnerlink ändert die Note nicht (seit 25.11.2026 kein „beliebt“, Elias VG5-05)", () => {
     const mitLink = depot("mit-link", {}, { link: "/out/smartbroker" });

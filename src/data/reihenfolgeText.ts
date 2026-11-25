@@ -12,9 +12,16 @@
 export const SPITZE_SATZ_DEPOT =
   "Die ersten sieben Plätze und ihre Noten lege ich selbst fest. Alle anderen Depots rechnet die Seite nach Halal-Merkmalen und Kosten.";
 
+/**
+ * Regel 15 der Rangfolge (Elias, 25.11.2026): Platz 1 im Girokonto legt Elias selbst fest (norisbank). Gleiche Pflicht
+ * wie beim Depot: Der Leser erfährt es über der Liste. Die Noten sind hier nicht fest, sie rechnen weiter.
+ */
+export const SPITZE_SATZ_GIRO =
+  "Platz 1 lege ich selbst fest. Alle anderen Konten rechnet die Seite nach Halal-Merkmalen und Kosten.";
+
 /** Der Satz über der Liste, vor dem Link zur Methodik. */
-export const sortiertSatz = (was?: "Depot"): string =>
-  (was === "Depot" ? `${SPITZE_SATZ_DEPOT} ` : "") +
+export const sortiertSatz = (was?: "Depot" | "Girokonto"): string =>
+  (was === "Depot" ? `${SPITZE_SATZ_DEPOT} ` : was === "Girokonto" ? `${SPITZE_SATZ_GIRO} ` : "") +
   "Zuerst stehen Angebote, bei denen der Anbieter belegt, dass es ohne Zinsen geht, danach die mit offener Zins-Frage, ganz hinten, wer Zinsen zahlt. " +
   "Innerhalb jeder Gruppe zählt unsere Note: Halal-Merkmale und Kosten je zur Hälfte. Was wir an einem Angebot verdienen, zählt nie.";
 
@@ -29,7 +36,7 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
         ]
       : []),
     `Wie viel wir an einem ${was} verdienen, zählt nie.`,
-    ...(was === "Depot" ? [SPITZE_SATZ_DEPOT] : []),
+    was === "Depot" ? SPITZE_SATZ_DEPOT : SPITZE_SATZ_GIRO,
     `Die Liste steht in drei Gruppen: zuerst alle ${was === "Depot" ? "Depots" : "Konten"}, bei denen der Anbieter belegt, dass dein Guthaben ohne Zinsen liegt oder sich der Zins abschalten lässt, danach alle, bei denen er dazu nichts belegt („Offen“, kein Urteil, wir fragen nach), ganz hinten, wer Zinsen zahlt, die sich nicht abschalten lassen. In jeder Gruppe zählt die Note, die du siehst. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst.`,
     "Was nicht belegt ist, zählt 0 Punkte und wird nie geschätzt.",
     was === "Depot"

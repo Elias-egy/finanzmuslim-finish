@@ -89,6 +89,10 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  *    noten-fest.md im Vault): Wer in `DEPOT_FESTE_NOTE` steht, zeigt diese Note statt der gerechneten (`noteGerechnet` behält sie). Die
  *    Seite sagt das offen über der Liste (`SPITZE_SATZ_DEPOT`). Im Edelmetall steht Smartbroker+ fest vorn (`EDELMETALL_SPITZE`), die Note
  *    bleibt dort gerechnet.
+ * 15. Girokonto, feste Spitze (Elias, 25.11.2026, wörtlich: „Und im Girokonto-Vergleich steht BB Bank auf Platz 1. Und lass uns da gucken,
+ *    nicht BB Bank, Norris Bank, sorry … Aber also erstmal Norris Bank, BB Bank, Consobank“): norisbank steht fest auf Platz 1
+ *    (`GIRO_SPITZE`), alle anderen danach nach Note wie bisher. Die Note bleibt gerechnet. Die Seite sagt das offen über der Liste
+ *    (`SPITZE_SATZ_GIRO`). Gilt für jede Girokonto-Liste (Hauptliste, Studenten, Umrah). Regel 6 bleibt Wächter für Platz 1.
  */
 
 /** Regel 13: feste Spitze im deutschen Depot-Vergleich (Elias VG5-03, 24.11.2026, „erstmal“). */
@@ -112,8 +116,16 @@ export const DEPOT_FESTE_NOTE: Readonly<Record<string, number>> = {
 };
 /** Regel 14: Smartbroker+ fest auf 1 im Edelmetall-Vergleich (Elias VG5-06, 25.11.2026). */
 export const EDELMETALL_SPITZE: readonly string[] = ["smartbroker-plus-depot"];
+/** Regel 15: norisbank fest auf 1 im Girokonto-Vergleich (Elias, 25.11.2026). */
+export const GIRO_SPITZE: readonly string[] = ["norisbank-top-girokonto"];
 export const spitzenRang = (kategorie: RangKategorie, id: string): number =>
-  kategorie === "depot" ? DEPOT_SPITZE.indexOf(id) : kategorie === "edelmetall" ? EDELMETALL_SPITZE.indexOf(id) : -1;
+  kategorie === "depot"
+    ? DEPOT_SPITZE.indexOf(id)
+    : kategorie === "edelmetall"
+      ? EDELMETALL_SPITZE.indexOf(id)
+      : kategorie === "girokonto"
+        ? GIRO_SPITZE.indexOf(id)
+        : -1;
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall" | "geschaeftskonto";
 
@@ -643,7 +655,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
     depotGleichstand(kategorie, p, q) ||
     q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
-  // Regel 13: feste Spitze im deutschen Depot, alle anderen behalten ihre Reihenfolge dahinter.
+  // Regel 13 und 15: feste Spitze im deutschen Depot und im Girokonto, alle anderen behalten ihre Reihenfolge dahinter.
   const spitze = bewertet
     .filter((b) => spitzenRang(kategorie, b.anbieter.id) >= 0)
     .sort((p, q) => spitzenRang(kategorie, p.anbieter.id) - spitzenRang(kategorie, q.anbieter.id));

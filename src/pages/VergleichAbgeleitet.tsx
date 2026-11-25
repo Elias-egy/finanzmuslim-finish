@@ -18,7 +18,7 @@ import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 const AKTUALISIERT = "23.11.2026";
 const MONAT_JAHR = AKTUALISIERT.slice(3).replace(".", "/");
 
-const ReihenfolgeSatz = ({ was }: { was?: "Depot" }) => (
+const ReihenfolgeSatz = ({ was }: { was?: "Depot" | "Girokonto" }) => (
   <>
     {sortiertSatz(was)}{" "}
     <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
@@ -94,7 +94,7 @@ export const VergleichKontoUmrah = () => (
     }
     zeilen={mitVorn(GIRO_ZEILEN, ["auslandFremdZahlen", "auslandFremdAbheben", "auslandAbheben"])}
     anbieter={umrahKonten}
-    sortiertNach={<ReihenfolgeSatz />}
+    sortiertNach={<ReihenfolgeSatz was="Girokonto" />}
     giro={{ besonders: besondersFuer(umrahKonten) }}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
@@ -155,7 +155,7 @@ export const VergleichKontoStudenten = () => (
     }
     zeilen={mitVorn(GIRO_ZEILEN, ["kontofuehrung"])}
     anbieter={studentenKonten}
-    sortiertNach={<ReihenfolgeSatz />}
+    sortiertNach={<ReihenfolgeSatz was="Girokonto" />}
     giro={{ besonders: besondersFuer(studentenKonten) }}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
