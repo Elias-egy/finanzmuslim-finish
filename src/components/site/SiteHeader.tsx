@@ -6,6 +6,7 @@ import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import { cn } from "@/lib/utils";
 import { useThema } from "@/lib/thema";
+import { ereignis } from "@/lib/messung";
 
 // Nacht-Tempo (RN25L, 20.11.2026): Die Suche trägt die ganze Anlagendatenbank (rund 35 KB) und wird erst beim
 // ersten Antippen der Lupe geladen; Berühren oder Fokus holen sie schon vorher.
@@ -40,19 +41,21 @@ const KOPF_STANDARD = { ziel: "/check?quelle=kopf", text: "Match finden", ohneZu
 const KOPF_KONTO = { ziel: "/check?art=konto&quelle=kopf", text: "Match finden", ohneZum: true };
 
 /** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Check (KOPF_STANDARD). */
+// SEO85 (Elias SEO84-03: „nur das Finanzmuslim-Logo, Dark Mode und Match finden“): der Knopf heißt auf jedem Beitrag „Match finden“,
+// das Ziel je Beitrag bleibt (Gold führt weiter in den Edelmetall-Vergleich, der Check kennt kein Gold).
 const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean }> = {
   // Der Knopf nennt den Schmerz statt des Seitennamens (Elias, 04.11.2026, SEO51: „Gold ohne Preisaufschläge … Der Call
   // to Action muss halt sitzen“); belegt: Händler verkaufen nie zum reinen Metallpreis, der ETC kostet Ordergebühr und
   // laufende Kosten, aber keinen Händleraufschlag (edelmetallVergleich.ts, EDELMETALL_WEGE).
-  "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold ohne Aufschlag", ohneZum: true },
+  "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Match finden", ohneZum: true },
   // Leasing (SEO54): die Rate, die dir gehört, statt einer Rate, die am Ende weg ist (Karte ist-leasing-haram.md, Station 8a).
-  "/blog/ist-leasing-haram": { ziel: "/vergleich/depot", text: "Rate halal anlegen", ohneZum: true },
+  "/blog/ist-leasing-haram": { ziel: "/vergleich/depot", text: "Match finden", ohneZum: true },
   // Versicherung (SEO57): Polster statt Police, das Geld für freiwillige Beiträge als Sparplan (REIHE-BEITRAEGE.md, Aufruf).
-  "/blog/sind-versicherungen-haram": { ziel: "/vergleich/depot", text: "Halal vorsorgen", ohneZum: true },
+  "/blog/sind-versicherungen-haram": { ziel: "/vergleich/depot", text: "Match finden", ohneZum: true },
   // Aktien (SEO61): der einfache Weg ist ein Halal ETF im Depot (Karte sind-aktien-haram.md, Station 1 Kopfknopf).
-  "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Halal anlegen", ohneZum: true },
+  "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Match finden", ohneZum: true },
   // Kredit (SEO71): Sparen statt Kredit fängt beim Konto ohne Dispo an (Seiten-Prüfer SEO70 S1, Karte halal-kredit Money Page Girokonto).
-  "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
+  "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Match finden", ohneZum: true },
   // Trade Republic Alternative (SEO82): Kaufseite, Money Page ist der Depot-Vergleich (Karte trade-republic-alternative.seo.json).
   // SEO84 (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action“): Kopfknopf zum Check mit der Depot-Art; „Depot-Vergleich“
   // als Knopfwort fällt weg, damit die Seite dem Depot-Vergleich das Wort nicht nimmt. Der Link zur Money Page steht im Text.
@@ -234,7 +237,11 @@ export const SiteHeader = () => {
               {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
             </button>
             {beitragsKopf ? (
-              <Link to={kopfZiel.ziel} className="inline-block rounded-full">
+              <Link
+                to={kopfZiel.ziel}
+                onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "kopf", im: "blog", seite: pathname, stelle: "kopf" })}
+                className="inline-block rounded-full"
+              >
                 <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-3.5 text-[14px] font-semibold text-primary min-[900px]:px-5 min-[900px]:text-[15px]">
                   {!kopfZiel.ohneZum && <span className="hidden min-[420px]:inline">Zum&nbsp;</span>}
                   {kopfZiel.text}

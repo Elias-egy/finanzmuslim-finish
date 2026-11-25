@@ -146,6 +146,18 @@ const alleOhneZinsen = depotVorn.every((a) => a.werte.zinsfreiAbStart === "gut")
 const alleMehrSukuk = depotVorn.every((a) => (anzahl(a, "halalSukuk")?.x ?? 0) > (anzahl(tr, "halalSukuk")?.x ?? 0));
 const reihe = (teile: string[]) => (teile.length > 1 ? `${teile.slice(0, -1).join(", ")} und ${teile[teile.length - 1]}` : teile[0] ?? "");
 
+/** Ein Satz je Depot gegen Trade Republic: Halal-ETFs und Fonds, Sukuk, Order (SEO85, statt des Absatzes aus dem Depot-Ratgeber). */
+const gegenTr = (a: RohAnbieter) => {
+  const teile: string[] = [];
+  const e = anzahl(a, "halalEtfsFonds");
+  if (e && trEtf) teile.push(`Bei ${a.name} kaufst du ${e.x} von ${e.y} Halal-ETFs und Fonds aus unserem Vergleich, bei Trade Republic ${trEtf.x}.`);
+  const sa = anzahl(a, "halalSukuk");
+  const st = anzahl(tr, "halalSukuk");
+  if (sa && st) teile.push(`Sukuk: ${sa.x} von ${sa.y}, bei Trade Republic ${st.x}.`);
+  teile.push(`Eine Order kostet ${order(a)}, bei Trade Republic ${order(tr)}.`);
+  return teile.join(" ");
+};
+
 /** „Passt zu dir, wenn …“ je Depot. Fakten aus den Werten des Vergleichs; ohne Eintrag ein Satz aus der Zahl der Halal-ETFs. */
 const PASST: Record<string, (a: RohAnbieter) => string> = {
   /* SEO84: S Broker steht im Release vorn; Fakten aus seinen Werten (11 von 12, Order 0,95 €). */
@@ -376,7 +388,9 @@ const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
       </h3>
       <Text>
         {/* Seiten-Prüfer SEO82 R2 SOLLTE 5: Kreditsatz als eigener Absatz, damit kein Absatz am Handy über sieben Zeilen läuft. */}
-        <p>{brokerText(a).map(sauber).filter((t) => !/Kredit/.test(t)).join(" ")}</p>
+        {/* SEO85 Kannibalisierung (Prüfer Ratgeber Depot/Giro): kein wortgleicher Absatz aus dem Depot-Ratgeber, sondern der direkte
+            Vergleich mit Trade Republic aus denselben Daten. */}
+        <p>{gegenTr(a)}</p>
         {brokerText(a).some((t) => /Kredit/.test(t)) && <p>{brokerText(a).map(sauber).filter((t) => /Kredit/.test(t)).join(" ")}</p>}
       </Text>
       <ul className="mt-4 max-w-[664px] space-y-2 text-[16px] leading-snug text-foreground">
