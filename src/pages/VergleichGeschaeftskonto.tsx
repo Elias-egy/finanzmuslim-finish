@@ -3,6 +3,7 @@ import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { GESCHAEFT_ZEILEN, GESCHAEFT_FILTER } from "@/data/geschaeftskontoVergleich";
 import { geschaeftskontoAnzeige } from "@/data/anzeige/geschaeftskonto";
 import { GESCHAEFT_FINANZ_MAX } from "@/data/finanzMax";
+import { ISLAMIC_KONTO_FILTER } from "@/data/islamicKonto";
 import { sortiertSatzGeschaeft } from "@/data/reihenfolgeText";
 import { GESCHAEFT_FAQ } from "@/data/geschaeftskontoFaq";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
@@ -58,7 +59,8 @@ const Reihenfolge = () => (
   </section>
 );
 
-const FILTER = [...GESCHAEFT_FILTER, { key: "kontofuehrung", label: "Kontoführung kostenlos", erlaubt: ["0 €"] }];
+/* „Islamic-Konto“ (VG8-04) ist kein Tabellenkriterium, deshalb hier und nicht in GESCHAEFT_FILTER (jeder Filter dort braucht eine Zeile). */
+const FILTER = [...GESCHAEFT_FILTER, { key: "kontofuehrung", label: "Kontoführung kostenlos", erlaubt: ["0 €"] }, ISLAMIC_KONTO_FILTER];
 
 const KRITERIEN = [
   {

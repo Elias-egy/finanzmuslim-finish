@@ -7,6 +7,7 @@ import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { GIRO_WERTE, GIRO_QUELLEN } from "./vergleichKorrekturenDaten";
 import { girokontoNachtraege } from "./girokontoNachtraege";
 import { GIRO_AUSLAND_ZEILEN } from "./girokontoAusland";
+import { ISLAMIC_KONTO_FILTER, mitIslamicKonto } from "./islamicKonto";
 
 export const GIRO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -94,8 +95,9 @@ const girokontoVergleichRoh: RohAnbieter[] = [
 ];
 
 // Korrekturen und Belege liegen in vergleichKorrekturenDaten.ts (handgepflegt, wird nie erzeugt).
-export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), GIRO_WERTE, GIRO_QUELLEN);
+export const girokontoVergleich = mitIslamicKonto(korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), GIRO_WERTE, GIRO_QUELLEN));
 
 export const GIRO_FILTER = [
   { key: "keinDispoAbStart", label: "Kein Dispo ab Start" },
+  ISLAMIC_KONTO_FILTER,
 ];

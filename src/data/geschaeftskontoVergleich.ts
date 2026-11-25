@@ -10,6 +10,7 @@ import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Quelle } from "@/components/vergleich/vergleichTypen";
 import { GESCHAEFT_FINANZ_MAX } from "./finanzMax";
 import { geschaeftFinanzPunkte, type Gebuehr, type KostenEingabe } from "./geschaeftskontoKosten";
+import { mitIslamicKonto } from "./islamicKonto";
 import { partnerLinks } from "./partnerLinks";
 import type { RohAnbieter } from "./vergleichHelfer";
 
@@ -904,6 +905,6 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
 };
 
 /** Alphabetisch wie die übrigen Datendateien. Die Reihenfolge der Seite kommt aus der Rangfolge. */
-export const geschaeftskontoVergleich: RohAnbieter[] = TARIFE.map(zuAnbieter).sort(
+export const geschaeftskontoVergleich: RohAnbieter[] = mitIslamicKonto(TARIFE.map(zuAnbieter)).sort(
   (a, b) => `${a.name} ${a.produkt}`.localeCompare(`${b.name} ${b.produkt}`, "de"),
 );

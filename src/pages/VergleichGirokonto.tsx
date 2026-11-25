@@ -5,6 +5,7 @@ import { BESONDERS_JE_PRODUKT } from "@/data/girokontoBesondersDaten";
 import { GiroRatgeber } from "@/components/vergleich/GiroRatgeber";
 import { giroFragen } from "@/data/giroRatgeber";
 import { Link } from "react-router-dom";
+import { ISLAMIC_KONTO_FILTER } from "@/data/islamicKonto";
 import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
 
 const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Girokonto" };
@@ -39,6 +40,7 @@ const FILTER = [
   { key: "kontofuehrung", label: "Kontoführung ohne Bedingung kostenlos", erlaubt: ["0 €", "0€"] },
   { key: "applePay", label: "Apple Pay oder Google Pay", erlaubt: ["true"] },
   { key: "filialen", label: "Mit Filialen", erlaubt: ["true"] },
+  ISLAMIC_KONTO_FILTER,
 ];
 
 const KRITERIEN = [

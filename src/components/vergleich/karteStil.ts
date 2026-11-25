@@ -1,6 +1,7 @@
 import { auszeichnungVon } from "./VergleichsBausteine";
 import { bonusReiter } from "./GiroKarten";
 import type { VergleichsSpalte } from "./vergleichTypen";
+import { ISLAMIC_KONTO_TEXT, istIslamicKonto } from "@/data/islamicKonto";
 
 /**
  * Farben der Vergleichskarten und Spaltenköpfe, einmal definiert (Elias 15.11.2026: „Gib den Plätzen ein bisschen
@@ -38,6 +39,14 @@ export const STIL_ORANGE: KartenStil = {
   spalte: "bg-orange-50/70 dark:bg-orange-400/[0.05]",
 };
 
+/** VG8-04 (Elias 25.11.2026): KT Bank trägt als Islamic-Konto ein zartes Grün, nicht das Blau von Platz 1 und nicht das Orange vom Bonus. Nur Farbe und Etikett, kein Urteil. */
+export const STIL_GRUEN: KartenStil = {
+  karte: "border-emerald-300 bg-emerald-50 dark:border-emerald-400/30 dark:bg-emerald-400/[0.06]",
+  reiter: "border-emerald-300 bg-emerald-100 text-emerald-900 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-200",
+  trenner: "border-emerald-300 dark:border-emerald-400/30",
+  spalte: "bg-emerald-50/70 dark:bg-emerald-400/[0.05]",
+};
+
 /**
  * Welchen Ton und welchen Text der Reiter einer Spalte trägt: Platz 1 blau mit seiner Auszeichnung, sonst orange
  * mit der zweiten Auszeichnung („Meiste Halal-Anlagen“) oder dem belegten Bonus („200 € Bonus“). Sonst keinen.
@@ -46,6 +55,7 @@ export const stilVon = (s: VergleichsSpalte): { stil: KartenStil; text: string }
   if (s.abgeraten || s.grau) return null;
   const a = auszeichnungVon(s);
   if (a?.ton === "empfehlung") return { stil: STIL_BLAU, text: a.text };
+  if (istIslamicKonto(s.id)) return { stil: STIL_GRUEN, text: ISLAMIC_KONTO_TEXT };
   const text = a?.ton === "bonus" ? a.text : bonusReiter(s.id);
   return text ? { stil: STIL_ORANGE, text } : null;
 };
