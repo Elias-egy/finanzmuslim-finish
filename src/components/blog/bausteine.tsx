@@ -79,11 +79,46 @@ export const Marke = ({ children, ton = "blau" }: { children: ReactNode; ton?: "
 /** `eng`: Inhalt bricht am Handy bei 120 px um (Etiketten wie Marke), damit zwei Spalten ab 360 ohne Wischen passen; die Tabelle ist w-max. */
 export type Spalte = { titel: string; zusatz?: string; rechts?: boolean; text?: boolean; eng?: boolean };
 export type Zeile = { schluessel: string; name: ReactNode; unter?: ReactNode; zellen: ReactNode[] };
-/** `wischen` zeigt den Wischhinweis am Handy auch bei drei Spalten, wenn eine Satzspalte rechts aus dem Rahmen läuft. */
-export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zeilen: Zeile[]; quelle?: ReactNode; wischen?: boolean }) => (
+/**
+ * `wischen` zeigt den Wischhinweis am Handy auch bei drei Spalten, wenn eine Satzspalte rechts aus dem Rahmen läuft.
+ * Unabhängig davon steht der Hinweis bei jeder Breite, solange die Tabelle gemessen breiter ist als ihr Rahmen (SEO84 Prüfer-MUSS 4).
+ * `umbrechen`: ab sm füllt die Tabelle den Rahmen statt w-max, Satzspalten und `eng`-Spalten brechen um, damit am Laptop nichts
+ * rechts abgeschnitten wird (opt-in, andere Seiten bleiben wie sie sind).
+ */
+export const Tabelle = ({
+  kopf,
+  zeilen,
+  quelle,
+  wischen,
+  umbrechen,
+}: {
+  kopf: Spalte[];
+  zeilen: Zeile[];
+  quelle?: ReactNode;
+  wischen?: boolean;
+  umbrechen?: boolean;
+}) => {
+  const rahmen = useRef<HTMLDivElement>(null);
+  const [breiter, setBreiter] = useState(false);
+  useEffect(() => {
+    const el = rahmen.current;
+    if (!el) return;
+    const messen = () => setBreiter(el.scrollWidth > el.clientWidth + 1);
+    messen();
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", messen);
+      return () => window.removeEventListener("resize", messen);
+    }
+    const ro = new ResizeObserver(messen);
+    ro.observe(el);
+    if (el.firstElementChild) ro.observe(el.firstElementChild);
+    return () => ro.disconnect();
+  }, []);
+  const hinweisHandy = kopf.length > 3 || wischen;
+  return (
   <div className="mt-5 max-w-[720px]">
-    <div className="overflow-x-auto border border-border">
-      <table className="w-max min-w-full border-collapse text-[15px]">
+    <div ref={rahmen} className="overflow-x-auto border border-border">
+      <table className={`w-max min-w-full border-collapse text-[15px] ${umbrechen ? "sm:w-full" : ""}`}>
         <thead>
           <tr className="bg-muted text-left">
             {kopf.map((k, i) => (
@@ -114,7 +149,9 @@ export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zei
                 <td
                   key={kopf[i + 1]?.titel ?? i}
                   className={`px-3 py-3 align-middle text-foreground/85 sm:px-4 ${
-                    kopf[i + 1]?.text ? "min-w-[200px] max-w-[260px] leading-snug" : kopf[i + 1]?.eng ? "leading-snug" : "whitespace-nowrap tabular-nums"
+                    kopf[i + 1]?.text
+                      ? `min-w-[200px] max-w-[260px] leading-snug ${umbrechen ? "sm:min-w-[160px] sm:max-w-none" : ""}`
+                      : kopf[i + 1]?.eng ? "leading-snug" : "whitespace-nowrap tabular-nums"
                   } ${kopf[i + 1]?.rechts ? "text-right" : ""}`}
                 >
                   {kopf[i + 1]?.eng ? <div className="max-w-[120px] sm:max-w-none">{c}</div> : c}
@@ -125,10 +162,13 @@ export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zei
         </tbody>
       </table>
     </div>
-    {(kopf.length > 3 || wischen) && <p className="mt-2 text-[13px] text-muted-foreground sm:hidden">Seitlich wischen für alle Spalten</p>}
+    {(hinweisHandy || breiter) && (
+      <p className={`mt-2 text-[13px] text-muted-foreground ${breiter ? "" : "sm:hidden"}`}>Seitlich wischen für alle Spalten</p>
+    )}
     {quelle && <p className="mt-2 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">{quelle}</p>}
   </div>
 );
+};
 
 export const Klappzeile = ({ titel, zahl, children }: { titel: string; zahl?: number; children: ReactNode }) => (
   <details className="group border-t border-border">
@@ -415,7 +455,8 @@ export const Seitenleiste = ({
   inhalt: ReactNode;
   etikett: string;
   titel: string;
-  text: string;
+  /** Ohne Text zeigt der Kasten nur Titel und Knopf (SEO84: Ich-Satz höchstens zweimal je Seite). */
+  text?: string;
   ziel: string;
   knopf: string;
   /** Eigener Knopf statt des runden blauen Aufrufs (SEO84: „Finde dein Match“ schlicht, nicht blau leuchtend). */
@@ -462,7 +503,7 @@ export const Seitenleiste = ({
       <div className="mt-5 shrink-0 border border-border bg-card p-5">
         <Etikett className="text-primary">{etikett}</Etikett>
         <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">{titel}</p>
-        <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">{text}</p>
+        {text && <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">{text}</p>}
         {knopfKnoten ?? <Aufruf to={ziel} className="mt-4">{knopf}</Aufruf>}
       </div>
     </div>
