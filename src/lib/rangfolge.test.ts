@@ -2,7 +2,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, KREDIT_NIE_PLATZ_EINS, nummerEins, rangfolge, sterne, STUFEN_ALLE_REIN, stufe, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
-import { beliebtPunkte, GEWICHT_BELIEBT, LESER_EROEFFNUNGEN } from "@/data/leserEroeffnungen";
+import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
+import { LESER_EROEFFNUNGEN } from "@/data/leserEroeffnungen";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { anzeigeNote } from "@/lib/anzeigeNote";
@@ -81,11 +82,11 @@ const screener = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => 
   },
 });
 
-// Die Rechnungen von Hand prüfen Halal- und Kosten-Teil; Regel 8 (5 % beliebt) prüft ein eigener Block unten.
+// Die Rechnungen von Hand prüfen Halal- und Kosten-Teil; Regel 8 (kein Kriterium „beliebt“ mehr, seit 25.11.2026) prüft ein eigener Block unten.
 const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
-  rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen, beliebt: false });
+  rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen });
 const rGiro = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
-  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen, beliebt: false });
+  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen });
 const rKrypto = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
   rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO, offeneAnfragen });
 
@@ -500,8 +501,7 @@ describe("rangfolge: Screener", () => {
 describe("rangfolge: Edelmetalle", () => {
   // Dieselben Depots wie im Depot-Vergleich (Elias, 06.10.2026). Seit 23.11.2026 (VG1) zählt der Halal-Teil zur Hälfte die
   // 7 Gold- und Silber-ETCs und zur Hälfte alle 22 Halal-Anlagen des Depots („Gold gehört zum Anlegen“). Das Kriterium
-  // „Bei meinen Lesern beliebt“ prüft ein eigener Test unten, hier ist es aus.
-  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT, beliebt: false });
+  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT });
 
   it("zählt im Halal-Teil halb Gold und Silber, halb alle Halal-Anlagen des Depots", () => {
     // Regel 12: Metalle (7 + Royal Mint 2) von 9 = 5, alle 5 × (7 + 2) / 36 = 1,25, Halal 3,125, Kosten 5, Note 4,0625
@@ -683,8 +683,10 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
     // Seit 24.11.2026 (Regel 13, Elias VG5-03): feste Spitze, S Broker auf 1.
     expect(ids(eins(brokerVergleich, "depot"))).toEqual(["s-broker-direkt-depot"]);
-    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“; seit Regel 8 mit der höchsten Note.
-    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
+    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“. Seit 25.11.2026 (VG5-05, „beliebt“ raus) hat BBBank BetterSmart dieselbe Note
+    // wie norisbank (4,89), dieselben Kosten und denselben Halal-Teil; die Kleinigkeiten (Feinwert: App, Geldautomaten, Support) stellen BBBank
+    // auf Platz 1. Elias' Wunsch norisbank auf 1 ist damit offen, die Rangfolge erzwingt ihn nicht.
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
       const r = rangfolge(liste, kategorie);
@@ -896,13 +898,14 @@ describe("Feinwert: Kleinigkeiten entscheiden nur bei sonst gleichem Stand (Elia
   });
 });
 
-describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (Elias, 08.11.2026 A11; 15.11.2026 RN3-07)", () => {
+describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein „Bei meinen Lesern beliebt“ mehr (Elias, 08.11.2026 A11; 25.11.2026 VG5-05)", () => {
   it("ordnet nach angezeigter Note absteigend, nur Platz 1 darf vorgezogen sein (Regel 6)", () => {
     for (const kategorie of ["depot", "girokonto", "krypto"] as const) {
       const liste = { depot: brokerVergleich, girokonto: girokontoVergleich, krypto: kryptoVergleich }[kategorie];
       const r = rangfolge(liste, kategorie);
       stufenAufsteigend(kategorie, r);
-      r.gerankt.slice(1).forEach((x, i) => i > 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+      // Die feste Spitze im Depot (Regel 13) steht nach Elias' Wahl, nicht nach Note.
+      r.gerankt.slice(1).forEach((x, i) => i > 0 && spitzenRang(kategorie, x.anbieter.id) < 0 && spitzenRang(kategorie, r.gerankt[i].anbieter.id) < 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
   it("Sterne in Reihe: im Depot und Girokonto fällt die angezeigte Note von Platz zu Platz nie, auch Platz 1 nicht (Elias A10); im Depot erst hinter der festen Spitze (Regel 13, VG5-03)", () => {
@@ -914,43 +917,51 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
   });
   it("Depot ab 01.12.2026: S Broker 1, Smartbroker+ 2, flatex 3, Traders Place 4, Trading 212 5, Scalable 6, BBBank 7 (Regel 13, Elias VG5-03)", () => {
     // Elias VG5-03: „Warum ist Smart Broker VS Broker? Ich würde es sonst andersrum machen. Dann Flatex, Traders Place, Trading, Scalable, BB Bank.“
-    // Die Noten rechnen weiter nach Regel 8 und 12 (Smartbroker+ 4,4 wegen „beliebt“), die Reihenfolge an der Spitze ist fest.
+    // Die Noten rechnen nach Regel 8 und 12 (Halal und Kosten je zur Hälfte), die Reihenfolge an der Spitze ist fest.
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
     expect(ids(r.gerankt.slice(0, 7))).toEqual([...DEPOT_SPITZE]);
     expect(r.gerankt.slice(0, 7).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(r.gerankt.slice(0, 7).map((b) => anzeigeNote(b.note))).toEqual([4.3, 4.4, 4.3, 4.3, 4.3, 4.2, 4.2]);
+    expect(r.gerankt.slice(0, 7).map((b) => anzeigeNote(b.note))).toEqual([4.5, 4.4, 4.4, 4.5, 4.5, 4.3, 4.4]);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
-    expect(r.gerankt.slice(7).every((b) => anzeigeNote(b.note) <= 4.2)).toBe(true);
+    expect(r.gerankt.slice(7).every((b) => anzeigeNote(b.note) <= 4.3)).toBe(true);
   });
-  it("Girokonto: norisbank 1, BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
+  it("Girokonto: BBBank 1, norisbank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
     const r = rangfolge(girokontoVergleich, "girokonto");
-    expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "consorsbank-girokonto", "trade-republic-girokonto"]);
+    expect(ids(r.gerankt.slice(0, 4))).toEqual(["bbbank-bettersmart", "norisbank-top-girokonto", "consorsbank-girokonto", "trade-republic-girokonto"]);
     // meine Bank (1 % im Ausland) steht hinter DKB und Revolut, nicht mehr auf Platz 3.
     expect(ids(r.gerankt.slice(4, 7))).toEqual(["dkb-girokonto", "revolut-standard", "meine-bank-mein-girokonto"]);
-    // Stand 23.11.2026: BBBank 13 Anträge aus 65 Klicks, dadurch 4,8 wie norisbank (31 aus 102).
-    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.8, 4.5, 4.5]);
-    expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
+    // Seit 25.11.2026 (kein „beliebt“): BBBank und norisbank 4,89 mit gleichen Kosten und gleichem Halal-Teil, der Feinwert entscheidet für BBBank.
+    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.8, 4.8, 4.7]);
+    expect(r.gerankt[0].anbieter.link).toBe("/out/bbbank-bettersmart");
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
   });
-  it("rechnet 95 % Halal und Kosten je zur Hälfte plus 5 % beliebt, ohne Link 0 Punkte", () => {
-    expect(GEWICHT_BELIEBT).toBe(0.05);
-    const a = depot("a", {}, { link: "/out/a" });
-    const ohne = rangfolge([a], "depot", { finanzMax: MAX_DEPOT, beliebt: false }).gerankt[0];
-    const mit = rangfolge([a], "depot", { finanzMax: MAX_DEPOT }).gerankt[0];
-    // Kein Eintrag in den Leser-Eröffnungen: 0,95 × 5 + 0,05 × 0 = 4,75.
-    expect(ohne.note).toBe(5);
-    expect(mit.note).toBe(4.75);
-    expect(mit.beliebt).toBe(0);
-    // Beste Quote im Depot bekommt 5 Punkte (Stand 23.11.2026 Smartbroker+ 11 von 85), die anderen anteilig, ohne Link nie Punkte.
-    expect(beliebtPunkte("depot", "smartbroker-plus-depot", true)).toBe(5);
-    // flatex 7 von 85: 5 × 7 / 11 = 3,1818…
-    expect(beliebtPunkte("depot", "flatex-depot", true)).toBeCloseTo(3.18, 2);
-    expect(beliebtPunkte("depot", "flatex-depot", false)).toBe(0);
-    expect(beliebtPunkte("girokonto", "norisbank-top-girokonto", true)).toBe(5);
-    // Depot, Girokonto und seit 23.11.2026 (VG1) Edelmetall kennen das Kriterium; Edelmetall liest die Depot-Eröffnungen.
-    expect(rangfolge([krypto("k")], "krypto", { finanzMax: MAX_KRYPTO }).gerankt[0].beliebt).toBeNull();
-    expect(rangfolge([depot("e")], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(0);
-    expect(rangfolge([depot("smartbroker-plus-depot", {}, { link: "/out/smartbroker" })], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(5);
+  it("rechnet Halal und Kosten je zur Hälfte, ein Partnerlink ändert die Note nicht (seit 25.11.2026 kein „beliebt“, Elias VG5-05)", () => {
+    const mitLink = depot("smartbroker-plus-depot", {}, { link: "/out/smartbroker" });
+    const ohneLink = depot("ohne-link");
+    for (const kategorie of ["depot", "edelmetall"] as const) {
+      const a = rangfolge([mitLink], kategorie, { finanzMax: MAX_DEPOT }).gerankt[0];
+      const b = rangfolge([ohneLink], kategorie, { finanzMax: MAX_DEPOT }).gerankt[0];
+      expect(a.note, kategorie).toBe(b.note);
+      expect(a.note, kategorie).toBe(5);
+      expect("beliebt" in a, kategorie).toBe(false);
+    }
+    // Ein Anbieter mit Eintrag in den Leser-Eröffnungen und einer ohne gleichen sich aus: die Zahlen rechnen in keine Note.
+    const norisbank = rangfolge([giro("norisbank-top-girokonto", {}, { link: "/out/norisbank" })], "girokonto", { finanzMax: MAX_GIRO }).gerankt[0];
+    const fremd = rangfolge([giro("fremdbank", {}, { link: "/out/fremd" })], "girokonto", { finanzMax: MAX_GIRO }).gerankt[0];
+    expect(norisbank.note).toBe(fremd.note);
+  });
+  it("kein Text für Leser nennt „beliebt“, „Lesern“ oder 47,5 % (Texte, Methodik, Edelmetall-Seite)", () => {
+    const texte = [
+      sortiertSatz("Depot"), sortiertSatz(), reihenfolgeAntwort("Depot"), reihenfolgeAntwort("Konto"),
+      readFileSync(join(__dirname, "..", "pages", "VergleichMethodik.tsx"), "utf8").replace(/\/\*[\s\S]*?\*\//g, ""),
+      readFileSync(join(__dirname, "..", "pages", "VergleichEdelmetalle.tsx"), "utf8"),
+    ];
+    for (const t of texte) expect(t).not.toMatch(/beliebt|Lesern|47,5/i);
+    expect(sortiertSatz("Depot")).toContain("Die ersten sieben Plätze lege ich selbst fest.");
+    expect(sortiertSatz("Depot")).toContain("je zur Hälfte");
+  });
+  it("die Rangfolge liest die Leser-Eröffnungen nicht mehr", () => {
+    expect(readFileSync(join(__dirname, "rangfolge.ts"), "utf8")).not.toMatch(/from "@\/data\/leserEroeffnungen"|beliebtPunkte|GEWICHT_BELIEBT/);
   });
   it("zählt Eröffnungen, nie Geld, und jede Zahl hat Klicks", () => {
     for (const tabelle of Object.values(LESER_EROEFFNUNGEN))

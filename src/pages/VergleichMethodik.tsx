@@ -4,7 +4,6 @@ import Seo from "@/components/Seo";
 import { FINANZ_MAX_SUMME, GEWICHT_FINANZ, GEWICHT_HALAL } from "@/lib/bewertung";
 import { AMPEL_GEWICHTE } from "@/lib/rangfolge";
 import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
-import { ANTEIL_BELIEBT, ANTEIL_HALAL_KOSTEN, beliebtErklaerung } from "@/data/reihenfolgeText";
 
 /**
  * Offenlegung der Bewertung. Zwei Gründe: Partner wie Trading 212 fragen
@@ -13,8 +12,8 @@ import { ANTEIL_BELIEBT, ANTEIL_HALAL_KOSTEN, beliebtErklaerung } from "@/data/r
  *
  * Zahlen kommen aus bewertung.ts. Ein Test prüft, dass sie zu den
  * Datendateien passen, damit Seite und Rechnung nicht auseinanderlaufen.
- * Seit 15.11.2026 nennt die Seite das Zusatzkriterium „Bei meinen Lesern beliebt“ (5 %) für Depot und Girokonto
- * mit Gewicht und Provision (UWG § 5b Abs. 2, Anhang Nr. 11a; Wortlaut in `src/data/reihenfolgeText.ts`).
+ * Vom 15.11. bis 25.11.2026 nannte die Seite das Zusatzkriterium „Bei meinen Lesern beliebt“ (5 %). Seit 25.11.2026 ist es
+ * raus (Elias VG5-05: kein faires Kriterium); die Note ist überall Halal und Kosten je zur Hälfte.
  */
 
 const prozent = (x: number) => `${Math.round(x * 100)} %`;
@@ -99,9 +98,7 @@ const VergleichMethodik = () => (
         <p>
           <strong>Zweitens: Halal und Kosten zählen gleich.</strong> Die Note setzt sich zu{" "}
           {prozent(GEWICHT_HALAL)} aus den übrigen Halal-Merkmalen und zu {prozent(GEWICHT_FINANZ)} aus
-          Kosten und Konditionen zusammen. Im Depot-, im Girokonto- und im Edelmetall-Vergleich kommt ein drittes Kriterium dazu:
-          Halal-Merkmale und Kosten zählen dort je {ANTEIL_HALAL_KOSTEN}, „Bei meinen Lesern beliebt“ zählt{" "}
-          {ANTEIL_BELIEBT}.
+          Kosten und Konditionen zusammen. Ein weiteres Kriterium gibt es nicht, auch im Depot-, Girokonto- und Edelmetall-Vergleich nicht.
         </p>
         <p>
           <strong>Drittens: Haram-Angebote sind kein Minuspunkt.</strong> Fast jeder Anbieter hat auch
@@ -181,11 +178,9 @@ const VergleichMethodik = () => (
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
         <h2 className="text-2xl font-bold text-foreground">Depot und Girokonto</h2>
         <ul className="space-y-1 text-[16px] text-foreground">
-          <li>Halal-Merkmale: {ANTEIL_HALAL_KOSTEN}</li>
-          <li>Kosten und Konditionen: {ANTEIL_HALAL_KOSTEN}</li>
-          <li>Bei meinen Lesern beliebt: {ANTEIL_BELIEBT}</li>
+          <li>Halal-Merkmale: {prozent(GEWICHT_HALAL)}</li>
+          <li>Kosten und Konditionen: {prozent(GEWICHT_FINANZ)}</li>
         </ul>
-        <p>{beliebtErklaerung("Depot oder Konto")}</p>
         <p>
           Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. Platz 1 bekommt nur
           ein Angebot ohne Zinsen ab Start, das du über unseren Link eröffnen kannst. Im Girokonto muss
@@ -197,10 +192,9 @@ const VergleichMethodik = () => (
         <h2 className="text-2xl font-bold text-foreground">Partnerschaften</h2>
         <p>
           Wir bekommen von einigen Anbietern eine Provision, wenn du über unseren Link eröffnest.
-          Kriterien und Gewichte gelten für alle gleich. Der Link wirkt an zwei Stellen, beide offen:
-          Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. Und im Depot und
-          Girokonto zählen in „Bei meinen Lesern beliebt“ nur Eröffnungen über unsere Links, Anbieter
-          ohne Partnerlink bekommen dort 0 Punkte. Wie viel ich an einem Anbieter verdiene, zählt nie.{" "}
+          Kriterien und Gewichte gelten für alle gleich. Der Link wirkt an einer Stelle, offen genannt:
+          Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. In die Note selbst
+          geht er nie ein. Wie viel ich an einem Anbieter verdiene, zählt nie.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

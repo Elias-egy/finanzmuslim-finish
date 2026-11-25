@@ -1,6 +1,9 @@
 /**
- * Kriterium „Bei meinen Lesern beliebt“ im Depot- und Girokonto-Vergleich (5 % der Note, `GEWICHT_BELIEBT` in
- * `src/lib/rangfolge.ts`). Elias, 08.11.2026 (A11): „Conversion, wie viel Geld man bekommt. Und was das Ranking ist.
+ * STAND 25.11.2026: NICHT MEHR IN DER NOTE, NICHT AUF DER SEITE. Elias VG5-05: „Nimm mal die Sternbewertung, wie beliebt was ist
+ * … Das ist kein faires Kriterium“ (raw/2026-11-25-elias-vg5-05-beliebt-raus-agenten-mailstand.md im Vault). Die Rangfolge
+ * (`src/lib/rangfolge.ts`, Regel 8) und alle Texte lesen diese Datei nicht mehr; sie bleibt nur als interne Zahlenablage.
+ *
+ * Bis dahin: Kriterium „Bei meinen Lesern beliebt“ im Depot- und Girokonto-Vergleich (5 % der Note). Elias, 08.11.2026 (A11): „Conversion, wie viel Geld man bekommt. Und was das Ranking ist.
  * … lass uns da ganz, ganz transparent sein“; 14.11.2026 (RK1-05): „Kleinigkeiten veränderst am Ranking, an den
  * Kriterien“; 15.11.2026 (RN3-07): „Flatex als einzige Nummer 1 … Smartbroker als Nummer 2“ (alle in raw/ im Vault).
  *
@@ -21,7 +24,7 @@
  * 0 Punkte in diesem Kriterium. Die Seite sagt das offen (Methodik).
  */
 
-/** Gewicht des Kriteriums in der Note. Halal-Teil und Kosten teilen sich den Rest je zur Hälfte (47,5 %). */
+/** Früheres Gewicht des Kriteriums (nur noch Ablage, rechnet nirgends mehr mit). */
 export const GEWICHT_BELIEBT = 0.05;
 export const BELIEBT_STAND = "23.11.2026";
 export const BELIEBT_SEIT = "01.07.2026";

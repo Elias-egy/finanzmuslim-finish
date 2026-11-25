@@ -203,10 +203,11 @@ describe("Vergleichsdaten edelmetalle", () => {
     // A6 (07.11.2026): Royal Mint per Portal-Sparplan bei 10 weiteren Depots belegt, Platz 3 rückt nach Note nach.
     // A12 (08.11.2026): Scalable FREE bekommt für den kostenlosen ETF-Kauf ab 250 € einen Punkt mehr und steht gleichauf
     // mit S Broker (4,89); der Feinwert entscheidet.
-    // VG1 (23.11.2026): Halal-Teil halb Metalle, halb alle Halal-Anlagen, dazu 5 % „Bei meinen Lesern beliebt“ aus den
-    // Depot-Eröffnungen. Smartbroker+ vorn wie im Gold-Check (Elias 22.11.: „ja smartbroker vorne“), flatex danach.
-    // Regel 12 (24.11.2026): Royal Mint zählt 2, Kredit ab Start minus 10 %; flatex fällt hinter Traders Place, S Broker und Scalable.
-    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Smartbroker+", "Traders Place", "S Broker", "Scalable Capital"]);
+    // VG1 (23.11.2026): Halal-Teil halb Metalle, halb alle Halal-Anlagen. Smartbroker+ stand vorn wie im Gold-Check (Elias 22.11.: „ja smartbroker vorne“).
+    // Regel 12 (24.11.2026): Royal Mint zählt 2, Kredit ab Start minus 10 %.
+    // 25.11.2026 (VG5-05): „Bei meinen Lesern beliebt“ ist raus. Traders Place (4,76), S Broker (4,74) und Smartbroker+ (4,72) liegen jetzt
+    // innerhalb von 0,04 Punkten; Smartbroker+ steht damit auf Platz 3, Elias' Wunsch „Smartbroker vorne“ ist offen und wird nicht erzwungen.
+    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Traders Place", "S Broker", "Smartbroker+", "Trading 212"]);
   });
 
   it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {

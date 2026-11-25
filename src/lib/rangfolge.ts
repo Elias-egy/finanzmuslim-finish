@@ -2,7 +2,6 @@ import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
 import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GESCHAEFT_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
 import { anzeigeNote, sterne } from "@/lib/anzeigeNote";
-import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/leserEroeffnungen";
 import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
 
 /**
@@ -24,9 +23,8 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  *    zählen 0 Punkte und die Zelle zeigt einen Strich. Das Tor Anlage KAP bleibt: ohne Beleg
  *    dafür gibt es keinen Platz.
  * 2. Partner kaufen keine Note: Halal- und Kosten-Teil lesen weder `link` noch
- *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Was wir verdienen, zählt nie. Einzige Stelle,
- *    an der die Note den Link kennt, ist das offen genannte Kriterium „Bei meinen Lesern beliebt“ (Regel 8): Eröffnungen
- *    sehen wir nur über unseren Link. Nur die Reihenfolge in
+ *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Was wir verdienen, zählt nie. Seit 25.11.2026
+ *    kennt die Note den Link gar nicht mehr: Das Kriterium „Bei meinen Lesern beliebt“ ist raus (Regel 8). Nur die Reihenfolge in
  *    Depot, Girokonto und Krypto kennt den eigenen Link (Elias, 06.10.2026: "Die Eins muss
  *    immer von uns kaufbar sein"): Bei gleicher Sternzahl (`sterne`, halbe Schritte) steht
  *    zuerst, was über unseren Link eröffnet werden kann, danach entscheidet die Note. Ein
@@ -65,11 +63,13 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  * 11. Depot (VG3, Elias 23.11.2026, VG2-05 zu S Broker: „Sparkassenbroker kann sogar ziemlich weit nach vorne … 11 von 12 wusste ich gar
  *    nicht“, raw/2026-11-23-elias-vg2-05-kt-bank-aussehen-sparplan-sbroker-fuehrung.md im Vault): Bei gleicher angezeigter Note und gleichem
  *    Link-Stand steht zuerst der größere Halal-Teil, dann wer mehr Halal-ETFs belegt kaufbar hat, erst danach die genaue Note. Die genaue Note
- *    trennt sonst nur das Kriterium „Bei meinen Lesern beliebt“, und ein neuer Partnerlink hat dort noch keine Eröffnungen. Die Sterne bleiben
+ *    trennt sonst nur der Feinwert (Regel 4). Die Sterne bleiben
  *    absteigend (Regel 7), Platz 1 bleibt Regel 6.
- * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
- *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
- *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
+ * 8. Depot, Girokonto und Edelmetall: Die Note ist Halal-Teil und Kosten je zur Hälfte (Elias' Formel). Ein Kriterium „Bei meinen Lesern
+ *    beliebt“ (5 % nach Eröffnungen über unsere Partnerlinks) gab es vom 15.11. bis 25.11.2026; seit 25.11.2026 entfernt, Elias VG5-05:
+ *    „Nimm mal die Sternbewertung, wie beliebt was ist … die können keine Abzüge bekommen, weil wir noch keine Abschlüsse haben über die.
+ *    Das ist kein faires Kriterium“ (raw/2026-11-25-elias-vg5-05-beliebt-raus-agenten-mailstand.md im Vault). Die Zahlen liegen weiter in
+ *    `src/data/leserEroeffnungen.ts`, rechnen aber in keine Note und stehen auf keiner Seite.
  * 12. Halal-Teil der Depots seit 24.11.2026 (Elias, VG4-03, wörtlich: „ein Halal-ETF mehr zählt mehr als ein Sukuk oder Edelmetall mehr.
  *    Also das Doppelte. Außer der Han-ETF, der zählt so viel wie ein normaler ETF … Zinsen ausschalten ist ein riesen Minuspunkt … Dispo von
  *    Anfang an … ist auch ein relativ großer Minuspunkt“, raw/2026-11-24-elias-vg4-03-kriterien-halal-etf-doppelt-zinsen-dispo-kosten.md;
@@ -115,8 +115,6 @@ export type Bewertet = {
    * (`FAKTOR_KREDIT`, Regel 12); nie Nummer 1 nur, wo `KREDIT_NIE_PLATZ_EINS` es sagt (Edelmetall).
    */
   kredit: boolean;
-  /** Punkte 0 bis 5 im Kriterium „Bei meinen Lesern beliebt“ (Regel 8), nur Depot, Girokonto und Edelmetall, sonst null. */
-  beliebt: number | null;
   /** Halal-Teil vor dem Abzug für den Kredit. Der geführte Test sortiert damit, wer möglichst viele Anlagen will. */
   halalVorKredit: number;
 };
@@ -129,11 +127,6 @@ export type RangOptionen = {
   offeneAnfragen?: ReadonlySet<string>;
   /** Höchstpunkte der Finanzkriterien. Standard je Kategorie aus den Datendateien. */
   finanzMax?: Record<string, number>;
-  /**
-   * Regel 8 („Bei meinen Lesern beliebt“) einrechnen. Standard ja. Nur Tests schalten es ab, um den Halal- und
-   * Kosten-Teil von Hand nachzurechnen; jede Seite rechnet mit.
-   */
-  beliebt?: boolean;
   /**
    * DACH1 (23.11.2026): Wie viele Anlagen je Halal-Zeile im Land zählen. Österreich und Schweiz zählen nur Papiere, die
    * dort zum Vertrieb zugelassen sind (Länderlisten in `src/data/land/`). Standard `ANTEIL_N` (Deutschland, 12, 3, 7).
@@ -610,16 +603,10 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
       const angefragt = opt.offeneAnfragen?.has(anbieter.haus ?? anbieter.id) ?? false;
       nichtBewertet.push({ anbieter, grund: angefragt ? "Anfrage läuft" : "noch nicht geprüft", fehlt: u.fehlt });
     } else {
-      // Regel 8: 5 % „Bei meinen Lesern beliebt“ in Depot, Girokonto und Edelmetall, Halal und Kosten behalten je die Hälfte
-      // des Rests. Edelmetall rankt dieselben Depots, also zählen die Depot-Eröffnungen (seit 23.11.2026, VG1).
-      const beliebtKat = kategorie === "edelmetall" ? "depot" : kategorie;
-      const beliebt =
-        opt.beliebt !== false && istBeliebtKategorie(beliebtKat) ? beliebtPunkte(beliebtKat, anbieter.id, Boolean(anbieter.link)) : null;
-      const note = beliebt === null ? u.note : (1 - GEWICHT_BELIEBT) * u.note + GEWICHT_BELIEBT * beliebt;
+      // Regel 8: Halal-Teil und Kosten je zur Hälfte, kein weiteres Kriterium (seit 25.11.2026).
       bewertet.push({
         anbieter,
-        note: runde(note),
-        beliebt: beliebt === null ? null : runde(beliebt),
+        note: runde(u.note),
         halal: runde(u.halal),
         kosten: u.kosten === null ? null : runde(u.kosten),
         uneingeschraenkt: u.uneingeschraenkt,

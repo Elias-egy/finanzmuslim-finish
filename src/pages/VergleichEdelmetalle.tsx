@@ -17,7 +17,6 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { edelmetallAnzeige } from "@/data/anzeige/edelmetall";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { rangfolge } from "@/lib/rangfolge";
-import { ANTEIL_BELIEBT, ANTEIL_HALAL_KOSTEN, beliebtErklaerung } from "@/data/reihenfolgeText";
 
 /**
  * Edelmetalle im Vergleich (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch
@@ -205,7 +204,7 @@ const VergleichEdelmetalle = () => (
     zeilen={EDELMETALL_ZEILEN}
     anbieter={edelmetallAnzeige}
     ansichtAlle={edelmetallVergleich}
-    sortiertNach={`Depots mit Royal Mint stehen vorn. Danach zählen Halal-Anlagen und Kosten pro Kauf je ${ANTEIL_HALAL_KOSTEN}, bei meinen Lesern beliebt ${ANTEIL_BELIEBT}. „Beliebt“ zählt Depot-Eröffnungen über unsere Links, dafür bekommen wir von einigen Anbietern eine Provision.`}
+    sortiertNach={`Depots mit Royal Mint stehen vorn. Danach zählen Halal-Anlagen und Kosten pro Kauf je zur Hälfte. Was wir an einem Depot verdienen, zählt nie.`}
     kategorie="edelmetall"
     finanzMax={EDELMETALL_FINANZ_MAX}
     filter={EDELMETALL_FILTER}
@@ -247,7 +246,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          `Depots, bei denen du unsere Nummer 1 bei Gold kaufen kannst, stehen vorn. Danach besteht die Note zu ${ANTEIL_HALAL_KOSTEN} aus Halal-Anlagen, zu ${ANTEIL_HALAL_KOSTEN} aus den Kosten pro Kauf und zu ${ANTEIL_BELIEBT} daraus, wie beliebt ein Depot bei meinen Lesern ist. Im Halal-Teil zählt zur Hälfte, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, und zur Hälfte, wie viele Halal-ETFs und Sukuk du im selben Depot bekommst. ${beliebtErklaerung("Depot")} Wie viel wir an einem Depot verdienen, zählt nie.`,
+          `Depots, bei denen du unsere Nummer 1 bei Gold kaufen kannst, stehen vorn. Danach besteht die Note je zur Hälfte aus Halal-Anlagen und aus den Kosten pro Kauf. Im Halal-Teil zählt zur Hälfte, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, und zur Hälfte, wie viele Halal-ETFs und Sukuk du im selben Depot bekommst. Wie viel wir an einem Depot verdienen, zählt nie.`,
       },
       {
         frage: "Welcher Gold-ETC ist eure Nummer 1?",
