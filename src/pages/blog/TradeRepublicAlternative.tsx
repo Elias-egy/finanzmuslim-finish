@@ -28,12 +28,13 @@ import {
 } from "@/components/blog/bausteine";
 import { ANKER_VERGLEICH } from "@/data/ankertexte";
 import { kostenKurz } from "@/data/kostenKurz";
-import { zinsHinweis } from "@/data/zinsHinweise";
-import { DEPOT_APP_BILDER, EIGENE_APP_BILDER } from "@/data/depotAppBilder";
+import { kreditKurz, zinsHinweis } from "@/data/zinsHinweise";
+import { APP_BILD_QUELLE, DEPOT_APP_BILDER, EIGENE_APP_BILDER } from "@/data/depotAppBilder";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import {
   anzahl,
   brokerText,
+  DEPOT_HALAL_SATZ,
   depotAnzahl,
   depotOhneZinsen,
   depotVorn,
@@ -58,8 +59,8 @@ const META =
   "Trade Republic geht ohne Zinsen, aber dort fehlt die Hälfte der Halal-ETFs. Die 5 besten Trade Republic Alternativen 2026 mit Halal-ETFs, Sukuk und Kosten.";
 const VEROEFFENTLICHT = { text: "25.11.2026", iso: "2026-11-25T09:00:00+01:00" };
 const AKTUALISIERT = { text: "25.11.2026", iso: "2026-11-25T09:00:00+01:00" };
-/** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet (1.805 Wörter am 25.11.2026). */
-const LESEZEIT = 10;
+/** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet (2.131 Wörter nach den Prüfer-Funden SEO82). */
+const LESEZEIT = 11;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Die Reihenfolge ist die unseres Depot-Vergleichs. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust.";
 
@@ -125,6 +126,42 @@ const PASST: Record<string, (a: RohAnbieter) => string> = {
 };
 const passt = (a: RohAnbieter) => PASST[a.id]?.(a) ?? `du ${anzahl(a, "halalEtfsFonds")?.text ?? "Halal-ETFs"} kaufen willst.`;
 
+/**
+ * „Am besten für“ je Depot (Seiten-Prüfer SEO82 MUSS 1; BP:123, D5, D58): höchstens sechs Wörter aus denselben Fakten wie PASST,
+ * wortgleich in Karte, H3 und Tabelle. Trade Republic ehrlich und ohne Schlechtreden (memory/eigene-produkte-nie-schlechtreden.md).
+ */
+const BEST_FUER: Record<string, (a: RohAnbieter) => string> = {
+  "trade-republic-depot": () => "wer es schon hat, Zinsen aus",
+  "flatex-depot": (a) => (anzahl(a, "halalEtfsFonds")?.x === anzahl(a, "halalEtfsFonds")?.y ? "die volle Auswahl" : "viele Halal-ETFs"),
+  "smartbroker-plus-depot": () => "ETFs, Sukuk und Gold zusammen",
+  "scalable-capital-free-broker": () => "große ETF-Käufe",
+  "traders-place-depot": () => "Sparpläne jede Woche",
+  "trading-212-depot": () => "viele kleine Orders",
+};
+const bestFuer = (a: RohAnbieter) => BEST_FUER[a.id]?.(a) ?? `${anzahl(a, "halalEtfsFonds")?.text ?? "Halal-ETFs"}`;
+
+/** Tabelle „Was passt zu wem“ (MUSS 4, VORLAGEN 1 Nr. 15): „Wenn du …“ aus PASST, „Achte auf“ ist der Kredit oder der Zins-Satz des Depots. */
+const WENN: Record<string, (a: RohAnbieter) => string> = {
+  "trade-republic-depot": () => "Trade Republic schon hast und dort bleiben willst",
+  "flatex-depot": (a) => `alle ${anzahl(a, "halalEtfsFonds")?.y ?? ""} Halal-ETFs und Fonds an einem Ort willst`,
+  "smartbroker-plus-depot": () => "ETFs, Sukuk und Gold in einer App willst",
+  "scalable-capital-free-broker": () => "ETFs großer Anbieter in größeren Summen kaufst",
+  "traders-place-depot": () => "jede Woche sparen willst",
+  "trading-212-depot": () => "oft kaufst und für die Order nichts zahlen willst",
+};
+const achte = (a: RohAnbieter) => kreditKurz("depot", a) ?? zinsHinweis("depot", a) ?? "";
+/** Wohin „Nimm“ und der Knopf unter dem Eintrag führen: Partnerlink, sonst der Eintrag auf dieser Seite. */
+const Nimm = ({ a }: { a: RohAnbieter }) =>
+  a.link ? (
+    <a href={a.link} rel="sponsored nofollow" className="font-semibold text-primary underline underline-offset-[3px] hover:text-primary/80">
+      {a.name}*
+    </a>
+  ) : (
+    <a href={a.id === tr.id ? "#ist-trade-republic-halal" : `#${anker(a)}`} className="font-semibold text-primary underline underline-offset-[3px] hover:text-primary/80">
+      {a.name}
+    </a>
+  );
+
 /** Logos wie in /blog/halal-etf; ohne eigenes Logo lädt AnbieterKasten das runde Logo über die Domain. */
 const LOGO: Record<string, string> = {
   "traders-place": "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg",
@@ -153,7 +190,10 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     lead: alleKostenlos ? "Das Depot kostet überall 0 €." : "Die Kosten sind klein.",
     text: alleKostenlos ? `Bei Trade Republic und allen ${depotVorn.length} Alternativen zahlst du keine Depotgebühr, nur die Order kostet unterschiedlich.` : "Die Order kostet je Depot unterschiedlich.",
   },
-  { lead: "Wechseln kostet nichts.", text: "Innerhalb Deutschlands ziehen deine Anlagen kostenlos ins neue Depot um, du musst nichts verkaufen." },
+  /* Beleg: BGH, Urteil vom 30.11.2004, XI ZR 200/03 (lexetius.com/2004,3267): Klauseln von Kreditinstituten, „in denen ein Entgelt für die
+     Übertragung von Wertpapieren in ein anderes Depot gefordert wird“, sind unwirksam; nur fremde Spesen (test.de, 15.02.2005).
+     Trade Republic Bank GmbH ist eine Bank in Deutschland (brokerVergleich.ts, Feld bank). */
+  { lead: "Wechseln geht ohne Verkauf.", text: "Trade Republic darf für den Übertrag deiner Wertpapiere in ein anderes Depot kein Entgelt verlangen, nur fremde Spesen." },
 ];
 
 const trKostenlos =
@@ -167,7 +207,7 @@ const ohneNull = depotVorn.filter((a) => !/0 % Zinsen/.test(zinsHinweis("depot",
 const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Welche Alternative zu Trade Republic passt für Muslime?",
-    antwort: `Jede App aus unserem Vergleich, die du ohne Zinsen nutzen kannst. Mehr Halal-ETFs und Fonds als Trade Republic führen ${reihe(mehrText)}.`,
+    antwort: `Das hängt davon ab, was du kaufen willst. Ohne Zinsen nutzen kannst du ${depotOhneZinsen} der ${depotAnzahl} Depots aus unserem Vergleich. Mehr Halal-ETFs und Fonds als Trade Republic führen ${reihe(mehrText)}.`,
   },
   { frage: "Ist Trade Republic kostenlos?", antwort: trKostenlos },
   {
@@ -184,7 +224,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   },
   {
     frage: "Kann ich Trade Republic behalten und ein zweites Depot eröffnen?",
-    antwort: "Ja. Du eröffnest das zweite Depot online und behältst bei Trade Republic, was du schon hast. Willst du alles an einem Ort, beantragst du beim neuen Broker einen Depotübertrag.",
+    antwort: "Ja. Du eröffnest das zweite Depot und behältst bei Trade Republic, was du schon hast. Willst du alles an einem Ort, beantragst du beim neuen Broker einen Depotübertrag. Trade Republic darf dafür kein Entgelt verlangen.",
   },
 ];
 
@@ -280,12 +320,13 @@ const graph = () => {
 const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
   const kreuz = nachteil(a);
   const eigen = !!a.haus && EIGENE_APP_BILDER.has(a.haus);
-  const bilder = eigen && a.haus ? DEPOT_APP_BILDER[a.haus] ?? [] : [];
+  // App-Bilder je Depot wie im Depot-Vergleich (Seiten-Prüfer MUSS 3): eigene bei Traders Place und Scalable, sonst App Store.
+  const bilder = a.haus ? DEPOT_APP_BILDER[a.haus] ?? [] : [];
   return (
     <section className="mt-10" aria-labelledby={anker(a)}>
       <H3>
         <span id={anker(a)} className="scroll-mt-24">
-          {platz}. {a.name}
+          {platz}. {a.name}, am besten für {bestFuer(a)}
         </span>
       </H3>
       <Text>
@@ -314,7 +355,9 @@ const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
               <img key={b.src} src={b.src} alt={b.alt} width={600} height={1200} loading="lazy" className="w-full border border-border" />
             ))}
           </div>
-          <figcaption className="mt-2 text-[14px] text-foreground/75">Bilder aus meiner eigenen App von {a.name}.</figcaption>
+          <figcaption className="mt-2 text-[14px] text-foreground/75">
+            {eigen ? `Bilder: meine App von ${a.name}` : `Bilder: App von ${a.name} im ${APP_BILD_QUELLE}`}
+          </figcaption>
         </figure>
       )}
       <Text>
@@ -322,6 +365,23 @@ const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
           <strong className="font-semibold text-foreground">Passt zu dir, wenn</strong> {passt(a)}
         </p>
       </Text>
+      {/* Elias 25.11.: Jeder Block endet so, dass der nächste Schritt ist, das Depot selbst auszuprobieren. Kein aside (S-AUFRUFE). */}
+      {a.link ? (
+        <a
+          href={a.link}
+          rel="sponsored nofollow"
+          className="mt-5 inline-flex min-h-[48px] items-center justify-center bg-primary px-5 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          {a.name} eröffnen*
+        </a>
+      ) : (
+        <Link
+          to="/vergleich/depot"
+          className="mt-5 inline-flex min-h-[48px] items-center justify-center border border-foreground px-5 py-3 text-[16px] font-semibold text-foreground hover:border-primary hover:text-primary"
+        >
+          {a.name} im Depot-Vergleich
+        </Link>
+      )}
     </section>
   );
 };
@@ -402,7 +462,9 @@ const TradeRepublicAlternative = () => {
                 <KartenReihe etikett="Kurzer Vergleich" titel={titelVon("kurzer-vergleich")} anzahl={ALLE.length}>
                   {ALLE.map((a, i) => (
                     <Karte key={a.id} nummer={i + 1} kopf={a.name} erste={i === 0}>
-                      <Etikett className="mt-1">Halal-ETFs und Fonds</Etikett>
+                      <Etikett className="mt-1">Am besten für</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{bestFuer(a)}</p>
+                      <Etikett className="mt-3">Halal-ETFs und Fonds</Etikett>
                       <p className="font-titel mt-1.5 text-[26px] leading-none text-foreground">{zahl(a, "halalEtfsFonds")}</p>
                       <Etikett className="mt-4">Sukuk</Etikett>
                       <p className="mt-1 text-[15px] leading-snug text-foreground">{zahl(a, "halalSukuk")}</p>
@@ -443,8 +505,9 @@ const TradeRepublicAlternative = () => {
                     findest ihn nicht. Also googelst du: alternative Trade Republic.
                   </p>
                   <p>
-                    Kurz gesagt: Trade Republic darfst du behalten, du lässt nur die Zinsen aus. Der Haken ist die Auswahl. Mehr Halal-ETFs und Fonds
-                    gibt es bei {reihe((trText?.mehr ?? []).map((m) => m.anbieter.name))}.
+                    Kurz gesagt: Trade Republic kannst du ohne Zinsen nutzen, denn Zinsen laufen erst, wenn du sie in der App aktivierst. Der Haken ist
+                    die Auswahl. Die erste Trade Republic Alternative in unserem Depot-Vergleich ist {depotVorn[0]?.name}
+                    {anzahl(depotVorn[0], "halalEtfsFonds") ? `: Dort kaufst du ${anzahl(depotVorn[0], "halalEtfsFonds")!.text}.` : "."}
                   </p>
                 </Text>
 
@@ -465,10 +528,13 @@ const TradeRepublicAlternative = () => {
                 <section className="mt-14">
                   <Ueber id="vergleich" />
                   <Text>
-                    <p>Trade Republic steht oben, darunter die fünf Depots vorn in unserem Vergleich. Gezählt sind die Halal-ETFs und Fonds und die Sukuk, die du dort kaufst.</p>
+                    <p>
+                      Trade Republic steht oben, darunter die fünf Depots vorn in unserem Vergleich. Gezählt sind die Halal-ETFs und Fonds und die Sukuk,
+                      die du dort kaufst. Sukuk sind islamische Anleihen.
+                    </p>
                   </Text>
                   <Tabelle
-                    kopf={[{ titel: "Halal-ETFs", zusatz: "und Fonds", rechts: true }, { titel: "Sukuk", rechts: true }, { titel: "Order", text: true }]}
+                    kopf={[{ titel: "Halal-ETFs", zusatz: "und Fonds", rechts: true }, { titel: "Sukuk", rechts: true }, { titel: "Order", text: true }, { titel: "Passt zu", text: true }]}
                     zeilen={ALLE.map((a) => ({
                       schluessel: a.id,
                       name: (
@@ -476,7 +542,7 @@ const TradeRepublicAlternative = () => {
                           {a.name}
                         </a>
                       ),
-                      zellen: [zahl(a, "halalEtfsFonds"), zahl(a, "halalSukuk"), order(a)],
+                      zellen: [zahl(a, "halalEtfsFonds"), zahl(a, "halalSukuk"), order(a), bestFuer(a)],
                     }))}
                   />
                 </section>
@@ -486,12 +552,11 @@ const TradeRepublicAlternative = () => {
                 <section className="mt-14">
                   <Ueber id="ist-trade-republic-halal" />
                   <Text>
-                    <p>Ob dein Depot halal ist, hängt davon ab, was du kaufst und ob dein Guthaben Zinsen bringt.</p>
-                    {trText && <p>{trText.saetze.join(" ")}</p>}
-                    <p>
-                      Auch wer bei Trade Republic halal Aktien kaufen will, braucht dafür kein zweites Depot: Im Handelsangebot stehen Aktien aus Deutschland,
-                      Europa und den USA.
-                    </p>
+                    <p>{DEPOT_HALAL_SATZ}</p>
+                    {/* „Dort“ bekommt seinen Bezug (Seiten-Prüfer SOLLTE 8), ETCs einmal im Alltagswort (SOLLTE 7). */}
+                    {trText && <p>{trText.saetze.join(" ").replace(/^Dort /, "Bei Trade Republic ")} ETCs sind Wertpapiere auf Gold oder Silber, die du wie ETFs kaufst.</p>}
+                    {/* Reiner Sachsatz ohne Halal-Aussage (Halal-Prüfer SEO82 Fund 4); Beleg Instrument_Universe_DE_de.pdf, Abschnitt „HANDELSUNIVERSUM Aktien“. */}
+                    <p>Einzelne Aktien kaufst du bei Trade Republic auch: Im Handelsangebot stehen Aktien aus Deutschland, Europa und den USA.</p>
                   </Text>
                   <H3>Trade Republic Zinsen deaktivieren: so geht es</H3>
                   <Text>
@@ -531,10 +596,16 @@ const TradeRepublicAlternative = () => {
                       Besser ist das Depot, in dem du kaufen kannst, was du suchst. Die Trade Republic Konkurrenz ist bei den Kosten fast gleich, der
                       Unterschied liegt in der Auswahl. Wer viele Halal-ETFs will, nimmt {trText?.mehr[0]?.anbieter.name ?? "ein Depot vorn im Vergleich"}.
                     </p>
-                    <p>
-                      Jede Trade Republic Alternative Deutschlands aus unserem Vergleich eröffnest du online, mit Ausweis und ohne Termin.
-                    </p>
                   </Text>
+                  <Tabelle
+                    kopf={[{ titel: "Wenn du …" }, { titel: "Achte auf", text: true }, { titel: "Nimm", text: true }]}
+                    zeilen={ALLE.map((a) => ({
+                      schluessel: `wenn-${a.id}`,
+                      name: WENN[a.id]?.(a) ?? passt(a),
+                      zellen: [achte(a), <Nimm key="nimm" a={a} />],
+                    }))}
+                    wischen
+                  />
                   <H3>Apps wie Trade Republic</H3>
                   <Text>
                     <p>
@@ -545,8 +616,8 @@ const TradeRepublicAlternative = () => {
                   <H3>So wechselst du von Trade Republic</H3>
                   <Text>
                     <p>
-                      Du musst nichts verkaufen. Eröffne das neue Depot und beantrage dort den Depotübertrag. Innerhalb Deutschlands ziehen deine Anlagen
-                      kostenlos um. Oder du behältst Trade Republic und kaufst die fehlenden Halal-ETFs im zweiten Depot.
+                      Du musst nichts verkaufen. Eröffne das neue Depot und beantrage dort den Depotübertrag. Trade Republic darf für den Übertrag
+                      kein Entgelt verlangen, nur fremde Spesen. Oder du behältst Trade Republic und kaufst die fehlenden Halal-ETFs im zweiten Depot.
                     </p>
                   </Text>
                 </section>
@@ -555,7 +626,7 @@ const TradeRepublicAlternative = () => {
                   bild={eliasPortrait}
                   etikett="Mein Tipp"
                   titel="Das Depot, das zu deinen Halal-ETFs passt"
-                  text={`Im Vergleich siehst du für alle ${depotAnzahl} Depots, welche Halal-ETFs, Sukuk und Gold-ETCs du dort kaufst und was du für 0 % Zinsen tust. ${depotOhneZinsen} davon kannst du ohne Zinsen nutzen.`}
+                  text={`Im Vergleich siehst du für alle ${depotAnzahl} Depots, welche Halal-ETFs, Sukuk und Gold-ETCs du dort kaufst und ob du sie ohne Zinsen nutzen kannst. Bei ${depotOhneZinsen} geht das.`}
                   ziel="/vergleich/depot"
                   knopf="Zum Depot-Vergleich"
                 />
@@ -579,9 +650,10 @@ const TradeRepublicAlternative = () => {
                   <Ueber id="naechster-schritt" />
                   <Text>
                     <p>
-                      Du weißt jetzt, was Trade Republic kann und wo es fehlt. Willst du mehr Halal-ETFs, Sukuk und Gold in einem Depot, schau dir die
-                      Depots an, die das haben. Alle {depotAnzahl} mit Kosten und dem, was du für 0 % Zinsen tust, findest du unter{" "}
-                      <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
+                      Du weißt jetzt, was Trade Republic kann und wo es fehlt. Fehlt dir dort ein Halal-ETF, brauchst du ein zweites Depot. Bei{" "}
+                      {depotVorn[0]?.name} kaufst du {anzahl(depotVorn[0], "halalEtfsFonds")?.text}. Was du bei jedem Depot für 0 % Zinsen tust, steht in
+                      seinem Eintrag. Ohne Zinsen nutzen kannst du {depotOhneZinsen} der {depotAnzahl} Depots aus unserem Vergleich. Alle {depotAnzahl} mit
+                      Kosten und mit dem, ob du sie ohne Zinsen nutzt, findest du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
                     </p>
                   </Text>
                 </section>
