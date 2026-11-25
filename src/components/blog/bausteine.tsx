@@ -214,12 +214,15 @@ export const KartenReihe = ({ etikett, titel, anzahl, children }: { etikett: str
 export const Karte = ({
   nummer,
   logo,
+  marke,
   kopf,
   erste,
   children,
 }: {
   nummer: number;
   logo?: string;
+  /** Schriftzug-Logo aus den Vergleichen (AnbieterLogo), steht über dem Namen (SEO84: jeder Anbieter zeigt ein Logo). */
+  marke?: ReactNode;
   kopf: string;
   erste?: boolean;
   children: ReactNode;
@@ -235,7 +238,14 @@ export const Karte = ({
         {String(nummer).padStart(2, "0")}
       </span>
       {logo && <img src={logo} alt="" aria-hidden="true" width={40} height={40} className="h-10 w-10 object-contain" />}
-      <span className="text-center text-[16px] font-semibold leading-tight text-foreground">{kopf}</span>
+      {marke ? (
+        <span className="flex flex-col items-center gap-1.5 pt-4">
+          {marke}
+          <span className="text-center text-[15px] font-semibold leading-tight text-foreground">{kopf}</span>
+        </span>
+      ) : (
+        <span className="text-center text-[16px] font-semibold leading-tight text-foreground">{kopf}</span>
+      )}
     </div>
     <div className="flex flex-1 flex-col px-4 pb-1 pt-4">{children}</div>
   </li>
@@ -400,6 +410,7 @@ export const Seitenleiste = ({
   text,
   ziel,
   knopf,
+  knopfKnoten,
 }: {
   inhalt: ReactNode;
   etikett: string;
@@ -407,6 +418,8 @@ export const Seitenleiste = ({
   text: string;
   ziel: string;
   knopf: string;
+  /** Eigener Knopf statt des runden blauen Aufrufs (SEO84: „Finde dein Match“ schlicht, nicht blau leuchtend). */
+  knopfKnoten?: ReactNode;
 }) => {
   // Der aktive Eintrag (aria-current) bleibt im Blick, auch wenn das Verzeichnis in sich scrollt (SEO63 Seiten-Prüfer, 1366 × 650).
   const liste = useRef<HTMLDivElement>(null);
@@ -450,7 +463,7 @@ export const Seitenleiste = ({
         <Etikett className="text-primary">{etikett}</Etikett>
         <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">{titel}</p>
         <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">{text}</p>
-        <Aufruf to={ziel} className="mt-4">{knopf}</Aufruf>
+        {knopfKnoten ?? <Aufruf to={ziel} className="mt-4">{knopf}</Aufruf>}
       </div>
     </div>
   </aside>

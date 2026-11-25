@@ -1,11 +1,13 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Check, ChevronDown, X } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, ChevronDown, X } from "lucide-react";
 import Seo from "@/components/Seo";
+import { AnbieterLogo } from "@/components/AnbieterLogo";
+import { MatchBuehne } from "@/components/CheckEinstieg";
+import { ereignis } from "@/lib/messung";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import {
   AnbieterKasten,
-  AutorAufruf,
   BIO,
   Etikett,
   GoogleKasten,
@@ -23,13 +25,12 @@ import {
   Text,
   TL,
   useAktiv,
-  Video,
   YOUTUBE,
 } from "@/components/blog/bausteine";
 import { ANKER_VERGLEICH } from "@/data/ankertexte";
 import { kostenKurz } from "@/data/kostenKurz";
 import { kreditKurz, zinsHinweis } from "@/data/zinsHinweise";
-import { APP_BILD_QUELLE, DEPOT_APP_BILDER, EIGENE_APP_BILDER } from "@/data/depotAppBilder";
+import { DEPOT_APP_BILDER, type AppBild } from "@/data/depotAppBilder";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import {
   anzahl,
@@ -51,6 +52,11 @@ import {
  * Jede Zahl kommt aus denselben Daten wie der Depot-Vergleich (src/data/depotRatgeber.ts), nichts ist abgetippt: Ändert sich
  * die Rangfolge oder eine Zahl im Vergleich, zieht diese Seite mit. Trade Republic wird nicht schlechtgeredet
  * (memory/eigene-produkte-nie-schlechtreden.md): Es geht ohne Zinsen, der Haken ist die Auswahl.
+ *
+ * SEO84 (25.11.2026, Elias SEO83-02 und SEO83-03, Vault raw/2026-11-25-elias-seo83-0{2,3}-*.md): Release-Stand der Rangfolge
+ * (S Broker, Smartbroker+, flatex vorn, src/lib/rangfolge.ts DEPOT_SPITZE). Video raus („lieber kein Video“), App-Store-Werbebilder raus,
+ * jeder Anbieter mit Logo aus den Vergleichen, Hauptaufruf „Finde dein Match“ zum Check, in der Mitte die drei besten, zweimal
+ * Elias' Satz „Ich habe … Depots verglichen“ mit den Kriterien der Rangfolge. „Depot-Vergleich“ ist nur Ankertext zur Money Page.
  */
 
 const PFAD = "/blog/trade-republic-alternative";
@@ -64,14 +70,27 @@ const LESEZEIT = 11;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Die Reihenfolge ist die unseres Depot-Vergleichs. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust.";
 
-/* Elias' Video vom 31.10.2026 (youtube.com/watch?v=DlFd-z4uGHc), eigenes Vorschaubild statt i.ytimg.com (Tor S-VIDEO-BILD). */
-const VIDEO = {
-  id: "DlFd-z4uGHc",
-  titel: "Halal investieren 2026: Depot eröffnen Schritt für Schritt",
-  hochgeladen: "2026-10-31T14:47:31-07:00",
-  bild: "/bilder/blog/trade-republic-alternative/video-depot-eroeffnen.webp",
-};
+/*
+ * Kein Video (Elias SEO83-03, 25.11.2026: „das Video macht keinen Sinn, wenn Scalable unsere Nummer 5 oder 6 oder so ist, dann erstmal
+ * lieber kein Video einblenden und dann warten“). Das Video vom 31.10. zeigte Scalable; ein neues kommt mit YouTube.
+ */
 
+/**
+ * Hauptaufruf „Finde dein Match“ (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action … nur natürlich nicht so mit blau
+ * und leuchtend“). Ziel wie der Kopfknopf (SiteHeader KOPF_STANDARD, /check) mit der Depot-Art, damit der Check gleich beim Depot startet.
+ * Schlicht schwarz und eckig wie die Knöpfe dieser Seite; die einzige Bewegung ist der Pfeil beim Zeigen (aus bei reduzierter Bewegung).
+ */
+const MATCH_ZIEL = "/check?art=depot";
+const MatchKnopf = ({ stelle, className = "" }: { stelle: string; className?: string }) => (
+  <Link
+    to={MATCH_ZIEL}
+    onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "blog", im: "blog", seite: PFAD, stelle })}
+    className={`group inline-flex min-h-[48px] items-center justify-center gap-2 bg-foreground px-6 py-3 text-[16px] font-semibold text-background transition-colors hover:bg-foreground/85 ${className}`}
+  >
+    Finde dein Match
+    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden />
+  </Link>
+);
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
   { id: "kurzer-vergleich", titel: "Trade Republic und 5 Alternativen auf einen Blick", leiste: true, kurz: "Auf einen Blick" },
@@ -118,6 +137,8 @@ const reihe = (teile: string[]) => (teile.length > 1 ? `${teile.slice(0, -1).joi
 
 /** „Passt zu dir, wenn …“ je Depot. Fakten aus den Werten des Vergleichs; ohne Eintrag ein Satz aus der Zahl der Halal-ETFs. */
 const PASST: Record<string, (a: RohAnbieter) => string> = {
+  /* SEO84: S Broker steht im Release vorn; Fakten aus seinen Werten (11 von 12, Order 0,95 €). */
+  "s-broker-direkt-depot": (a) => `du ${anzahl(a, "halalEtfsFonds")?.text ?? "viele Halal-ETFs"} willst und für eine Order ${order(a)} zahlst.`,
   "flatex-depot": (a) => `du alle ${anzahl(a, "halalEtfsFonds")?.y ?? ""} Halal-ETFs und Fonds aus unserem Vergleich an einem Ort willst und dafür eine höhere Ordergebühr in Kauf nimmst.`,
   "smartbroker-plus-depot": () => "du Halal ETFs, Sukuk und Gold in einer App willst und das Zinskonto einfach nicht eröffnest.",
   "scalable-capital-free-broker": () => "du ETFs von großen Anbietern wie iShares ab einer größeren Summe ohne Ordergebühr kaufen willst.",
@@ -132,6 +153,7 @@ const passt = (a: RohAnbieter) => PASST[a.id]?.(a) ?? `du ${anzahl(a, "halalEtfs
  */
 const BEST_FUER: Record<string, (a: RohAnbieter) => string> = {
   "trade-republic-depot": () => "alle, die es schon haben",
+  "s-broker-direkt-depot": () => "viele Halal-ETFs, kleine Order",
   "flatex-depot": (a) => (anzahl(a, "halalEtfsFonds")?.x === anzahl(a, "halalEtfsFonds")?.y ? "die volle Auswahl" : "viele Halal-ETFs"),
   "smartbroker-plus-depot": () => "ETFs, Sukuk und Gold zusammen",
   "scalable-capital-free-broker": () => "große ETF-Käufe",
@@ -143,6 +165,7 @@ const bestFuer = (a: RohAnbieter) => BEST_FUER[a.id]?.(a) ?? `${anzahl(a, "halal
 /** Tabelle „Was passt zu wem“ (MUSS 4, VORLAGEN 1 Nr. 15): „Wenn du …“ aus PASST, „Achte auf“ ist der Kredit oder der Zins-Satz des Depots. */
 const WENN: Record<string, (a: RohAnbieter) => string> = {
   "trade-republic-depot": () => "Trade Republic schon hast und dort bleiben willst",
+  "s-broker-direkt-depot": (a) => `${anzahl(a, "halalEtfsFonds")?.text ?? "viele Halal-ETFs"} mit kleiner Ordergebühr willst`,
   "flatex-depot": (a) => `alle ${anzahl(a, "halalEtfsFonds")?.y ?? ""} Halal-ETFs und Fonds an einem Ort willst`,
   "smartbroker-plus-depot": () => "ETFs, Sukuk und Gold in einer App willst",
   "scalable-capital-free-broker": () => "ETFs großer Anbieter in größeren Summen kaufst",
@@ -162,13 +185,12 @@ const Nimm = ({ a }: { a: RohAnbieter }) =>
     </a>
   );
 
-/** Logos wie in /blog/halal-etf; ohne eigenes Logo lädt AnbieterKasten das runde Logo über die Domain. */
-const LOGO: Record<string, string> = {
-  "traders-place": "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg",
-  smartbroker: "/bilder/blog/halal-etf/logos/smartbroker.webp",
-  scalable: "/bilder/blog/halal-etf/logos/scalable.webp",
-};
-const DOMAIN: Record<string, string> = { flatex: "flatex.de", "trading-212": "trading212.com" };
+/**
+ * Logos (SEO84, Elias SEO83-03: „Trade Republic … da hast du gar keine Logos reingefüllt“): dieselben Schriftzüge wie in den Vergleichen,
+ * über die Domain aus den Vergleichsdaten (src/data/anbieterLogos.ts, Herkunft docs/LOGOS.md). Ohne Schriftzug (Trading 212, docs/LOGOS.md
+ * „Offen“) zeigt AnbieterLogo das runde Symbol wie im Depot-Vergleich.
+ */
+const Logo = ({ a }: { a: RohAnbieter }) => <AnbieterLogo name={a.name} domain={a.domain} gross />;
 
 /** Dreier-Kombi: die ersten drei des Depot-Vergleichs mit Partnerlink (VORLAGEN 0.2, Reihenfolge nie umsortieren). */
 const DREIER = depotVorn
@@ -176,11 +198,30 @@ const DREIER = depotVorn
   .slice(0, 3)
   .map((a) => ({
     name: a.name,
-    logo: LOGO[a.haus ?? ""],
-    domain: LOGO[a.haus ?? ""] ? undefined : DOMAIN[a.haus ?? ""],
+    domain: a.domain,
     out: a.link!,
     zeilen: [`Halal-ETFs und Fonds: ${zahl(a, "halalEtfsFonds")}`, `Sukuk: ${zahl(a, "halalSukuk")}`, `Order: ${order(a)}`],
   }));
+
+/**
+ * Elias' Satz wie in den Freebies (SEO83-03: „ich habe so und so viele verglichen, ich habe auf diese Kriterien geachtet und habe einen
+ * Test gemacht“). Zahl aus src/data/anzeige/depot.ts, Kriterien nur die der Rangfolge (src/lib/rangfolge.ts: ohne Zinsen nutzbar als
+ * Voraussetzung, Kredit ab Start kostet 10 %, Halal-Anlagen kaufbar, Kosten; /vergleiche/methodik). Der Test ist der Check (/check).
+ */
+const ICH_VERGLICHEN = `Ich habe ${depotAnzahl} Depots verglichen.`;
+const ICH_KRITERIEN =
+  "Geachtet habe ich darauf, ob du das Depot ohne Zinsen nutzen kannst, ob dir der Broker ab Start einen Kredit gibt, wie viele Halal-ETFs, Sukuk und Gold-ETCs du dort kaufst und was es kostet.";
+const ICH_TEST = "Daraus habe ich einen Test gebaut. Nach ein paar Fragen zeigt er dir das Depot, das zu dir passt.";
+
+/**
+ * Bildschirmfotos (SEO84, Elias SEO83-02: „das Screenshot und so, das ist ja alles Katastrophe“): nur Bilder, die klar die echte App zeigen.
+ * Raus auf dieser Seite: die App-Store-Werbebilder von Smartbroker+, flatex und Trading 212 (Slogans, Musterdepot) und Traders Place Bild 1
+ * (leeres Portfolio unter einem Werbebanner). Es bleibt Elias' eigene Suche nach „MSCI World Islamic“ in der Traders-Place-App.
+ * Der Depot-Vergleich behält seine Bilder (src/data/depotAppBilder.ts unverändert).
+ */
+const APP_BILD: Record<string, AppBild | undefined> = {
+  "traders-place": DEPOT_APP_BILDER["traders-place"]?.find((b) => b.src.endsWith("traders-place-2.webp")),
+};
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   { lead: "Trade Republic geht ohne Zinsen.", text: zinsHinweis("depot", tr) ?? "" },
@@ -257,7 +298,6 @@ const graph = () => {
         dateModified: AKTUALISIERT.iso,
         inLanguage: "de-DE",
         image: `${SITE}/og/blog--trade-republic-alternative.jpg`,
-        video: { "@id": `${url}#video` },
       },
       {
         "@type": "ItemList",
@@ -266,16 +306,6 @@ const graph = () => {
         numberOfItems: depotVorn.length,
         itemListOrder: "https://schema.org/ItemListOrderAscending",
         itemListElement: depotVorn.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.name, url: `${url}#${anker(a)}` })),
-      },
-      {
-        "@type": "VideoObject",
-        "@id": `${url}#video`,
-        name: VIDEO.titel,
-        description: "Elias zeigt Schritt für Schritt, wie du als Muslim ein Depot eröffnest und deinen ersten Halal ETF kaufst.",
-        thumbnailUrl: `${SITE}${VIDEO.bild}`,
-        uploadDate: VIDEO.hochgeladen,
-        embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
-        contentUrl: `https://www.youtube.com/watch?v=${VIDEO.id}`,
       },
       {
         "@type": "FAQPage",
@@ -319,16 +349,16 @@ const graph = () => {
 
 const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
   const kreuz = nachteil(a);
-  const eigen = !!a.haus && EIGENE_APP_BILDER.has(a.haus);
-  // App-Bilder je Depot wie im Depot-Vergleich (Seiten-Prüfer MUSS 3): eigene bei Traders Place und Scalable, sonst App Store.
-  const bilder = a.haus ? DEPOT_APP_BILDER[a.haus] ?? [] : [];
+  // SEO84: nur Bilder, die klar die echte App zeigen (APP_BILD oben).
+  const bild = a.haus ? APP_BILD[a.haus] : undefined;
   return (
     <section className="mt-10" aria-labelledby={anker(a)}>
-      <H3>
+      <Logo a={a} />
+      <h3 className="font-titel mt-3 text-[21px] leading-tight text-foreground">
         <span id={anker(a)} className="scroll-mt-24">
           {platz}. {a.name}, am besten für {bestFuer(a)}
         </span>
-      </H3>
+      </h3>
       <Text>
         {/* Seiten-Prüfer SEO82 R2 SOLLTE 5: Kreditsatz als eigener Absatz, damit kein Absatz am Handy über sieben Zeilen läuft. */}
         <p>{brokerText(a).map(sauber).filter((t) => !/Kredit/.test(t)).join(" ")}</p>
@@ -350,16 +380,10 @@ const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
           </li>
         )}
       </ul>
-      {bilder.length > 0 && (
-        <figure className="mt-6 max-w-[664px]">
-          <div className="grid grid-cols-2 gap-3">
-            {bilder.map((b) => (
-              <img key={b.src} src={b.src} alt={b.alt} width={600} height={1200} loading="lazy" className="w-full border border-border" />
-            ))}
-          </div>
-          <figcaption className="mt-2 text-[14px] text-foreground/75">
-            {eigen ? `Bilder: meine App von ${a.name}` : `Bilder: App von ${a.name} im ${APP_BILD_QUELLE}`}
-          </figcaption>
+      {bild && (
+        <figure className="mt-6 max-w-[280px]">
+          <img src={bild.src} alt={bild.alt} width={600} height={1200} loading="lazy" className="w-full border border-border" />
+          <figcaption className="mt-2 text-[15px] text-foreground/80">Mein Bild aus der App von {a.name}: {bild.text}</figcaption>
         </figure>
       )}
       <Text>
@@ -420,13 +444,15 @@ const TradeRepublicAlternative = () => {
       <Seo title={TITEL} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
+          {/* SEO84: Hauptaufruf ist der Check („Finde dein Match“), nicht der Depot-Vergleich als eigenes Wort (Kannibalisierung). */}
           <Seitenleiste
             inhalt={inhalt}
-            etikett="Depot-Vergleich"
-            titel="Mehr Halal-ETFs als bei Trade Republic?"
-            text={`Im Vergleich siehst du alle ${depotAnzahl} Depots und wo du deine Halal-ETFs, Sukuk und Gold kaufst.`}
-            ziel="/vergleich/depot"
-            knopf="Zum Depot-Vergleich"
+            etikett="Dein Match"
+            titel="Welches Depot passt zu dir?"
+            text={`${ICH_VERGLICHEN} ${ICH_TEST}`}
+            ziel={MATCH_ZIEL}
+            knopf="Finde dein Match"
+            knopfKnoten={<MatchKnopf stelle="leiste" className="mt-4 w-full" />}
           />
 
           <div className="min-w-0">
@@ -463,7 +489,7 @@ const TradeRepublicAlternative = () => {
               <div className="mt-8">
                 <KartenReihe etikett="Kurzer Vergleich" titel={titelVon("kurzer-vergleich")} anzahl={ALLE.length}>
                   {ALLE.map((a, i) => (
-                    <Karte key={a.id} nummer={i + 1} kopf={a.name} erste={i === 0}>
+                    <Karte key={a.id} nummer={i + 1} kopf={a.name} erste={i === 0} marke={<Logo a={a} />}>
                       <Etikett className="mt-1">Am besten für</Etikett>
                       <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{bestFuer(a)}</p>
                       <Etikett className="mt-3">Halal-ETFs und Fonds</Etikett>
@@ -508,10 +534,15 @@ const TradeRepublicAlternative = () => {
                   </p>
                   <p>
                     Kurz gesagt: Trade Republic kannst du ohne Zinsen nutzen, denn Zinsen laufen erst, wenn du sie in der App aktivierst. Der Haken ist
-                    die Auswahl. Die erste Trade Republic Alternative in unserem Depot-Vergleich ist {depotVorn[0]?.name}
+                    die Auswahl. Die erste Trade Republic Alternative in unserem Vergleich ist {depotVorn[0]?.name}
                     {anzahl(depotVorn[0], "halalEtfsFonds") ? `: Dort kaufst du ${anzahl(depotVorn[0], "halalEtfsFonds")!.text}.` : "."}
                   </p>
+                  {/* SEO84: Elias' Satz wie in den Freebies, erstes Mal (Zahl und Kriterien aus den Daten, siehe ICH_*). */}
+                  <p>
+                    {ICH_VERGLICHEN} {ICH_KRITERIEN} {ICH_TEST}
+                  </p>
                 </Text>
+                <MatchKnopf stelle="einstieg" className="mt-5" />
 
                 <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
                   <Ueber id="das-wichtigste" />
@@ -540,9 +571,12 @@ const TradeRepublicAlternative = () => {
                     zeilen={ALLE.map((a) => ({
                       schluessel: a.id,
                       name: (
-                        <a href={a.id === tr.id ? "#ist-trade-republic-halal" : `#${anker(a)}`} className="underline decoration-border underline-offset-[3px] hover:text-primary">
-                          {a.name}
-                        </a>
+                        <span className="flex flex-col items-start gap-1.5">
+                          <Logo a={a} />
+                          <a href={a.id === tr.id ? "#ist-trade-republic-halal" : `#${anker(a)}`} className="underline decoration-border underline-offset-[3px] hover:text-primary">
+                            {a.name}
+                          </a>
+                        </span>
                       ),
                       zellen: [bestFuer(a), zahl(a, "halalEtfsFonds"), zahl(a, "halalSukuk"), order(a)],
                     }))}
@@ -572,8 +606,14 @@ const TradeRepublicAlternative = () => {
                   </Text>
                 </section>
 
-                {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel (Elias SEO67) */}
-                <AnbieterKasten titel="Depots für Muslime mit mehr Halal-ETFs" anbieter={DREIER} />
+                {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel (Elias SEO67).
+                    SEO84 (Elias SEO83-03: „einmal in die Mitte so die 3 besten“): die drei besten aus der Rangfolge, darunter der Check.
+                    Er steht vor den fünf Einträgen, so spät, wie die Drittel-Regel (Tor M-DRITTEL, 20 bis 40 %) es zulässt. */}
+                <AnbieterKasten titel={`Die ${DREIER.length} besten Trade Republic Alternativen`} anbieter={DREIER} />
+                <div className="mt-5 flex flex-col items-start gap-3 border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-[17px] leading-snug text-foreground">Welches davon zu dir passt, zeigt dir mein Test nach ein paar Fragen.</p>
+                  <MatchKnopf stelle="mitte" className="shrink-0" />
+                </div>
 
                 <section className="mt-14">
                   <Ueber id="alternativen" />
@@ -583,9 +623,7 @@ const TradeRepublicAlternative = () => {
                       {alleOhneZinsen && " Bei allen kannst du dein Guthaben ohne Zinsen lassen."}
                       {alleMehrSukuk && " Und bei allen kaufst du mehr Sukuk als bei Trade Republic."}
                     </p>
-                    <p>Im Video zeige ich dir, wie du so ein Depot eröffnest und deinen ersten Halal ETF kaufst.</p>
                   </Text>
-                  <Video id={VIDEO.id} titel={VIDEO.titel} bild={VIDEO.bild} />
                   {depotVorn.map((a, i) => (
                     <Eintrag key={a.id} a={a} platz={i + 1} />
                   ))}
@@ -604,15 +642,21 @@ const TradeRepublicAlternative = () => {
                     zeilen={ALLE.map((a) => ({
                       schluessel: `wenn-${a.id}`,
                       name: WENN[a.id]?.(a) ?? passt(a),
-                      zellen: [<Nimm key="nimm" a={a} />, achte(a)],
+                      zellen: [
+                        <span key="nimm" className="flex flex-col items-start gap-1.5">
+                          <Logo a={a} />
+                          <Nimm a={a} />
+                        </span>,
+                        achte(a),
+                      ],
                     }))}
                     wischen
                   />
                   <H3>Apps wie Trade Republic</H3>
                   <Text>
                     <p>
-                      Trading 212 und Scalable Capital sind Apps wie Trade Republic: ein Depot am Handy, Sparplan schon mit 1 €. Traders Place, flatex und
-                      Smartbroker+ haben auch eine App, dazu die Seite am Laptop.
+                      Trading 212 und Scalable Capital sind Apps wie Trade Republic: ein Depot am Handy, Sparplan schon mit 1 €. S Broker, Traders Place,
+                      flatex und Smartbroker+ haben auch eine App, dazu die Seite am Laptop.
                     </p>
                   </Text>
                   <H3>So wechselst du von Trade Republic</H3>
@@ -624,14 +668,21 @@ const TradeRepublicAlternative = () => {
                   </Text>
                 </section>
 
-                <AutorAufruf
-                  bild={eliasPortrait}
-                  etikett="Mein Tipp"
-                  titel="Das Depot, das zu deinen Halal-ETFs passt"
-                  text={`Im Vergleich siehst du für alle ${depotAnzahl} Depots, welche Halal-ETFs, Sukuk und Gold-ETCs du dort kaufst und ob du sie ohne Zinsen nutzen kannst. Bei ${depotOhneZinsen} geht das.`}
-                  ziel="/vergleich/depot"
-                  knopf="Zum Depot-Vergleich"
-                />
+                {/* SEO84: Elias' Satz zum zweiten Mal, als Kasten wie in den Freebies (CheckEinstieg: „Ich habe sie alle getestet.“), aber weiß,
+                    ohne blaue Fläche, mit der kleinen Check-Vorschau (MatchBuehne). „verglichen“ statt „getestet“: belegt ist der Vergleich. */}
+                <aside aria-labelledby="mein-test" className="mt-12 border border-border bg-card p-5 md:p-7">
+                  <Etikett>Mein Test</Etikett>
+                  <p id="mein-test" className="font-titel mt-2.5 text-[24px] leading-[1.2] text-foreground md:text-[28px]">
+                    {depotAnzahl} Depots. Ich habe sie alle verglichen.
+                  </p>
+                  <p className="mt-3 max-w-[600px] text-[17px] leading-[1.6] text-foreground/80">
+                    {ICH_KRITERIEN} {ICH_TEST}
+                  </p>
+                  <div className="mt-2 max-w-[440px]">
+                    <MatchBuehne art="depot" quelle="kopf" />
+                  </div>
+                  <MatchKnopf stelle="kasten" className="mt-5 w-full sm:w-auto" />
+                </aside>
 
                 <section className="mt-12">
                   <Ueber id="haeufige-fragen" />
@@ -660,7 +711,7 @@ const TradeRepublicAlternative = () => {
                   </Text>
                 </section>
 
-                <AnbieterKasten titel="Depots für Muslime mit mehr Halal-ETFs" anbieter={DREIER} />
+                <AnbieterKasten titel="Trade Republic Alternativen mit mehr Halal-ETFs" anbieter={DREIER} />
 
                 <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
                   <Etikett>
@@ -707,10 +758,11 @@ const TradeRepublicAlternative = () => {
                 </aside>
 
                 <footer className="mt-8">
-                  <p className="text-[13px] leading-relaxed text-muted-foreground">
+                  {/* SEO84: keine graue Kleinschrift (Elias SEO63), gleiche Größe wie der Text in den Kästen. */}
+                  <p className="text-[15px] leading-relaxed text-foreground/80">
                     * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
                   </p>
-                  <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-foreground/80">{RECHTSHINWEIS}</p>
                 </footer>
               </div>
             </article>

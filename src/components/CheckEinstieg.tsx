@@ -169,7 +169,7 @@ export const MatchBuehne = ({ art, quelle }: { art: "konto" | "depot"; quelle: C
   return (
     <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
       <div className={`ce-reihe${an(1)}`}>
-        <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
+        <img src="/elias-el-gendy.webp" alt="" aria-hidden="true" width={28} height={28} loading="lazy" />
         <span className="ce-blase">{weg.frage1}</span>
       </div>
       <div className={`ce-wahlen${an(2)}`}>
@@ -184,7 +184,7 @@ export const MatchBuehne = ({ art, quelle }: { art: "konto" | "depot"; quelle: C
           ))}
       </div>
       <div className={`ce-reihe${an(4)}`}>
-        <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
+        <img src="/elias-el-gendy.webp" alt="" aria-hidden="true" width={28} height={28} loading="lazy" />
         <span className="ce-blase">{weg.frage2}</span>
       </div>
       <div className={`ce-wahlen${an(4)}`}>

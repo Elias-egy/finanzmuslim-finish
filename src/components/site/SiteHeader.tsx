@@ -55,7 +55,9 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   // Kredit (SEO71): Sparen statt Kredit fängt beim Konto ohne Dispo an (Seiten-Prüfer SEO70 S1, Karte halal-kredit Money Page Girokonto).
   "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
   // Trade Republic Alternative (SEO82): Kaufseite, Money Page ist der Depot-Vergleich (Karte trade-republic-alternative.seo.json).
-  "/blog/trade-republic-alternative": { ziel: "/vergleich/depot", text: "Depot-Vergleich" },
+  // SEO84 (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action“): Kopfknopf zum Check mit der Depot-Art; „Depot-Vergleich“
+  // als Knopfwort fällt weg, damit die Seite dem Depot-Vergleich das Wort nicht nimmt. Der Link zur Money Page steht im Text.
+  "/blog/trade-republic-alternative": { ziel: "/check?art=depot&quelle=kopf", text: "Match finden", ohneZum: true },
   "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
   "/blog/dispo-und-schulden": KOPF_KONTO,
   "/blog/kreditkarte-halal": KOPF_KONTO,
