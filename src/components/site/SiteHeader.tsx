@@ -60,6 +60,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   // SEO84 (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action“): Kopfknopf zum Check mit der Depot-Art; „Depot-Vergleich“
   // als Knopfwort fällt weg, damit die Seite dem Depot-Vergleich das Wort nicht nimmt. Der Link zur Money Page steht im Text.
   "/blog/trade-republic-alternative": { ziel: "/check?art=depot&quelle=kopf", text: "Match finden", ohneZum: true },
+  // Scalable Capital vs Trade Republic (SEO86): Paarseite, gleiche Money Page und gleicher Kopfknopf wie die TR-Seite (Karte scalable-capital-vs-trade-republic.seo.json).
+  "/blog/scalable-capital-vs-trade-republic": { ziel: "/check?art=depot&quelle=kopf", text: "Match finden", ohneZum: true },
   // SEO85: der Geschäftskonto-Beitrag ist jetzt Ratgeber unter /vergleich/geschaeftskonto (Elias SEO84-03), kein eigener Kopfknopf mehr.
   "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
   "/blog/dispo-und-schulden": KOPF_KONTO,

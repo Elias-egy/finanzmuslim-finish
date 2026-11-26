@@ -105,6 +105,7 @@ export const festeRouten: Route[] = [
   { pfad: "/blog", quelle: ["src/pages/Blog.tsx", "src/data/wissenBeitraege.ts"], changefreq: "weekly", prioritaet: "0.8" },
   { pfad: "/blog/halal-etf", quelle: ["src/pages/blog/HalalEtf.tsx", "src/data/halalEtfListe.ts"], changefreq: "monthly", prioritaet: "0.8" },
   { pfad: "/blog/trade-republic-alternative", quelle: ["src/pages/blog/TradeRepublicAlternative.tsx", "src/data/depotRatgeber.ts"], changefreq: "monthly", prioritaet: "0.8" },
+  { pfad: "/blog/scalable-capital-vs-trade-republic", quelle: ["src/pages/blog/ScalableVsTradeRepublic.tsx", "src/data/depotRatgeber.ts"], changefreq: "monthly", prioritaet: "0.8" },
   wissenBeitrag("zinsen-im-islam", "ZinsenImIslam.tsx"),
   wissenBeitrag("sind-aktien-haram", "SindAktienHalal.tsx"),
   wissenBeitrag("halal-gold-kaufen", "HalalGoldKaufen.tsx"),
