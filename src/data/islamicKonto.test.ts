@@ -45,7 +45,8 @@ describe("Islamic-Konto (KT Bank)", () => {
     const ohne = rangfolge(ohneMerkmal(geschaeftskontoAnzeige), "geschaeftskonto", { finanzMax: GESCHAEFT_FINANZ_MAX }).gerankt;
     expect(mit.map((b) => [b.anbieter.id, b.platz, b.note])).toEqual(ohne.map((b) => [b.anbieter.id, b.platz, b.note]));
     // VG12 (25.11.2026): bunq (4) und Finom (3) jetzt belegt ohne Zins, die belegte Stufe wächst von 30 auf 37, KT Bank (Karte offen) bleibt an ihrem Ende.
-    expect(mit.find((b) => b.anbieter.id === "kt-bank-geschaeftskonto")!.platz).toBe(35);
+    // VG14 (26.11.2026): Holvi (4) und Postbank (4) dazu, die belegte Stufe hat 45 Tarife, KT Bank bleibt an ihrem Ende.
+    expect(mit.find((b) => b.anbieter.id === "kt-bank-geschaeftskonto")!.platz).toBe(43);
   });
 
   it("Rangfolge und Plätze sind mit und ohne Merkmal gleich (Girokonto)", () => {

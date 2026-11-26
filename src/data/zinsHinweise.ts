@@ -94,10 +94,8 @@ const HAUS: Record<string, Eintrag> = {
   "meine-bank": ohneZins("Girokonto"),
   postbank: {
     ...dreiKategorien(nullProzent("Girokonto")),
-    geschaeftskonto: offen(
-      "der Postbank",
-      "In den AGB steht nur: „zur Verzinsung der Guthaben ist die Bank nicht verpflichtet“. Zinsen gibt es auf dem eigenen Business Tagesgeld: Eröffne es nicht.",
-    ),
+    // VG14 (26.11.2026): Postbank E-Mail-Team schriftlich, Guthaben auf Geschäftskonten wird nicht verzinst.
+    geschaeftskonto: gut("Die Postbank verzinst dein Geschäftskonto nicht. Zinsen gibt es nur auf dem eigenen Business Tagesgeld: Eröffne es nicht."),
   },
   bforbank: ohneZins("Girokonto"),
   "berliner-volksbank": gut(
@@ -230,10 +228,8 @@ const HAUS: Record<string, Eintrag> = {
     ),
   },
   holvi: {
-    geschaeftskonto: offen(
-      "Holvi",
-      "Holvi nennt Zinsen nur für einen Geldmarktfonds, den du als GmbH oder UG selbst aktivieren müsstest: Aktiviere ihn nicht. Zum Guthaben auf dem Konto steht dort nichts.",
-    ),
+    // VG14 (26.11.2026): Holvi Support schriftlich, keine Verzinsung auf dem Geschäftskonto.
+    geschaeftskonto: gut("Holvi verzinst dein Geschäftskonto nicht. Rendite gibt es nur in einem Geldmarktfonds, den du selbst aktivieren müsstest: Lass ihn aus."),
   },
   qonto: {
     geschaeftskonto: offen(

@@ -68,7 +68,7 @@ const FF_STAND = "11.11.2026";
 const beleg = (url: string, anzeige: string, hinweis: string): Quelle => ({ url, stand: BELEG, anzeige, hinweis });
 /** Schriftliche Antwort des Anbieters per Mail (Mailrunde VG10, 25.11.2026), Wortlaut unter ~/rebrand/data/vergleiche/belege/<haus>/. */
 const MAILRUNDE = "25.11.2026";
-const schriftlich = (url: string, anzeige: string, hinweis: string): Quelle => ({ url, stand: MAILRUNDE, anzeige, hinweis });
+const schriftlich = (url: string, anzeige: string, hinweis: string, stand: string = MAILRUNDE): Quelle => ({ url, stand, anzeige, hinweis });
 
 type Halal = { zinsfreiAbStart: Quelle; keinDispoAbStart: Quelle; karteOhneKredit: Quelle };
 
@@ -281,10 +281,11 @@ const FYRST: Halal = {
 };
 
 const POSTBANK: Halal = {
-  zinsfreiAbStart: offen(
+  zinsfreiAbStart: schriftlich(
     "https://www.postbank.de/dam/postbank/pdf/geschaeftskunden/Postbank-AGB-Starterpaket-GK-FK-921-001-273-0926.pdf",
-    "Postbank AGB Nr. 7",
-    `AGB Starterpaket (Version 09.26), Nr. 7 Abs. 1: ${AGB_NICHT_VERPFLICHTET} Ein Satz, dass das Konto ohne Guthabenzins läuft, steht dort nicht. Zinsen gibt es laut Anbieter auf dem eigenen Business Tagesgeld.`,
+    "Postbank E-Mail-Team, Mail vom 26.11.2026",
+    `Schriftlich bestätigt vom Postbank E-Mail-Team (business@postbank.de) am 26.11.2026: „Guthaben auf Geschäftskonten wird nicht verzinst.“ Dazu AGB Starterpaket (Version 09.26), Nr. 7 Abs. 1: ${AGB_NICHT_VERPFLICHTET} Zinsen gibt es laut Anbieter nur auf dem eigenen Business Tagesgeld.`,
+    "26.11.2026",
   ),
   keinDispoAbStart: beleg(
     "https://www.postbank.de/geschaeftskunden/produkte/finanzierung/kredite/business-kreditlinie.html",
@@ -390,15 +391,17 @@ const GLS: Halal = {
 };
 
 const HOLVI: Halal = {
-  zinsfreiAbStart: offen(
+  zinsfreiAbStart: schriftlich(
     "https://www.holvi.com/de/verdiene-rendite/",
-    "Holvi Verdiene Rendite",
-    "Holvi nennt Zinsen nur für einen Geldmarktfonds, nicht für das Konto: „Aktuell steht das Angebot ausschließlich für Unternehmen mit der Rechtsform GmbH oder UG zur Verfügung.“ Ein Satz zum Guthaben auf dem Konto selbst steht dort nicht, die Preisliste war nicht abrufbar.",
+    "Holvi Support, Mail vom 26.11.2026",
+    "Schriftlich bestätigt vom Holvi Support am 26.11.2026 (Anfrage #1263808): „Holvi bietet keine Verzinsung an, da es sich hier um ein Geshäftskonto und kein Privatkonto handelt.“ Zinsen nennt Holvi nur für einen eigenen Geldmarktfonds, den der Kunde selbst wählt: „Aktuell steht das Angebot ausschließlich für Unternehmen mit der Rechtsform GmbH oder UG zur Verfügung.“",
+    "26.11.2026",
   ),
-  keinDispoAbStart: beleg(
+  keinDispoAbStart: schriftlich(
     "https://www.holvi.com/de/geschaeftskonto/",
-    "Holvi Geschäftskonto",
-    "Geschäftskonto-Seite: „Holvi bietet keinen Dispokredit. Es kann nur ausgegeben werden, was auf dem Konto vorhanden ist.“",
+    "Holvi Support, Mail vom 26.11.2026, und Holvi Geschäftskonto",
+    "Schriftlich bestätigt vom Holvi Support am 26.11.2026: „Eine Möglichkeit der Überziehung des Kontos ist nicht möglich.“ Geschäftskonto-Seite: „Holvi bietet keinen Dispokredit. Es kann nur ausgegeben werden, was auf dem Konto vorhanden ist.“",
+    "26.11.2026",
   ),
   karteOhneKredit: beleg(
     "https://support.holvi.com/hc/de/articles/40582795829778-Holvi-Fee-Schedule-for-Germany",
@@ -797,10 +800,10 @@ const TARIFE: Tarif[] = [
   { id: "fyrst-complete", haus: "fyrst", name: "FYRST", produkt: "Complete (Gründerkonto)", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Fyrst Complete (Gründerkonto)", kosten: ke({ f: 10, frei: 75, kb: 0.08, debit: 0, ab: e(0), ein: e(2.5), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
   { id: "fyrst-premium", haus: "fyrst", name: "FYRST", produkt: "Premium", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Fyrst Premium", kosten: ke({ f: 24, frei: 0, kb: 0.04, debit: 0, ab: e(0), ein: e(2.5), unter: 5, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
 
-  { id: "postbank-business-giro", haus: "postbank", name: "Postbank", produkt: "Business Giro", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro", kosten: ke({ f: 12.9, frei: 0, kb: 0.28, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
-  { id: "postbank-business-giro-aktiv", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro aktiv", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
-  { id: "postbank-gruenderkonto", haus: "postbank", name: "Postbank", produkt: "Gründerkonto", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Gründerkonto", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(im ersten Jahr 0 €)", fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
-  { id: "postbank-business-giro-aktiv-plus", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv plus", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro aktiv plus", kosten: ke({ f: 24.9, frei: 0, kb: 0.12, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-business-giro", haus: "postbank", name: "Postbank", produkt: "Business Giro", domain: "postbank.de", halal: POSTBANK, karte: "gut", zeile: "Postbank Business Giro", kosten: ke({ f: 12.9, frei: 0, kb: 0.28, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-business-giro-aktiv", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv", domain: "postbank.de", halal: POSTBANK, karte: "gut", zeile: "Postbank Business Giro aktiv", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-gruenderkonto", haus: "postbank", name: "Postbank", produkt: "Gründerkonto", domain: "postbank.de", halal: POSTBANK, karte: "gut", zeile: "Postbank Gründerkonto", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(im ersten Jahr 0 €)", fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-business-giro-aktiv-plus", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv plus", domain: "postbank.de", halal: POSTBANK, karte: "gut", zeile: "Postbank Business Giro aktiv plus", kosten: ke({ f: 24.9, frei: 0, kb: 0.12, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
 
   { id: "deutsche-bank-business-basickonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Business BasicKonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Deutsche Bank Card Business (Debitkarte) inklusive“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Business BasicKonto", kosten: ke({ f: 14.9, frei: 0, kb: 0.3, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
   { id: "deutsche-bank-business-classickonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Business ClassicKonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Bis zu zwei Deutsche Bank Card Business (Debitkarte) inklusive“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Business ClassicKonto", kosten: ke({ f: 24.9, frei: 0, kb: 0.2, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
@@ -819,10 +822,10 @@ const TARIFE: Tarif[] = [
   { id: "hvb-businesskonto-4you", haus: "hvb", name: "HVB", produkt: "BusinessKonto 4You", domain: "hypovereinsbank.de", halal: HVB, zins: "unbekannt", dispo: "unbekannt", karte: "gut", zeile: "HVB BusinessKonto 4You", kosten: ke({ f: 25, frei: 50, kb: 0.4, debit: 0, ab: e(0), ein: e(2.5), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
   { id: "gls-geschaeftskonto", haus: "gls", name: "GLS Bank", produkt: "Geschäftskonto", domain: "gls.de", halal: GLS, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "GLS Geschäftskonto", kosten: ke({ f: 15, frei: 0, kb: 0.14, debit: 1.25, ab: e(0), ein: e(9.5), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
 
-  { id: "holvi-flex", haus: "holvi", name: "Holvi", produkt: "Flex", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Flex", kosten: ke({ f: 0, frei: 0, kb: 0.25, debit: 0, ab: p(2.5), ein: "nicht möglich", unter: 0, buch: ["DATEV", "SevDesk", "Sonstige"], sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
-  { id: "holvi-lite", haus: "holvi", name: "Holvi", produkt: "Lite", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Lite", kosten: ke({ f: 5.36, frei: 100, kb: 0.25, debit: 0, ab: p(2.5), ein: p(2.5), unter: 2, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
-  { id: "holvi-pro", haus: "holvi", name: "Holvi", produkt: "Pro", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Pro", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(2), ein: p(2), unter: 5, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
-  { id: "holvi-business", haus: "holvi", name: "Holvi", produkt: "Business", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Business", kosten: ke({ f: 70.21, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(0), ein: p(2), unter: 15, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-flex", haus: "holvi", name: "Holvi", produkt: "Flex", domain: "holvi.com", halal: HOLVI, karte: "gut", marke: "Mastercard", zeile: "Holvi Flex", kosten: ke({ f: 0, frei: 0, kb: 0.25, debit: 0, ab: p(2.5), ein: "nicht möglich", unter: 0, buch: ["DATEV", "SevDesk", "Sonstige"], sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-lite", haus: "holvi", name: "Holvi", produkt: "Lite", domain: "holvi.com", halal: HOLVI, karte: "gut", marke: "Mastercard", zeile: "Holvi Lite", kosten: ke({ f: 5.36, frei: 100, kb: 0.25, debit: 0, ab: p(2.5), ein: p(2.5), unter: 2, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-pro", haus: "holvi", name: "Holvi", produkt: "Pro", domain: "holvi.com", halal: HOLVI, karte: "gut", marke: "Mastercard", zeile: "Holvi Pro", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(2), ein: p(2), unter: 5, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-business", haus: "holvi", name: "Holvi", produkt: "Business", domain: "holvi.com", halal: HOLVI, karte: "gut", marke: "Mastercard", zeile: "Holvi Business", kosten: ke({ f: 70.21, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(0), ein: p(2), unter: 15, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
 
   { id: "bunq-free-business", haus: "bunq", name: "bunq", produkt: "Free Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Free Business", kosten: ke({ f: 0, frei: 0, kb: 0.13, debit: 0, ab: e(2.99), ein: p(0.5), unter: 3, buch: [], sich: "ja" }), fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
   { id: "bunq-core-business", haus: "bunq", name: "bunq", produkt: "Core Business", domain: "bunq.com", partner: "bunq", halal: BUNQ, karte: "gut", zeile: "bunq Core Business", kosten: ke({ f: 7.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0.99), ein: e(0), unter: 5, buch: [], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
