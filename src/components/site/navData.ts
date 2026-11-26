@@ -26,6 +26,7 @@ export const navGroups: NavGroup[] = [
           { label: "Halal-Anlagen", to: "/halal-anlagen" },
           { label: "Beste Halal ETFs", to: "/blog/halal-etf" },
           { label: "Trade Republic Alternative", to: "/blog/trade-republic-alternative" },
+          { label: "Scalable Capital vs Trade Republic", to: "/blog/scalable-capital-vs-trade-republic" },
           { label: "Sind Aktien halal?", to: "/blog/sind-aktien-haram" },
           { label: "Sukuk", to: "/blog/sukuk" },
           { label: "Halal Gold kaufen", to: "/blog/halal-gold-kaufen" },

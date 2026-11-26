@@ -10,6 +10,7 @@ const datei = (slug: string) => {
   // Kaufseiten liegen unter src/pages/blog (SEO82).
   if (slug === "halal-etfs") return "src/pages/blog/HalalEtf.tsx";
   if (slug === "trade-republic-alternative") return "src/pages/blog/TradeRepublicAlternative.tsx";
+  if (slug === "scalable-capital-vs-trade-republic") return "src/pages/blog/ScalableVsTradeRepublic.tsx";
   return `src/pages/wissen/${name}.tsx`;
 };
 
