@@ -125,7 +125,7 @@ const Kreditkostenrechner = () => (
                 Kredit ohne Zinsen
               </Link>
               . Für alles, was kein Haus ist, ist der Rechner die Antwort:{" "}
-              <Link to="/blog/auto-kaufen-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/auto-kaufen-ohne-zinsen-halal" className="text-primary hover:underline">
                 Auto kaufen ohne Zinsen
               </Link>
               .

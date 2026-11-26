@@ -1,3 +1,4 @@
+import { LINKEDIN } from "@/components/blog/bausteine";
 import { isValidElement, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
@@ -204,12 +205,24 @@ const BeitragSeite = ({
                       Elias El-Gendy
                     </Link>
                     <p className="mt-0.5 font-mono text-[12px] text-muted-foreground">{lesezeit} Min. Lesezeit</p>
-                    <p className="mt-2 text-[14px] text-foreground/75">Gründer von finanzmuslim</p>
+                    <p className="mt-2 text-[14px] text-foreground/75">
+                      Gründer von finanzmuslim ·{" "}
+                      <a href={LINKEDIN} target="_blank" rel="noopener noreferrer me" className="underline underline-offset-[3px] hover:text-primary">
+                        LinkedIn
+                      </a>
+                    </p>
                   </div>
                 </div>
                 <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
-                  <p className="uppercase tracking-[0.12em]">{dateModified ? "Aktualisiert" : "Veröffentlicht"}</p>
-                  <p>{dateModified ?? datePublished}</p>
+                  {/* SEO86 reviewer (Checkliste A5): published date always visible, updated date below when set */}
+                  <p className="uppercase tracking-[0.12em]">Veröffentlicht</p>
+                  <p>{datePublished}</p>
+                  {dateModified && dateModified !== datePublished && (
+                    <>
+                      <p className="mt-1 uppercase tracking-[0.12em]">Aktualisiert</p>
+                      <p>{dateModified}</p>
+                    </>
+                  )}
                 </div>
               </div>
             </header>

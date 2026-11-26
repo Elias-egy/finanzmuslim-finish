@@ -267,7 +267,7 @@ const FRAGEN: { frage: string; antwort: string; id?: string }[] = [
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "Der größte Kauf im Leben, ohne Zinskredit." },
   { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Der Ratenkauf beim Händler im Einzelnen." },
-  { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Vom Ansparen bis zum Kaufvertrag." },
+  { to: "/blog/auto-kaufen-ohne-zinsen-halal", name: "Auto kaufen ohne Zinsen", text: "Vom Ansparen bis zum Kaufvertrag." },
   { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
   { to: "/blog/kreditkarte-halal", name: "Kreditkarte oder Debitkarte", text: "Was gilt islamisch, und was reicht im Alltag." },
 ];
@@ -749,7 +749,7 @@ const HalalKreditOhneZinsen = () => {
                 </section>
 
                 {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel wie bei Frontal (Elias SEO67); Money Page Girokonto */}
-                <AnbieterKasten titel={`Starte mit ${BBBANK_PRAEMIE.betrag} € bei der BBBank`} anbieter={GIROS} />
+                <AnbieterKasten titel="Girokonten für Muslime" anbieter={GIROS} />
 
                 <section className="mt-14">
                   <Ueber id="null-prozent" />

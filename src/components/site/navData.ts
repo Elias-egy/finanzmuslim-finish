@@ -41,7 +41,7 @@ export const navGroups: NavGroup[] = [
           { label: "Halal Kredit", to: "/blog/halal-kredit" },
           { label: "Ist Ratenzahlung haram?", to: "/blog/ratenzahlung-haram" },
           { label: "Haus kaufen ohne Zinsen", to: "/blog/haus-kaufen-ohne-zinsen" },
-          { label: "Auto kaufen ohne Zinsen", to: "/blog/auto-kaufen-ohne-zinsen" },
+          { label: "Auto kaufen ohne Zinsen", to: "/blog/auto-kaufen-ohne-zinsen-halal" },
           { label: "Ist Leasing haram?", to: "/blog/ist-leasing-haram" },
           { label: "Sind Versicherungen haram?", to: "/blog/sind-versicherungen-haram" },
         ],

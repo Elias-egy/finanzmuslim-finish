@@ -49,7 +49,7 @@ import { KAPITEL_LEASING, VIDEO_LEASING } from "@/data/blogVideos";
 const PFAD = "/blog/ist-leasing-haram";
 const TITEL = "Ist Leasing haram? Wann Leasing halal ist: 5 Punkte";
 /** Title-Tag unter 65 Zeichen, mit „| finanzmuslim“ angehängt (SEO91, 62 Zeichen); H1 bleibt TITEL. */
-const SEO_TITEL = "Ist Leasing haram? Wann es halal ist: 5 Punkte";
+const SEO_TITEL = "Ist Leasing haram? Wann es halal ist 2026";
 const META =
   "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Auch Leasing ohne Zinsen ist nicht automatisch halal. Die 5 Punkte, Auto-Abo, Rechner.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
@@ -64,10 +64,10 @@ const KNOPF = "Rate halal anlegen";
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
-  { id: "leasing-ohne-zinsen", titel: "Leasing ohne Zinsen: geht das halal?", leiste: true, kurz: "Leasing ohne Zinsen" },
   /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
   { id: "kurzer-vergleich", titel: "5 Wege zum Auto auf einen Blick", leiste: true, kurz: "5 Wege zum Auto" },
   { id: "fuenf-punkte", titel: "Woran erkennst du, ob ein Leasingvertrag halal ist?", leiste: true, kurz: "Die 5 Punkte im Vertrag" },
+  { id: "leasing-ohne-zinsen", titel: "Leasing ohne Zinsen: geht das halal?", leiste: true, kurz: "Leasing ohne Zinsen" },
   { id: "rechner", titel: "Leasingrate oder Depot: Was wäre aus deiner Rate geworden?", leiste: true, kurz: "Rechner: Rate oder Depot" },
   { id: "warum", titel: "Warum ist Leasing in Deutschland fast immer haram?", leiste: true, kurz: "Warum fast immer haram" },
   { id: "auto-abo", titel: "Ist ein Auto-Abo halal?", leiste: true, kurz: "Auto-Abo" },
@@ -249,7 +249,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/vorlagen/auto-abo-check", name: "Auto-Abo-Check", text: `Was ${ANZAHL_ANBIETER} Abo-Anbieter zu Haftung und Verzug schreiben.` },
   { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Wann ein Ratenkauf beim Händler geht." },
-  { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Alle Wege zum eigenen Auto." },
+  { to: "/blog/auto-kaufen-ohne-zinsen-halal", name: "Auto kaufen ohne Zinsen", text: "Alle Wege zum eigenen Auto." },
   { to: "/blog/sind-versicherungen-haram", name: "Sind Versicherungen haram?", text: "Warum die Vollkasko nie ein Notfall ist." },
 ];
 
@@ -608,20 +608,7 @@ const IstLeasingHaram = () => {
                   </ul>
                 </section>
 
-                {/* Kurzer Vergleich wie /blog/halal-gold-kaufen; Rechner und erste Werbung erst nach den 5 Punkten, bei etwa einem Drittel (Elias SEO55) */}
-                <GoogleKasten />
-
-                <section className="mt-14">
-                  <Ueber id="leasing-ohne-zinsen" />
-                  <Text>
-                    <p>
-                      <strong className="font-semibold text-foreground">Nicht automatisch.</strong> Leasing ist Miete, und der Zins ist dabei gar nicht das große Problem. Es zählt, wer für das Auto haftet
-                      und wer Versicherung, Steuer und Wartung zahlt. Steht im Vertrag, dass du das trägst, wird er auch ohne Zinsen nicht halal. Elias zeigt es dir in neun Minuten im Video.
-                    </p>
-                  </Text>
-                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" kapitel={KAPITEL} />
-                </section>
-
+                {/* SEO86 reviewer: table right after Das Wichtigste, then Google box, five points, first provider box (~30 %), then video section (Regelbuch seo-und-blog) */}
                 <div className="mt-7">
                 <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
                   {WEGE.map((w, i) => (
@@ -649,6 +636,8 @@ const IstLeasingHaram = () => {
                 </KartenReihe>
                 </div>
 
+                <GoogleKasten />
+
                 <section className="mt-14">
                   <Ueber id="fuenf-punkte" />
                   <Text>
@@ -675,6 +664,17 @@ const IstLeasingHaram = () => {
                 </section>
 
                 <AnbieterKasten titel="Depots für deine Rate" anbieter={ANBIETER} />
+
+                <section className="mt-14">
+                  <Ueber id="leasing-ohne-zinsen" />
+                  <Text>
+                    <p>
+                      <strong className="font-semibold text-foreground">Nicht automatisch.</strong> Leasing ist Miete, und der Zins ist dabei gar nicht das große Problem. Es zählt, wer für das Auto haftet
+                      und wer Versicherung, Steuer und Wartung zahlt. Steht im Vertrag, dass du das trägst, wird er auch ohne Zinsen nicht halal. Elias zeigt es dir in neun Minuten im Video.
+                    </p>
+                  </Text>
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" kapitel={KAPITEL} />
+                </section>
 
                 <Rechner />
 
@@ -792,7 +792,7 @@ const IstLeasingHaram = () => {
                     </p>
                     <p>
                       Alle Wege zum eigenen Auto, auch über den Händler und ohne Bank, findest du unter{" "}
-                      <TL to="/blog/auto-kaufen-ohne-zinsen">Auto kaufen ohne Zinsen halal</TL>.
+                      <TL to="/blog/auto-kaufen-ohne-zinsen-halal">Auto kaufen ohne Zinsen halal</TL>.
                     </p>
                   </Text>
                 </section>

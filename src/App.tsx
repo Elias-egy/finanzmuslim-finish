@@ -261,7 +261,8 @@ const App = () => (
             <Route path="/blog/erbe" element={<Erbe />} />
             <Route path="/blog/ratenzahlung-haram" element={<RatenzahlungHaram />} />
             <Route path="/blog/ist-bitcoin-halal" element={<IstBitcoinHalal />} />
-            <Route path="/blog/auto-kaufen-ohne-zinsen" element={<AutoKaufenOhneZinsen />} />
+            <Route path="/blog/auto-kaufen-ohne-zinsen-halal" element={<AutoKaufenOhneZinsen />} />
+            <Route path="/blog/auto-kaufen-ohne-zinsen" element={<AlteAdresse />} />
             <Route path="/blog/kreditkarte-halal" element={<KreditkarteHalal />} />
             <Route path="/blog/dispo-und-schulden" element={<DispoUndSchulden />} />
             <Route path="/blog/trading-forex-cfd" element={<TradingForexCfd />} />

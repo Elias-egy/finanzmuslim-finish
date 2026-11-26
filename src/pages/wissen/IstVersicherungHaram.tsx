@@ -51,7 +51,7 @@ const PFAD = "/blog/sind-versicherungen-haram";
 /** Elias SEO63: ein Titel mit Hauptbegriff, Jahr und Versprechen wie frontal „Best GTM Agency in 2026: The Buyer's Shortlist“, kein zählender Satz. */
 const TITEL = "Sind Versicherungen haram? Der komplette Guide 2026";
 /** Title-Tag auf Klick (SEO91, CTR 2,3 %): Hauptwort vorn wie die Adresse, danach das, was der Leser wissen will, Jahr, „| finanzmuslim“ (62 Zeichen). */
-const SEO_TITEL = "Sind Versicherungen haram? Was erlaubt ist 2026";
+const SEO_TITEL = "Sind Versicherungen haram? Was gilt 2026";
 const META =
   "Sind Versicherungen haram? Freiwillige ja, Pflicht ist ausgenommen. Was bei Kranken-, Kfz- und Lebensversicherung gilt, ob es Takaful gibt: mit Video.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
@@ -76,7 +76,7 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
   { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
   { id: "beigabe", titel: "Ist eine Versicherung im Mitgliedsbeitrag erlaubt?", leiste: true, kurz: "Versicherung als Beigabe" },
-  { id: "takaful", titel: "Islamische Versicherung: gibt es das in Deutschland?", leiste: true, kurz: "Islamische Versicherung" },
+  { id: "takaful", titel: "Islamische Versicherung: gibt es Takaful in Deutschland?", leiste: true, kurz: "Islamische Versicherung" },
   { id: "schon-versichert", titel: "Ich habe schon Versicherungen. Was jetzt?", leiste: true, kurz: "Schon versichert" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
@@ -255,6 +255,11 @@ const FRAGEN: { frage: string; antwort: string }[] = [
       "Nein. Pflicht ist vom Urteil ausgenommen, eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
   },
   {
+    frage: "Ist die Krankenversicherung haram?",
+    antwort:
+      "Nein, die gesetzliche Krankenversicherung ist Pflicht. Für Pflichten gilt das Urteil über freiwillige Versicherungen nicht, du hast keine Wahl. Eine Zahnzusatzversicherung oder private Krankenversicherung schließt du freiwillig ab, dafür gilt das Urteil für freiwillige Versicherungen.",
+  },
+  {
     frage: "Warum ist eine Versicherung haram?",
     antwort:
       "Du zahlst sicher und weißt nicht, ob, wann und wie viel zurückkommt. Für die einen Gelehrten ist das Geld gegen mehr Geld, für die anderen ein Vertrag voller Unbekannter, und beide sagen haram.",
@@ -283,11 +288,6 @@ const FRAGEN: { frage: string; antwort: string }[] = [
     frage: "Ist eine Lebensversicherung haram?",
     antwort:
       "Die kapitalbildende Lebensversicherung ja, denn sie ist Geld gegen mehr Geld. Für dich oder deine Familie vorsorgen kannst du stattdessen mit einem Sparplan auf einen Halal ETF.",
-  },
-  {
-    frage: "Darf ich als Muslim Versicherungen verkaufen?",
-    antwort:
-      "Nein. Wer Versicherungen verkauft, hilft der Versicherung bei dem Vertrag, das gilt auch für Pflichtversicherungen. Steckst du in dem Beruf, sprich mit einem Gelehrten über deinen Weg raus.",
   },
 ];
 
@@ -872,7 +872,7 @@ const IstVersicherungHaram = () => {
                 </section>
 
                 {/* Elias SEO63: an dieser Stelle die Girokonten statt „Ein Schutz, der dir gehört“ */}
-                <AnbieterKasten titel={`Starte mit ${BBBANK_PRAEMIE.betrag}\u00a0€ bei der BBBank`} anbieter={GIROS} />
+                <AnbieterKasten titel="Girokonten für Muslime" anbieter={GIROS} />
 
                 <section className="mt-14">
                   <Ueber id="beigabe" />
@@ -889,7 +889,7 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      <Fett>Nein, kaufen konntest du sie zum Zeitpunkt des Videos nicht.</Fett> Eine islamische Versicherung heißt Takaful und ist eine Versicherung auf
+                      <Fett>Nein, kaufen konntest du sie im April 2026 nicht.</Fett> Eine islamische, also islamkonforme Versicherung heißt Takaful. Die Takaful-Versicherung ist eine Versicherung auf
                       Gegenseitigkeit. Hourani nennt sie „im erlaubten Rahmen“, wenn der Aufbau stimmt. Erlaubt heißt hier: Du kannst sie nehmen, wenn es
                       unbedingt sein muss, bei einem Schaden, der die Kraft jedes Einzelnen übersteigt, und mäßig. Der Islam drängt nicht dazu.
                     </p>

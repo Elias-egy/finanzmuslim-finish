@@ -1,4 +1,5 @@
 import Seo, { beitragJsonLd } from "@/components/Seo";
+import { Link } from "react-router-dom";
 import { AnbieterKasten, Video, videoClips, WerkzeugKasten, SITE } from "@/components/blog/bausteine";
 import { KAPITEL_LEASING, VIDEO_LEASING } from "@/data/blogVideos";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
@@ -444,6 +445,13 @@ const abschnitte: BeitragAbschnitt[] = [
           ]}
         />
         <p>
+          Bis du genug gespart hast, kannst du das Geld halal anlegen. Welche Depots dafür passen, siehst du im{" "}
+          <Link to="/vergleich/depot" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+            Depot-Vergleich
+          </Link>
+          .
+        </p>
+        <p>
           Und ein Gedanke, der zum Thema gehört: Ein Auto ist in vielen Gegenden eine echte
           Notwendigkeit, in vielen anderen ein Statussymbol. Die Frage nach der Finanzierung wird deutlich
           kleiner, wenn die Frage nach dem Preis vorher ehrlich beantwortet wurde. Wer im Umland wohnt und
@@ -498,7 +506,7 @@ const faq: BeitragFrage[] = [
   },
 ];
 
-const PFAD = "/blog/auto-kaufen-ohne-zinsen";
+const PFAD = "/blog/auto-kaufen-ohne-zinsen-halal";
 const TITEL = "Auto kaufen ohne Zinsen halal? Der komplette Guide 2026";
 /** Title-Tag: Hauptwort vorn wie die Adresse (Ahrefs „auto kaufen ohne zinsen halal“), Jahr, mit „| finanzmuslim“ 59 Zeichen. */
 const SEO_TITEL = "Auto kaufen ohne Zinsen halal? Die Wege 2026";
@@ -598,6 +606,16 @@ const AutoKaufenOhneZinsen = () => (
         linkZiel: "/kreditkostenrechner",
       }}
     >
+      {/* SEO86 reviewer (Checkliste A15, A16): closing call to action like /blog/ist-leasing-haram */}
+      <section className="mt-12">
+        <h2 id="naechster-schritt" className="font-titel text-[26px] leading-tight text-foreground md:text-[30px]">
+          Dein nächster Schritt: das passende Depot
+        </h2>
+        <p className="mt-3 text-[16px] leading-[1.6] text-foreground/80">
+          Bis zum Autokauf kannst du dein Erspartes halal anlegen. Hier sind drei Depots aus meinem Vergleich.
+        </p>
+        <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
+      </section>
       <PasstDazu
         punkte={[
           { to: "/blog/ratenzahlung-haram", name: "Ratenkauf", text: "erklärt, warum ein höherer Preis in Raten erlaubt ist und wann er kippt." },
