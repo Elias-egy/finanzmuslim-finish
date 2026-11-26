@@ -1727,7 +1727,7 @@ export const OESTERREICH: LandDaten = {
           "karteOhneKredit": "gut",
           "kontofuehrung": "0 €",
           "debitkarte": "Debitkarte, 0 €",
-          "applePay": null,
+          "applePay": true,
           "abhebungen": "ab 100 € kostenlos, darunter 1 €",
           "bargeldEinzahlen": "nicht möglich",
           "auslandAbheben": "ab 100 € 0 €, darunter 1 €",
@@ -1735,10 +1735,20 @@ export const OESTERREICH: LandDaten = {
           "auslandFremdZahlen": "0 €",
           "sepaKostenlos": true,
           "kundenservice": "Telefon, Chat",
-          "filialen": null,
+          "filialen": false,
           "appIos": "4,4 / 5"
         },
         "quellen": {
+          "filialen": {
+            "url": "https://assets.traderepublic.com/assets/files/CA_AT-de.pdf",
+            "stand": "26.11.2026",
+            "hinweis": "Trade Republic Kundenvereinbarung für Österreich, Version 07.05.01 AT-de, Stand 9/2026: „Die Applikation bildet den vollständigen vertraglichen Hauptleistungsumfang ab.“ und „Die von Trade Republic angebotenen Dienstleistungen können ausschließlich über diese Applikation … in Anspruch genommen werden.“"
+          },
+          "applePay": {
+            "url": "https://traderepublic.com/de-at/apple-pay",
+            "stand": "26.11.2026",
+            "hinweis": "Trade Republic Österreich, Apple Pay: „Einfache, schnelle und sichere Zahlungen mit Apple Pay“ und „Mit Apple Pay kannst du mit deiner Karte direkt von deinem Gerät aus bezahlen.“"
+          },
           "zinsfreiAbStart": {
             "url": "https://traderepublic.com/de-at/zinsen",
             "stand": "23.11.2026",
@@ -1812,7 +1822,7 @@ export const OESTERREICH: LandDaten = {
           "debitkarte": 5,
           "abheben": 2.5,
           "einzahlen": 0,
-          "mobilesBezahlen": 0,
+          "mobilesBezahlen": 8,
           "sepa": 10,
           "support": 5,
           "kontowechsel": 0,

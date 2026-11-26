@@ -5869,6 +5869,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "XS2115336336": {
     "kaufbar": [
       {
+        "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
+        "beleg": {
+          "url": "https://www.finanzen.net/zero/",
+          "stand": "26.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
+      },
+      {
         "anbieter": "1822direkt",
         "haus": "1822direkt",
         "beleg": {

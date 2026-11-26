@@ -311,7 +311,7 @@ export const SCHWEIZ: LandDaten = {
           "debitkarte": "Mastercard, 0 €",
           "applePay": true,
           "abhebungen": "2 in Euro im Monat",
-          "bargeldEinzahlen": null,
+          "bargeldEinzahlen": "nicht über CASH26",
           "auslandAbheben": "2 frei im Monat, danach 2 €",
           "auslandFremdAbheben": "1,7 %",
           "auslandFremdZahlen": "0 €",
@@ -321,6 +321,11 @@ export const SCHWEIZ: LandDaten = {
           "appIos": "4,7 / 5"
         },
         "quellen": {
+          "bargeldEinzahlen": {
+            "url": "https://support.n26.com/en-eu/app-and-features/cash26/what-is-cash26",
+            "stand": "26.11.2026",
+            "hinweis": "N26 Support, What is Cash26?: „Available for accounts opened in Spain, Germany, and Austria.“ AGB N26 current account, Version 3.0 vom 19.06.2026, 7.4: „CASH26 will be available to you only if you are registered as a customer of one of the supported countries.“ Eine andere Bareinzahlung für Kunden in der Schweiz nennt N26 nicht."
+          },
           "zinsfreiAbStart": {
             "url": "https://docs.n26.com/legal/06+EU/01+Account/en/03account-terms-and-conditions-en.pdf",
             "stand": "23.11.2026",
@@ -429,11 +434,21 @@ export const SCHWEIZ: LandDaten = {
           "auslandFremdAbheben": "1,5 % des Betrags, dazu 0,35 % Wechselkurs",
           "auslandFremdZahlen": "0,35 % Wechselkurs",
           "sepaKostenlos": true,
-          "kundenservice": null,
-          "filialen": null,
+          "kundenservice": "E-Mail",
+          "filialen": false,
           "appIos": "4,5 / 5"
         },
         "quellen": {
+          "filialen": {
+            "url": "https://www.neon-free.ch/en/blog/the-neon-customer-service-completely-without-branch",
+            "stand": "26.11.2026",
+            "hinweis": "neon, Beitrag zum Kundenservice vom 26.08.2025: „our customer service is there for you … Without a branch.“ und „even without any branches“."
+          },
+          "kundenservice": {
+            "url": "https://www.neon-free.ch/en/faq/what-is-the-best-way-to-contact-you",
+            "stand": "26.11.2026",
+            "hinweis": "neon FAQ: „The best way to reach us is by email … you will normally receive a reply within two working days. With a plus, global or metal plan, you can also contact us by phone.“ Mit neon free also E-Mail, das Telefon nur zum Sperren der Karte."
+          },
           "zinsfreiAbStart": {
             "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
             "stand": "23.11.2026",
@@ -504,7 +519,7 @@ export const SCHWEIZ: LandDaten = {
           "einzahlen": 0,
           "mobilesBezahlen": 8,
           "sepa": 10,
-          "support": 0,
+          "support": 2.5,
           "kontowechsel": 0,
           "app": 2,
           "ident": 0,
@@ -640,11 +655,16 @@ export const SCHWEIZ: LandDaten = {
           "auslandFremdAbheben": "5 CHF je Bezug",
           "auslandFremdZahlen": "2 %, mindestens 1 CHF",
           "sepaKostenlos": true,
-          "kundenservice": null,
+          "kundenservice": "Telefon, Chat",
           "filialen": true,
           "appIos": "4,7 / 5"
         },
         "quellen": {
+          "kundenservice": {
+            "url": "https://www.ubs.com/ch/de/services/accounts-and-cards/foreign-currency.html",
+            "stand": "26.11.2026",
+            "hinweis": "UBS: „Über die UBS Service Line Privatkunden: 0848 848 052 (Montag bis Freitag, 8.00 bis 18.00 Uhr).“ UBS Hilfe, Konto auflösen (ubs.com/ch/de/help/account/close-account.html): „Neuen Chat starten“. Gelesen am 26.11.2026, ubs.com sperrt direkte Abrufe."
+          },
           "zinsfreiAbStart": {
             "url": "https://www.ubs.com/ch/de/services/accounts-and-cards/interest-rates-privates.html",
             "stand": "23.11.2026",
@@ -725,7 +745,7 @@ export const SCHWEIZ: LandDaten = {
           "einzahlen": 3,
           "mobilesBezahlen": 8,
           "sepa": 10,
-          "support": 0,
+          "support": 5,
           "kontowechsel": 0,
           "app": 2,
           "ident": 0,

@@ -14,9 +14,9 @@ export const ROYAL_MINT_SPARPLAN: readonly string[] = ["Scalable Capital", "Trad
 /**
  * Häuser (und Finanzfluss-Produkte), bei denen der Royal Mint Gold-ETC belegt kaufbar ist, aus `ANLAGEN_KAUFBAR[ROYAL_MINT]`
  * (`kaufbar[].haus` und `haeuser`). Hier klein abgeschrieben, damit die Rangfolge ihn zählen kann, ohne die ganze Kaufbar-Liste
- * zu laden (UP6, 10.11.2026). `rangfolge.test.ts` prüft, dass beide Listen gleich sind. Stand der Belege: 25.11.2026 (justTRADE schriftlich, Mailrunde VG10).
+ * zu laden (UP6, 10.11.2026). `rangfolge.test.ts` prüft, dass beide Listen gleich sind. Stand der Belege: 26.11.2026 (justTRADE 25.11. und Finanzen invest 26.11. schriftlich, Mailrunde VG10).
  */
 export const ROYAL_MINT_HAEUSER: readonly string[] = [
-  "1822direkt", "bbbank", "comdirect", "consorsbank", "dkb", "Finvesto Wertpapierdepot", "flatex", "gls", "justtrade", "n26", "sbroker",
+  "1822direkt", "bbbank", "comdirect", "consorsbank", "dkb", "finanzen-net-zero", "Finvesto Wertpapierdepot", "flatex", "gls", "justtrade", "n26", "sbroker",
   "scalable", "scalable-prime", "smartbroker", "trade-republic", "tradegate-direct", "traders-place", "trading212",
 ];
