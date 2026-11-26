@@ -78,14 +78,14 @@ export const DepotRatgeber = ({
         Die besten Halal-Depots 2026
       </RH2>
       {siegerSatz && <RText>{siegerSatz}</RText>}
+      <RText>Ich habe {depotAnzahl} Depots verglichen. Zwei Fragen stehen vorn.</RText>
       <RText>
-        Ich habe {depotAnzahl} Depots verglichen. Zwei Fragen stehen vorn: Kannst du ein Depot ohne Zinsen führen, und wie viele
-        Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
+        Kannst du ein Depot ohne Zinsen führen, und wie viele Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
       </RText>
       <RText>
-        {depotOhneZinsen} der {depotAnzahl} Depots kannst du ohne Zinsen nutzen. Bei {depotAbgeraten.length} zahlt der Anbieter
-        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {depotOffen} liegt vom
-        Anbieter dazu bisher nichts vor: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
+        {depotOhneZinsen} der {depotAnzahl} Depots kannst du ohne Zinsen nutzen.
+        {depotAbgeraten.length > 0 &&
+          ` Bei ${depotAbgeraten.length} zahlt der Anbieter Zinsen, die sich nicht abschalten lassen: Sie stehen ganz hinten.`}
       </RText>
       <RHinweis titel="Depot und Broker meinen hier dasselbe">
         Der Broker führt deine Käufe aus, im Depot liegen deine Anlagen. Fast jeder Broker bietet beides an, darum
@@ -96,8 +96,8 @@ export const DepotRatgeber = ({
 
       <RH2 id="broker-vergleich">Broker-Vergleich: Welcher Broker passt zu Muslimen?</RH2>
       <RText>
-        Hier stehen die {depotVorn.length} Depots, die in unserem Vergleich vorn liegen: was du dort kaufst, was du für null
-        Zinsen tun musst und was es kostet.
+        Hier stehen die {depotVorn.length} Depots vorn: was du dort kaufst, was du für null Zinsen tust und was es kostet. Eine
+        Order ist ein Kauf oder Verkauf.
       </RText>
       {depotVorn.map((a) => {
         const marke =
@@ -113,7 +113,9 @@ export const DepotRatgeber = ({
               {a.name}
               {marke ? `: ${marke}` : ` ${a.produkt}`}
             </RH3>
-            {brokerText(a).length > 0 && <RText>{brokerText(a).join(" ")}</RText>}
+            {brokerText(a).map((satz) => (
+              <RText key={satz}>{satz}</RText>
+            ))}
             <VorNachteile anbieter={a} vorteile={vorteile(a)} nachteil={nachteil(a)} />
             <AppBilder
               bilder={bilder}
@@ -159,9 +161,9 @@ export const DepotRatgeber = ({
         ziehst sie einfach in ein anderes Depot um.
       </RText>
       <RText>
-        Das Geld auf deinem Verrechnungskonto ist wie bei jeder Bank in der EU bis 100.000 € gesetzlich abgesichert. Fallen
-        die Kurse, schützt dich das nicht: Der Wert deiner Anlagen kann schwanken.
+        Das Geld auf deinem Verrechnungskonto ist wie bei jeder Bank in der EU bis 100.000 € gesetzlich abgesichert.
       </RText>
+      <RText>Fallen die Kurse, schützt dich das nicht: Der Wert deiner Anlagen kann schwanken.</RText>
 
       {/* PH1 (15.11.2026): wie Finanzfluss „Wie eröffnest du ein Depot?“ und „Wie kündigst und wechselst du deinen Broker?“. */}
       <RH2 id="depot-eroeffnen">So eröffnest du dein Depot</RH2>
@@ -229,6 +231,11 @@ export const DepotRatgeber = ({
           },
         ]}
       />
+      {depotOffen > 0 && (
+        <RText>
+          Bei {depotOffen} Depots steht der Zins auf „Offen“: Der Anbieter schreibt dazu bisher nichts, wir fragen nach.
+        </RText>
+      )}
       <p className="mt-3 text-[18px] leading-[28px]">
         <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
           So entsteht die Bewertung
@@ -236,8 +243,9 @@ export const DepotRatgeber = ({
       </p>
 
       <RH3 id="halal-sparplan">Halal-Sparplan: Wo kannst du Halal ETFs besparen?</RH3>
+      <RText>Mit einem Sparplan kaufst du jeden Monat automatisch für einen festen Betrag, zum Beispiel 100 €.</RText>
       <RText>
-        Mit einem Sparplan kaufst du jeden Monat automatisch für einen festen Betrag, zum Beispiel 100 €. So viele der{" "}
+        So viele der{" "}
         {sparplanVon} Halal ETFs aus unserem Beitrag{" "}
         <Link to="/blog/halal-etf" className="font-semibold text-primary hover:underline">
           Beste Halal ETFs 2026

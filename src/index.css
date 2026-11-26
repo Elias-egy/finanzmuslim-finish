@@ -118,8 +118,11 @@
   }
   .beitragskopf.ist-eng {
     background-color: transparent;
+    /* The bar sits 8px lower (translate below): fill the strip above it with the page background so text does not show through (S5, SEO86). */
+    background-image: linear-gradient(to bottom, hsl(var(--background)) 0 8px, transparent 8px);
   }
   .beitragskopf .beitragskopf-innen {
+    position: relative;
     max-width: 1600px;
     padding-inline: 1rem;
     background-color: hsl(var(--primary));
@@ -148,6 +151,19 @@
       padding-inline: 1.5rem;
     }
   }
+  /* Reading progress line inside the bar, so it follows the frame while it shrinks (S5, SEO86). `--lese-anteil` is set by BeitragSeite. */
+  .beitragskopf .beitragskopf-innen::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: calc(var(--lese-anteil, 0) * 100%);
+    background-color: rgb(255 255 255 / 0.9);
+    border-bottom-left-radius: inherit;
+    pointer-events: none;
+    transition: width 0.15s;
+  }
   /* review-animations SEO33: Logo skaliert statt Schriftgröße (läuft auf der Grafikkarte, kein Neusatz je Bild) */
   .beitragskopf .beitragskopf-marke {
     display: inline-block;
@@ -160,6 +176,7 @@
   @media (prefers-reduced-motion: reduce) {
     .beitragskopf,
     .beitragskopf .beitragskopf-innen,
+    .beitragskopf .beitragskopf-innen::after,
     .beitragskopf .beitragskopf-marke {
       transition: none;
     }

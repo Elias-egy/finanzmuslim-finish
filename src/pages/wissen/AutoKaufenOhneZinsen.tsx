@@ -1,5 +1,6 @@
 import Seo, { beitragJsonLd } from "@/components/Seo";
 import { Link } from "react-router-dom";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 import { AnbieterKasten, Video, videoClips, WerkzeugKasten, SITE } from "@/components/blog/bausteine";
 import { KAPITEL_LEASING, VIDEO_LEASING } from "@/data/blogVideos";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
@@ -445,9 +446,9 @@ const abschnitte: BeitragAbschnitt[] = [
           ]}
         />
         <p>
-          Bis du genug gespart hast, kannst du das Geld halal anlegen. Welche Depots dafür passen, siehst du im{" "}
+          Bis du genug gespart hast, kannst du das Geld halal anlegen. Welche Depots dafür passen, siehst du unter{" "}
           <Link to="/vergleich/depot" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
-            Depot-Vergleich
+            {ANKER_VERGLEICH["/vergleich/depot"]}
           </Link>
           .
         </p>

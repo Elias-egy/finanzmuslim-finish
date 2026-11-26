@@ -60,16 +60,12 @@ const KRITERIEN = [
 
 const FAQ = [
   ...giroFragen(),
-  {
-    frage: "Was ist an einem normalen Girokonto problematisch?",
-    antwort:
-      "Zwei Dinge. Erstens zahlen manche Banken Zinsen auf das Guthaben, und Zinsen sind Riba. Zweitens räumen viele Banken beim Öffnen des Kontos automatisch einen Dispokredit ein, der ebenfalls verzinst ist. Beides lässt sich bei vielen Banken abschalten oder auf null setzen, es steht nur selten im Vergleich.",
-  },
-  {
-    frage: "Reicht es, den Dispo nicht zu nutzen?",
-    antwort:
-      "Hourani sagt, man solle den Dispo aktiv bei der Bank kündigen, auch wenn man ihn nicht nutzt, damit man gar nicht erst ins Minus rutschen kann (ilmCast Ep. 13, 00:19:48 bis 00:20:56). Ob ein eingeräumter, aber ungenutzter Dispo für sich schon Zins bedeutet, hat er dort nicht ausdrücklich beantwortet: Wer das verbindlich klären will, fragt einen Gelehrten seines Vertrauens.",
-  },
+  // SEO86 (A14, höchstens 10 Fragen): „Was ist an einem normalen Girokonto problematisch?“ fiel weg (doppelt zu „Was ist ein halal Girokonto?“ und zu den
+  // Abschnitten „Zinsen und Dispo“); „Reicht es, den Dispo nicht zu nutzen?“ steht jetzt in „Ist ein Dispokredit haram?“ (giroRatgeber.ts, mit Quelle).
+  // SEO86 Beleg-Kommentar (MUSS 8): OFFEN, Halal-Prüfer entscheidet. Gefunden ist nur das Verwandte: Für Dividenden von Firmen mit kleinem Zinsanteil nennt MSCI
+  // „given to charity“ (MSCI Islamic Index Series Methodology, Dezember 2025, Abschnitt 2.3, im Repo docs/blog/halal-etf-seo45-entwurf.txt.belege.md Z. 126).
+  // Für Zinsen auf einem Girokonto liegt keine eigene Fundstelle vor. Hourani, ~/hourani/positionen/bankkonten.md, ilmCast Ep. 13, 00:11:33 („dass du das Geld
+  // weggibst, erlaubt dir nicht, das Konto zu haben“) sagt: Weggeben macht ein verzinstes Konto nicht erlaubt.
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
     antwort:
@@ -77,8 +73,7 @@ const FAQ = [
   },
   {
     frage: "Wie entsteht die Reihenfolge?",
-    antwort:
-      reihenfolgeAntwort("Konto"),
+    antwort: reihenfolgeAntwort("Konto"),
   },
 ];
 

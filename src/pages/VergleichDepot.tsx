@@ -40,16 +40,20 @@ const KRITERIEN = [
 
 const FAQ = [
   ...depotFragen(),
-  {
-    frage: "Was ist ein Depot?",
-    antwort:
-      "Ein Depot ist ein Konto für Wertpapiere. Aktien, ETFs oder Anleihen, die du kaufst, werden dort für dich verwahrt. Zum Depot gehört meist ein Verrechnungskonto, über das Käufe und Verkäufe abgewickelt werden.",
-  },
+  // „Was ist ein Depot?“ fiel mit SEO86 weg (höchstens 10 Fragen): Der Hinweiskasten „Depot und Broker meinen hier dasselbe“ erklärt es im Ratgeber.
+  // SEO86 Beleg-Kommentare (MUSS 8): Der Satz zu den Hebelprodukten ist unser Rangfolge-Kriterium (Regelbuch vergleiche-und-rangfolge.md, „Haram-Angebote
+  // sind kein Minuspunkt“, Elias 14.09.2026, Mitschrift, kein Wortlaut), nicht ein Gelehrten-Urteil. Dass Hebel zu benutzen haram ist, steht bei Hourani,
+  // ~/hourani/positionen/forex-trading.md, ilmCast Ep. 17, 00:16:02. Ein Beleg für „solange du sie nicht nutzen musst“ als Halal-Aussage liegt nicht vor:
+  // OFFEN, Halal-Prüfer entscheidet.
   {
     frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
     antwort:
       "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
   },
+  // SEO86 Beleg-Kommentar (MUSS 8): OFFEN, Halal-Prüfer entscheidet. Gefunden ist nur das Verwandte: Für Dividenden von Firmen mit kleinem Zinsanteil nennt MSCI
+  // „given to charity“ (MSCI Islamic Index Series Methodology, Dezember 2025, Abschnitt 2.3, im Repo docs/blog/halal-etf-seo45-entwurf.txt.belege.md Z. 126).
+  // Für Zinsen, die auf ein Konto beim Broker fallen, liegt keine eigene Fundstelle vor. Hourani, ~/hourani/positionen/bankkonten.md, ilmCast Ep. 13, 00:11:33
+  // („dass du das Geld weggibst, erlaubt dir nicht, das Konto zu haben“) sagt: Weggeben macht ein verzinstes Konto nicht erlaubt.
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
     antwort:
@@ -84,7 +88,11 @@ const VergleichDepot = () => (
         </p>
         <p>
           Für Muslime entscheiden zwei Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld
-          dort ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort kaufen?
+          dort ohne Zinsen, und welche Halal-ETFs,{" "}
+          <Link to="/blog/sukuk" className="font-semibold text-primary hover:underline">
+            Sukuk
+          </Link>{" "}
+          (islamische Anleihen) und Edelmetalle kannst du dort kaufen?
         </p>
         <p>
           Welche Halal ETFs es gibt und was sie gebracht haben, siehst du im Beitrag{" "}
@@ -104,7 +112,7 @@ const VergleichDepot = () => (
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
-    stand={juengsterStand(depotAnzeige, "14.09.2026")}
+    stand={juengsterStand(depotAnzeige, "23.11.2026")}
     standHinweis="Halal-Merkmale beim Anbieter geprüft, wo ein Beleg steht, Konditionen vom 14.09.2026, 19 neue Tarife vom 23.11.2026"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, die 19 neuen Tarife Stand 23.11.2026. Halal-Merkmale: beim Anbieter geprüft. Wo noch kein Beleg steht, steht „Offen“, das ist kein Urteil, und wir fragen nach."
     kriterien={KRITERIEN}

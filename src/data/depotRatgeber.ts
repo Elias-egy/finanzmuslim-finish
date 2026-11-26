@@ -113,16 +113,13 @@ const halalSatz = (a: RohAnbieter, wer: string, herkunft = false) => {
   return `${wer} kaufst du ${liste}${herkunft ? " aus unserem Vergleich der Halal-Anlagen" : ""}.`;
 };
 
-/** Der Text je Broker: was du dort kaufst, was du für null Zinsen tust, was es kostet. */
-export const brokerText = (a: RohAnbieter): string[] => {
-  const kosten =
-    a.werte.depotgebuehr === "0€"
-      ? `Die Depotführung ist kostenlos, eine Order kostet ${orderKurz(a)}.`
-      : `Das Depot kostet ${a.werte.depotgebuehr} im Jahr, eine Order ${orderKurz(a)}.`;
-  return [halalSatz(a, `Bei ${a.name}`, a.id === depotVorn[0]?.id), zinsHinweis("depot", a), kosten, kreditSache(a)].filter(
-    (s): s is string => !!s,
-  );
-};
+/**
+ * Der Text je Broker: nur, was die Karte darunter nicht schon sagt (SEO86 reviewer, am Handy höchstens vier Zeilen je Absatz). Die
+ * Halal-Zählung und die Kosten stehen in der Häkchenliste und fallen aus dem Absatz. Es bleiben `zinsHinweis` (was du für null Zinsen
+ * tust) und `kreditSache`, jeder Satz ein eigener Absatz.
+ */
+export const brokerText = (a: RohAnbieter): string[] =>
+  [zinsHinweis("depot", a), kreditSache(a)].filter((s): s is string => !!s);
 
 /** Trade Republic Alternative: was es dort gibt, und wer von den ersten fünf mehr Halal-ETFs und Fonds führt. */
 export const tradeRepublicText = () => {
@@ -146,8 +143,12 @@ export const depotSiegerSatz = (): string | null => {
   const a = depotVorn.find((x) => x.id === depotSiegerId);
   if (!a) return null;
   const etf = anzahl(a, "halalEtfsFonds");
+  // Grund gegen die Depots mit mehr Halal-ETFs (SEO86 MUSS 2): die Order, aber nur als einfacher Betrag aus den Daten. „Ohne Kredit ab Start“
+  // steht nicht da: Die Daten kennen nur den Kredit-Hinweis für flatex (`kreditAbStart` „teils“), ein fehlender Hinweis ist keine Aussage.
+  const order = /^(ab )?[\d,]+€$/.test(orderKurz(a)) ? `Order ${orderKurz(a)}` : "";
   const gruende = [
     a.werte.zinsfreiAbStart === "gut" ? "ohne Zinsen nutzbar" : "",
+    order,
     etf ? `dort kaufst du ${etf.text}` : "",
   ].filter(Boolean);
   return `In unserem Vergleich liegt ${a.name} vorn${gruende.length ? `: ${gruende.join(", ")}` : ""}.`;
@@ -207,20 +208,7 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
         .join(" "),
     });
   }
-  f.push({
-    frage: "Welche Trading-App ist halal?",
-    antwort:
-      "Eine App ist nicht von sich aus halal. Es zählt, ob dein Guthaben ohne Zinsen liegt und ob du Halal-Anlagen kaufst.",
-  });
-  const drei = depotVorn.slice(0, 3).map((a) => a.name);
-  if (drei.length === 3) {
-    f.push({
-      frage: "Mit welcher App kann ich halal investieren?",
-      antwort: `Mit jeder App aus unserem Vergleich, die du ohne Zinsen nutzen kannst. Vorn liegen ${drei[0]}, ${drei[1]} und ${drei[2]}: Dort kaufst du Halal ETFs, Sukuk und Gold in der App.`,
-    });
-  }
-  const sg = depotSiegerSatz();
-  if (eins && sg) {
+  if (eins) {
     const sparab = depotVorn.map((a) => ({ a, v: erstesEuro(String(a.werte.sparrate ?? "")) })).filter((x) => x.v !== null);
     const minV = sparab.length ? Math.min(...sparab.map((x) => x.v as number)) : null;
     const guenstigStart = minV === null ? [] : sparab.filter((x) => x.v === minV).map((x) => x.a.name);
@@ -228,10 +216,6 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
     const orders = depotVorn.map((a) => ({ a, v: erstesEuro(orderKurz(a)) })).filter((x) => x.v !== null);
     const minO = orders.length ? Math.min(...orders.map((x) => x.v as number)) : null;
     const guenstigOrder = minO === null ? [] : orders.filter((x) => x.v === minO).map((x) => x.a.name);
-    f.push({
-      frage: "Welches Depot ist das beste für Anfänger?",
-      antwort: `Zum Einstieg zählt, dass du das Depot ohne Zinsen nutzen kannst, dass es wenig kostet und dass du klein anfangen kannst. ${sg} Mit einem Sparplan kaufst du jeden Monat automatisch für einen festen Betrag.`,
-    });
     if (gratisDepot.length >= 2 || guenstigOrder.length > 0) {
       f.push({
         frage: "Welches Depot hat die geringsten Kosten?",
@@ -250,10 +234,8 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
     antwort:
       "Ein „islamisches Konto“ oder „swapfreies Konto“ bieten manche Broker für CFDs und Forex an. Darin fällt die Swap-Gebühr weg. Für ein Depot mit Halal ETFs brauchst du es nicht: Dort zählt, ob dein Guthaben ohne Zinsen liegt.",
   });
-  f.push({
-    frage: "Wie eröffne ich ein Depot?",
-    antwort:
-      "Du eröffnest das Depot online beim Anbieter, bestätigst deinen Ausweis, zahlst Geld ein und wählst deine erste Anlage. Was du tun musst, damit keine Zinsen anfallen, steht oben bei jedem Broker.",
-  });
+  // SEO86 (A14, höchstens 10 Fragen): „Welche Trading-App ist halal?“, „Mit welcher App kann ich halal investieren?“, „Welches Depot ist das
+  // beste für Anfänger?“ und „Wie eröffne ich ein Depot?“ fielen weg, weil „Welcher ist der beste Broker“, „Was ist ein Halal-Broker?“ und der
+  // Abschnitt „So eröffnest du dein Depot“ dasselbe sagen.
   return f;
 };

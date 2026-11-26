@@ -1,5 +1,5 @@
 import { LINKEDIN } from "@/components/blog/bausteine";
-import { isValidElement, useEffect, useMemo, useState, type ReactNode } from "react";
+import { isValidElement, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import {
@@ -45,7 +45,8 @@ type Props = {
   einleitung?: ReactNode;
   /** Eigener Anbieter-Kasten statt der EmpfehlungsBox an der ersten Werbestelle (SEO91). */
   werbungKasten?: ReactNode;
-  /** Nach welchem Abschnitt (Index, 0-basiert) die erste Werbung steht, Standard nach dem ersten (SEO91: bei einem Viertel bis Drittel). */
+  /** Nach welchem Abschnitt (Index, 0-basiert) die erste Werbung steht. Von Hand gesetzt gewinnt; sonst das erste Abschnittsende unter den
+   *  ersten vier, das ein Viertel der Wörter der Seite erreicht (S2, SEO86). */
   werbungNach?: number;
 };
 
@@ -61,14 +62,18 @@ const textVon = (node: ReactNode): string => {
 
 const WOERTER_PRO_MINUTE = 200;
 
-/** Dünner Balken unter der Kopfzeile, der mit dem Scrollen wächst. */
+/**
+ * Lesefortschritt: dünne Linie am unteren Rand der Kopfleiste, die mit dem Scrollen wächst. Die Linie selbst steht im CSS
+ * (`.beitragskopf-innen::after`, index.css) und folgt so dem Rahmen der schwebenden Leiste; hier wird nur der Anteil gesetzt
+ * (S5, SEO86 reviewer: a fixed bar at top:60px hung beside the floating bar once it shrank).
+ */
 const Lesefortschritt = () => {
-  const [anteil, setAnteil] = useState(0);
   useEffect(() => {
+    const wurzel = document.documentElement;
     const messen = () => {
-      const h = document.documentElement;
-      const gesamt = h.scrollHeight - h.clientHeight;
-      setAnteil(gesamt > 0 ? Math.min(1, h.scrollTop / gesamt) : 0);
+      const gesamt = wurzel.scrollHeight - wurzel.clientHeight;
+      const anteil = gesamt > 0 ? Math.min(1, wurzel.scrollTop / gesamt) : 0;
+      wurzel.style.setProperty("--lese-anteil", String(anteil));
     };
     messen();
     window.addEventListener("scroll", messen, { passive: true });
@@ -76,13 +81,10 @@ const Lesefortschritt = () => {
     return () => {
       window.removeEventListener("scroll", messen);
       window.removeEventListener("resize", messen);
+      wurzel.style.removeProperty("--lese-anteil");
     };
   }, []);
-  return (
-    <div className="fixed left-0 top-[60px] z-40 h-[3px] w-full bg-transparent md:top-[68px]" aria-hidden>
-      <div className="h-full bg-primary transition-[width] duration-150" style={{ width: `${anteil * 100}%` }} />
-    </div>
-  );
+  return null;
 };
 
 /** Welcher Abschnitt gerade im Blick ist, für die Sprungmarken. */
@@ -124,7 +126,7 @@ const BeitragSeite = ({
   children,
   einleitung,
   werbungKasten,
-  werbungNach = 0,
+  werbungNach,
 }: Props) => {
   const [offen, setOffen] = useState(false);
   const werbung = werbungFuer(slug);
@@ -146,7 +148,50 @@ const BeitragSeite = ({
 
   const ids = useMemo(() => [...abschnitte.map((a) => a.id), "faq"], [abschnitte]);
   const aktiv = useAktiverAbschnitt(ids);
-  const mitteNach = boxMitteNach ?? Math.max(1, Math.floor(abschnitte.length / 2) - 1);
+  /* Erste Werbestelle nach Wortanteil statt fester Zahl (S2, SEO86): Von Hand gesetzt gewinnt. Sonst zählt die Seite nach dem Einhängen die Wörter
+     im Browser (Kopf, „Das Wichtigste“ und Einleitung als Vorlauf, dazu die Abschnitte und die Überschriften der Fragen) und setzt die Werbung an das
+     erste Abschnittsende unter den ersten vier, das etwa ein Viertel der Seite erreicht, nie davor. Der Text vieler Abschnitte kommt
+     aus Bausteinen, nicht aus `children` (Tabellen, Rechenbeispiele): Aus dem React-Baum gezählt, wäre er zu kurz. Bis zur Messung (und im vorgerenderten
+     HTML) gilt die Faustregel: bei sechs und mehr Abschnitten nach dem zweiten, sonst nach dem ersten. */
+  const artikelRef = useRef<HTMLElement>(null);
+  const [gemessen, setGemessen] = useState<number | null>(null);
+  useEffect(() => {
+    if (werbungNach !== undefined) return;
+    const artikel = artikelRef.current;
+    const abschnittEl = abschnitte.map((a) => document.getElementById(a.id));
+    const erster = abschnittEl[0]?.parentElement?.parentElement;
+    if (!artikel || !erster || abschnittEl.some((el) => !el)) return;
+    const zaehle = (t: string | null | undefined) => (t ?? "").trim().split(/\s+/).filter(Boolean).length;
+    const vorlauf = document.createRange();
+    vorlauf.setStart(artikel, 0);
+    vorlauf.setEndBefore(erster);
+    const woerter = abschnittEl.map((el) => zaehle(el?.textContent));
+    const start = zaehle(vorlauf.toString());
+    const gesamt = start + woerter.reduce((summe, w) => summe + w, 0) + zaehle(document.getElementById("faq")?.textContent);
+    // Der erste Abschnittsschluss, der etwa ein Viertel der Seite erreicht (Elias SEO55: „erst bei etwa einem Drittel“, Regel „ein Viertel bis ein Drittel“);
+    // erreicht keiner der ersten vier ein Viertel, der vierte.
+    const kandidaten = Math.max(1, Math.min(4, abschnitte.length - 1));
+    let summe = start;
+    let beste = kandidaten - 1;
+    for (let i = 0; i < kandidaten; i++) {
+      summe += woerter[i];
+      if (summe / gesamt >= 0.24) {
+        beste = i;
+        break;
+      }
+    }
+    setGemessen(beste);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `abschnitte` is rebuilt on every render of the post page; the section count identifies the content
+  }, [slug, abschnitte.length, werbungNach]);
+  // Eine von Hand gesetzte mittlere Box geht vor: Die automatische erste Werbung rückt nach vorn, damit mindestens ein Abschnitt dazwischen bleibt.
+  const werbungAuto = gemessen ?? (abschnitte.length >= 6 ? 1 : 0);
+  const werbungIdx = werbungNach ?? Math.max(0, boxMitteNach === undefined ? werbungAuto : Math.min(werbungAuto, boxMitteNach - 2));
+  // Die mittlere Box (Standard) rückt weiter, wenn sie sonst auf oder gleich nach der ersten Werbung stünde: mindestens ein Abschnitt dazwischen
+  // (S2, SEO86), sonst stünden zwei Kästen untereinander. Von Hand gesetztes `boxMitteNach` bleibt, wie es ist.
+  const mitteStandard = Math.max(1, Math.floor(abschnitte.length / 2) - 1);
+  const letzter = abschnitte.length - 1;
+  const mitteAbstand = [werbungIdx + 2, werbungIdx + 1].find((i) => i >= mitteStandard && i <= letzter) ?? mitteStandard;
+  const mitteNach = boxMitteNach ?? (mitteStandard - werbungIdx >= 2 ? mitteStandard : mitteAbstand);
 
   const sprungmarken = (
     <ol>
@@ -169,7 +214,7 @@ const BeitragSeite = ({
     <main className="bg-background">
       <Lesefortschritt />
       <div className="container py-8 md:py-12">
-        <div className="relative lg:mx-auto lg:max-w-[900px] xl:max-w-[1160px] xl:pl-[260px]">
+        <div className="relative lg:mx-auto lg:max-w-[976px] lg:pl-[190px] xl:max-w-[1160px] xl:pl-[260px]">
           <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
             <Link to="/blog" className="text-primary hover:underline">
               Blog
@@ -182,7 +227,7 @@ const BeitragSeite = ({
             )}
           </nav>
 
-          <article className="mt-5">
+          <article ref={artikelRef} className="mt-5">
             {/* Kopf wie /blog/halal-etf (Elias SEO47: „Halte alles wie Halal ETF“): Serifen, ein Satz, Autorzeile, kein Motivbild */}
             <header>
               <h1 className="font-titel text-[32px] leading-[1.1] text-foreground md:text-[42px]">{titel}</h1>
@@ -248,7 +293,7 @@ const BeitragSeite = ({
             {/* SEO85 (Elias SEO84-03: „dann nochmal oben den Call to Action, der kann weg. Der kommt weg in den Blogs“): kein Kasten
                 direkt unter „Das Wichtigste“; der Kopfknopf „Match finden“ und der erste Kasten nach dem ersten Abschnitt bleiben. */}
 
-            <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
+            <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border lg:hidden">
               <button
                 type="button"
                 onClick={() => setOffen((v) => !v)}
@@ -262,9 +307,9 @@ const BeitragSeite = ({
             </nav>
 
             <div className="relative mt-10 space-y-12">
-              {/* Sprungmarken als Leiste links, nur auf breiten Bildschirmen. Bleibt
+              {/* Sprungmarken als Leiste links, ab 1024 px (S4, SEO86; darunter das Aufklapp-Menü). Bleibt
                   beim Scrollen stehen und hebt den aktuellen Abschnitt hervor. */}
-              <aside className="absolute right-full top-0 hidden h-full w-[220px] pr-10 xl:block" aria-label="Sprungmarken">
+              <aside className="absolute right-full top-0 hidden h-full w-[170px] pr-6 lg:block xl:w-[220px] xl:pr-10" aria-label="Sprungmarken">
                 <div className="sticky top-28">
                   <p className="border-t border-border pt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Auf dieser Seite</p>
                   <div className="mt-3">{sprungmarken}</div>
@@ -278,7 +323,7 @@ const BeitragSeite = ({
                       {a.inhalt}
                     </div>
                   </section>
-                  {i === werbungNach && abschnitte.length > 1 && (werbungKasten ?? <EmpfehlungsBox {...werbung} />)}
+                  {i === werbungIdx && abschnitte.length > 1 && (werbungKasten ?? <EmpfehlungsBox {...werbung} />)}
                   {i === mitteNach && i !== 0 && zeigeMitte && <EmpfehlungsBox {...boxMitte} />}
                 </div>
               ))}

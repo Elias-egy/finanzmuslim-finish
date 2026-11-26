@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { GIRO_FINANZ_MAX } from "@/data/finanzMax";
 import { kostenKurz } from "@/data/kostenKurz";
@@ -67,7 +68,10 @@ export const vorteile = (a: RohAnbieter): Array<{ text: string }> => {
   return p;
 };
 
-/** Der Text je Konto: was du für null Zinsen tust, was dazugehört, was es kostet. */
+/**
+ * Der Text je Konto, je Satz ein Absatz (SEO86 reviewer, am Handy höchstens vier Zeilen): was du für null Zinsen tust und das Wichtigste
+ * zum Dispo. Kontoführung und Karten stehen in der Häkchenliste und in der Kostentabelle und fallen aus dem Absatz.
+ */
 export const kontoText = (a: RohAnbieter): string[] => {
   const dispo =
     a.werte.keinDispoAbStart === "gut"
@@ -75,13 +79,7 @@ export const kontoText = (a: RohAnbieter): string[] => {
       : a.werte.keinDispoAbStart === "teils"
         ? "Der Dispo wird dir ab Start eingeräumt und lässt sich abschalten."
         : "";
-  const kf = kontofuehrung(a);
-  const karten = [
-    text(a, "girocard") ? `Girocard: ${text(a, "girocard")}` : "",
-    text(a, "debitkarte") ? `Debitkarte: ${text(a, "debitkarte")}` : "",
-  ].filter(Boolean);
-  const kosten = keineAngabe(kf) ? "" : `Kontoführung im Monat: ${kf}.${karten.length ? ` ${karten.join(". ")}.` : ""}`;
-  return [zinsHinweis("girokonto", a) ?? "", dispo, kosten].filter((s): s is string => s !== "");
+  return [zinsHinweis("girokonto", a) ?? "", dispo].filter((s): s is string => s !== "");
 };
 
 /**
@@ -104,11 +102,14 @@ export const giroAuslandListe: RohAnbieter[] = [
     .slice(0, 2),
 ];
 
-/** Zeilen der Tabelle „Geld abheben im Ausland“: Konto und die drei Gebühren. */
-export const auslandZeilen = (liste: RohAnbieter[]): string[][] =>
+/** Zeilen der Tabelle „Geld abheben im Ausland“: Konto und die drei Gebühren. `name` setzt den Namen der Zeile (Standard Text, in der Seite ein Partnerlink). */
+export const auslandZeilen = (
+  liste: RohAnbieter[],
+  name: (a: RohAnbieter) => ReactNode = (a) => `${a.name} ${a.produkt}`,
+): ReactNode[][] =>
   liste.flatMap((a) => {
     const w = auslandWerte(a);
-    return w ? [[`${a.name} ${a.produkt}`, w[0], w[1], w[2]]] : [];
+    return w ? [[name(a), w[0], w[1], w[2]]] : [];
   });
 
 /** Konten mit Kontoführung ohne Bedingung kostenlos, in der Reihenfolge der Rangfolge. */
@@ -218,40 +219,25 @@ export const giroFragen = (): Array<{ frage: string; antwort: string }> => {
     frage: "Gibt es Girokonten ohne Dispo?",
     antwort: `Bei ${giroOhneDispo} der ${giroAnzahl} Konten in unserem Vergleich wird dir nach der Eröffnung kein Dispo eingeräumt. Bei den übrigen lässt er sich abschalten.`,
   });
+  // Quelle (SEO86, MUSS 6): ~/hourani/positionen/bankkonten.md, ilmCast Ep. 13, 00:16:41 („Deswegen ist die Dispo eine große Falle, eine Rieberfalle, nicht nur,
+  // weil es haram ist.“); ~/hourani/positionen/schulden.md, Ep. 13, 00:19:48 („rufst bei der Bank an und sagst, ich möchte diesen Dispo-Kredit kündigen“), 00:20:49
+  // („Also wichtig ist, dass man das aktiv bei der Bank kündigt.“), 00:20:56 bis 00:21:01 („sondern kündigen, damit du deiner Neffs gar nicht mehr die Möglichkeit
+  // gibst, wieder in dieses Minus reinzugehen.“). Hourani wird im Lesetext einmal vorgestellt, Folge und Zeitmarke stehen nur hier. Die frühere zweite Frage
+  // „Reicht es, den Dispo nicht zu nutzen?“ ist hier eingearbeitet; was Hourani dort nicht beantwortet, steht nirgends als Tatsache im Text.
   f.push({
     frage: "Ist ein Dispokredit haram?",
     antwort:
-      "Der Dispo ist ein Kredit: Sobald du dein Konto überziehst, zahlst du Zinsen, und Zinsen meidest du als Muslim. Hourani rät, einen Dispo aktiv bei der Bank zu kündigen, damit du dir nicht die Möglichkeit gibst, ins Minus zu gehen (ilmCast Ep. 13, ab 00:19:48). Darum ist ein Konto ohne Dispo ab Start die sichere Wahl.",
+      "Der Dispo ist ein Kredit: Sobald du dein Konto überziehst, zahlst du Zinsen, und Zinsen meidest du als Muslim. Sheikh Ibrahim Hourani rät, einen Dispo nicht nur auf null zu bringen, sondern bei der Bank zu kündigen, damit du dir nicht die Möglichkeit gibst, wieder ins Minus zu gehen. Darum ist ein Konto ohne Dispo ab Start die sichere Wahl.",
   });
   if (giroOhneMindesteingang.length >= 2) {
     const namen = giroOhneMindesteingang.slice(0, 3).map((a) => a.name);
     f.push({
       frage: "Gibt es ein kostenloses Girokonto ohne Mindesteingang?",
-      antwort: `Ja. Bei ${giroOhneMindesteingangAnzahl} Konten ohne Zinsen kostet die Kontoführung 0 €, egal wie viel Geld eingeht, zum Beispiel bei ${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}.`,
+      antwort: `Ja. Bei ${giroOhneMindesteingangAnzahl} Konten ohne Zinsen kostet die Kontoführung 0 €, egal wie viel Geld eingeht, zum Beispiel bei ${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}. Bei vielen anderen gilt 0 € erst ab einem monatlichen Geldeingang: Die Tabelle nennt die Bedingung beim Konto.`,
     });
   }
-  if (eins) {
-    f.push({
-      frage: "Welches Girokonto lohnt sich im Vergleich?",
-      antwort: `Für Muslime lohnt sich ein Konto, das ohne Zinsen läuft und wenig kostet. In unserem Vergleich liegt ${eins.name} vorn. Wenn du kein Gehalt auf das Konto bekommst, schau auf die Konten ohne Mindesteingang.`,
-    });
-  }
-  if (gratisKonten.length >= 2) {
-    const namen = gratisKonten.slice(0, 3).map((a) => a.name);
-    f.push({
-      frage: "Bei welcher Bank zahlt man die wenigsten Kontoführungsgebühren?",
-      antwort: `Bei ${gratisKonten.length} der ${giroAnzahl} Konten kostet die Kontoführung ohne Bedingung 0 €, zum Beispiel bei ${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}. Bei vielen anderen gilt 0 € erst ab einem monatlichen Geldeingang: Die Tabelle nennt die Bedingung beim Konto.`,
-    });
-  }
-  const wechsel = girokontoAnzeige.filter((a) => a.werte.kontowechsel === true).length;
-  f.push({
-    frage: "Was muss man beim Girokonto-Wechsel beachten?",
-    antwort: `Bei ${wechsel} der ${giroAnzahl} Konten gibt es einen Kontowechsel-Service, der dir den Umzug abnimmt. Ändere regelmäßige Lastschriften und den Gehaltseingang auf das neue Konto, bevor du das alte schließt.`,
-  });
-  f.push({
-    frage: "Wie eröffne ich ein Girokonto?",
-    antwort:
-      "Du eröffnest das Konto online beim Anbieter und bestätigst deinen Ausweis, je nach Bank per Video-Ident, Post-Ident oder E-Ident. Was du tun musst, damit keine Zinsen anfallen, steht oben bei jedem Konto.",
-  });
+  // SEO86 (A14, höchstens 10 Fragen): „Welches Girokonto lohnt sich im Vergleich?“ (doppelt zu „Welches ist das beste“), „Bei welcher Bank zahlt man die
+  // wenigsten Kontoführungsgebühren?“ (jetzt in der Frage zu Mindesteingang), „Was muss man beim Girokonto-Wechsel beachten?“ und „Wie eröffne ich ein
+  // Girokonto?“ (stehen als Abschnitte im Ratgeber) fielen weg.
   return f;
 };
