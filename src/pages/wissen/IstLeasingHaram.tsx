@@ -533,21 +533,13 @@ const IstLeasingHaram = () => {
 
             <article className="mt-8">
               <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
-                <span className="block">Ist Leasing haram?</span> <span className="block">Wann Leasing halal ist: 5 Punkte</span>
+                {TITEL}
               </h1>
               <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
                 {beispielWert()
                   ? `300 € Leasingrate, drei Jahre lang: Am Ende gehört dir nichts. Als Sparplan im Depot wären es heute rund ${beispielWert()}. Das übliche Leasing fällt fast immer durch.`
                   : "Woran du es im Vertrag erkennst, was stattdessen geht und was deine Rate im Depot gebracht hätte."}
               </p>
-              <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["Rechner: Leasingrate oder Depot", "5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich"].map((h) => (
-                  <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
-                    <Check className="h-4 w-4 shrink-0 text-success" aria-hidden />
-                    {h}
-                  </li>
-                ))}
-              </ul>
               <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
@@ -567,6 +559,34 @@ const IstLeasingHaram = () => {
                 </div>
               </div>
 
+
+              {/* SEO87 (Tor S-REIHENFOLGE-KOPF, Skill seo-beitrag Schritt 10): Kurzvergleich direkt nach der Autorzeile wie frontal; nach Das Wichtigste folgt die Tabelle der fünf Punkte. */}
+                <div className="mt-8">
+                <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
+                  {WEGE.map((w, i) => (
+                    <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
+                      <Marke ton={w.ton}>{w.marke}</Marke>
+                      <Etikett className="mt-4">Besonders</Etikett>
+                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
+                      <Etikett className="mt-4">Du zahlst</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.zahlst}</p>
+                      <Etikett className="mt-3">Haken</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.haken}</p>
+                      <Etikett className="mt-3">Passt für</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.passt}</p>
+                      <Etikett className="mt-3">Am Ende</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.ende}</p>
+                      <a
+                        href={`#${w.ziel}`}
+                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                      >
+                        Zum Abschnitt
+                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                      </a>
+                    </Karte>
+                  ))}
+                </KartenReihe>
+                </div>
 
               <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
                 <button
@@ -608,33 +628,6 @@ const IstLeasingHaram = () => {
                   </ul>
                 </section>
 
-                {/* SEO86 reviewer: table right after Das Wichtigste, then Google box, five points, first provider box (~30 %), then video section (Regelbuch seo-und-blog) */}
-                <div className="mt-7">
-                <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
-                  {WEGE.map((w, i) => (
-                    <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
-                      <Marke ton={w.ton}>{w.marke}</Marke>
-                      <Etikett className="mt-4">Besonders</Etikett>
-                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
-                      <Etikett className="mt-4">Du zahlst</Etikett>
-                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.zahlst}</p>
-                      <Etikett className="mt-3">Haken</Etikett>
-                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.haken}</p>
-                      <Etikett className="mt-3">Passt für</Etikett>
-                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.passt}</p>
-                      <Etikett className="mt-3">Am Ende</Etikett>
-                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.ende}</p>
-                      <a
-                        href={`#${w.ziel}`}
-                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
-                      >
-                        Zum Abschnitt
-                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
-                      </a>
-                    </Karte>
-                  ))}
-                </KartenReihe>
-                </div>
 
                 <GoogleKasten />
 

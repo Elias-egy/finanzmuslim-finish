@@ -44,20 +44,24 @@ const FAQ = [
   // SEO86 Beleg-Kommentare (MUSS 8): Der Satz zu den Hebelprodukten ist unser Rangfolge-Kriterium (Regelbuch vergleiche-und-rangfolge.md, „Haram-Angebote
   // sind kein Minuspunkt“, Elias 14.09.2026, Mitschrift, kein Wortlaut), nicht ein Gelehrten-Urteil. Dass Hebel zu benutzen haram ist, steht bei Hourani,
   // ~/hourani/positionen/forex-trading.md, ilmCast Ep. 17, 00:16:02. Ein Beleg für „solange du sie nicht nutzen musst“ als Halal-Aussage liegt nicht vor:
-  // OFFEN, Halal-Prüfer entscheidet.
+  // SEO87 Halal-Prüfer: Satz ersetzt; Hourani forex-trading.md Ep. 17, 00:16:02 (Hebel), 00:18:13 (CFD); aktien.md Ep. 18, 01:18:56 (Margin), 01:15:04 (Derivate,
+  // Optionen). „kein Minuspunkt“ ist Bewertungsregel (VergleichMethodik.tsx:104-106), Elias' Wortlaut dazu fehlt noch (Frage an Elias).
   {
     frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
     antwort:
-      "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
+      "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, zählt in unserer Reihenfolge nicht als Minuspunkt: Wir prüfen, ob du ohne sie auskommst, nicht ob es sie gibt. Nutzen solltest du sie nicht, denn Hebel, Margin, CFDs und Derivate wie Optionen gelten als haram.",
   },
   // SEO86 Beleg-Kommentar (MUSS 8): OFFEN, Halal-Prüfer entscheidet. Gefunden ist nur das Verwandte: Für Dividenden von Firmen mit kleinem Zinsanteil nennt MSCI
   // „given to charity“ (MSCI Islamic Index Series Methodology, Dezember 2025, Abschnitt 2.3, im Repo docs/blog/halal-etf-seo45-entwurf.txt.belege.md Z. 126).
   // Für Zinsen, die auf ein Konto beim Broker fallen, liegt keine eigene Fundstelle vor. Hourani, ~/hourani/positionen/bankkonten.md, ilmCast Ep. 13, 00:11:33
   // („dass du das Geld weggibst, erlaubt dir nicht, das Konto zu haben“) sagt: Weggeben macht ein verzinstes Konto nicht erlaubt.
+  // SEO87 Halal-Prüfer (~/.claude/handoffs/seo87-pruefberichte/halal-spenden-hebel.md): Hourani riba.md Ep. 13, 00:11:02 „Man nimmt das und man gibt das weiter.“,
+  // 00:11:05/00:11:11 (nicht Moschee oder Masahif, sondern Essen und Trinken an Arme), 00:11:27 „es gilt nicht als Sadaka“; bankkonten.md Ep. 13, 00:11:33;
+  // letzter Satz: Elias 24.11. raw/2026-11-24-elias-vg4-03 Z. 8 „Zinsen ist sowieso Ausschlusskriterium.“
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
     antwort:
-      "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen. Die konkrete Handhabung besprichst du am besten mit einem Gelehrten deines Vertrauens.",
+      "Du behältst sie nicht, sondern gibst sie weg. Das zählt nicht als Sadaqa, und das Geld gehört nicht in den Bau einer Moschee oder in Koranausgaben, sondern zum Beispiel in Essen und Trinken für Arme. Wichtig: Das Weggeben macht ein verzinstes Konto nicht erlaubt. Deshalb zählt in unserem Vergleich, ob das Konto von Anfang an ohne Zinsen läuft.",
   },
   {
     frage: "Wie entsteht die Reihenfolge?",

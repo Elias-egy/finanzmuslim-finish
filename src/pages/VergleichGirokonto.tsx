@@ -66,10 +66,13 @@ const FAQ = [
   // „given to charity“ (MSCI Islamic Index Series Methodology, Dezember 2025, Abschnitt 2.3, im Repo docs/blog/halal-etf-seo45-entwurf.txt.belege.md Z. 126).
   // Für Zinsen auf einem Girokonto liegt keine eigene Fundstelle vor. Hourani, ~/hourani/positionen/bankkonten.md, ilmCast Ep. 13, 00:11:33 („dass du das Geld
   // weggibst, erlaubt dir nicht, das Konto zu haben“) sagt: Weggeben macht ein verzinstes Konto nicht erlaubt.
+  // SEO87 Halal-Prüfer (~/.claude/handoffs/seo87-pruefberichte/halal-spenden-hebel.md): Hourani riba.md Ep. 13, 00:11:02 „Man nimmt das und man gibt das weiter.“,
+  // 00:11:05/00:11:11 (nicht Moschee oder Masahif, sondern Essen und Trinken an Arme), 00:11:27 „es gilt nicht als Sadaka“; bankkonten.md Ep. 13, 00:11:33;
+  // letzter Satz: Elias 24.11. raw/2026-11-24-elias-vg4-03 Z. 8 „Zinsen ist sowieso Ausschlusskriterium.“
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
     antwort:
-      "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
+      "Du behältst sie nicht, sondern gibst sie weg. Das zählt nicht als Sadaqa, und das Geld gehört nicht in den Bau einer Moschee oder in Koranausgaben, sondern zum Beispiel in Essen und Trinken für Arme. Wichtig: Das Weggeben macht ein verzinstes Konto nicht erlaubt. Deshalb zählt in unserem Vergleich, ob das Konto von Anfang an ohne Zinsen läuft.",
   },
   {
     frage: "Wie entsteht die Reihenfolge?",
