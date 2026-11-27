@@ -45,8 +45,8 @@ describe("/blog/scalable-capital-vs-trade-republic", () => {
 
   it("der erste Absatz nennt den Sieger und die Zahlen", () => {
     const c = zeige();
-    const erster = [...c.querySelectorAll("article p")].map((p) => p.textContent ?? "").find((x) => x.startsWith("Scalable Capital oder")) ?? "";
-    expect(erster).toMatch(/^Scalable Capital oder Trade Republic\? Für Muslime liegt Scalable Capital vorn/);
+    const erster = [...c.querySelectorAll("article p")].map((p) => p.textContent ?? "").find((x) => x.startsWith("Scalable Capital vs")) ?? "";
+    expect(erster).toMatch(/^Scalable Capital vs Trade Republic: Für Muslime liegt Scalable Capital vorn/);
     expect(erster).toMatch(/\d+ der 12 Halal-ETFs und Fonds/);
   });
 

@@ -17,4 +17,5 @@ export const ANKER_VERGLEICH = {
  */
 export const ANKER_BEITRAG = {
   "/blog/trade-republic-alternative": "Trade Republic Alternative",
+  "/blog/scalable-capital-vs-trade-republic": "Scalable Capital vs Trade Republic",
 } as const;

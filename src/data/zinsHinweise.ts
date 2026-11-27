@@ -265,7 +265,9 @@ const HAUS: Record<string, Eintrag> = {
 
   /* Zinsen, Staking oder Earn erst nach eigenem Einschalten: aus lassen */
   trading212: gut("Zinsen laufen erst, wenn du sie selbst aktivierst. Lass sie aus."),
-  "trade-republic": gut("Zinsen laufen erst, wenn du sie in der App aktivierst. Lass sie aus."),
+  /* SEO87 (Halal-Prüfer SEO86 Gelb A, wortgleich): Die TR-Zinsseite sagt „Aktiviere die Zinsfunktion“ und „Deaktivieren“, aber nicht,
+     dass die Funktion von Anfang an aus ist. Darum kein „erst wenn du sie aktivierst“. */
+  "trade-republic": gut("Trade Republic zahlt Zinsen auf dein Cash, wenn die Zinsfunktion in der App an ist. Schau nach, dass sie aus ist."),
   justtrade: {
     depot: nullProzent(),
     krypto: gut("Dein Guthaben wird nicht verzinst. Staking läuft erst, wenn du es aktivierst: Lass es aus."),

@@ -27,7 +27,7 @@ import {
   useAktiv,
   YOUTUBE,
 } from "@/components/blog/bausteine";
-import { ANKER_VERGLEICH } from "@/data/ankertexte";
+import { ANKER_BEITRAG, ANKER_VERGLEICH } from "@/data/ankertexte";
 import { DEPOTS_GETESTET } from "@/data/halalFinanzCheckKern";
 import { kostenKurz } from "@/data/kostenKurz";
 import { kreditKurz, zinsHinweis } from "@/data/zinsHinweise";
@@ -297,6 +297,8 @@ const FRAGEN: { frage: string; antwort: string }[] = [
 ];
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
+  /* SEO87: Rückverlinkung auf die Paarseite (Seiten-Prüfer SEO86, Kannibalisierung: ein Link je Richtung, eigener Anker). */
+  { to: "/blog/scalable-capital-vs-trade-republic", name: ANKER_BEITRAG["/blog/scalable-capital-vs-trade-republic"], text: "Welches der beiden Depots für Muslime vorn liegt." },
   { to: "/blog/halal-etf", name: "Beste Halal ETFs 2026", text: "Welche Halal ETFs es gibt und was sie kosten." },
   { to: "/blog/sind-aktien-haram", name: "Sind Aktien haram?", text: "Woran du eine Halal-Aktie erkennst." },
   { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "Stell dein Konto in zehn Minuten um." },
@@ -561,7 +563,7 @@ const TradeRepublicAlternative = () => {
                     findest ihn nicht. Also googelst du: alternative Trade Republic.
                   </p>
                   <p>
-                    Kurz gesagt: Trade Republic kannst du ohne Zinsen nutzen, denn Zinsen laufen erst, wenn du sie in der App aktivierst. Der Haken ist
+                    Kurz gesagt: Trade Republic kannst du ohne Zinsen nutzen, wenn die Zinsfunktion in der App aus ist. Der Haken ist
                     die Auswahl. Die erste Trade Republic Alternative in unserem Vergleich ist {depotVorn[0]?.name}
                     {anzahl(depotVorn[0], "halalEtfsFonds") ? `: Dort kaufst du ${anzahl(depotVorn[0], "halalEtfsFonds")!.text}.` : "."}
                   </p>

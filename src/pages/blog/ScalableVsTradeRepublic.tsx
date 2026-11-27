@@ -35,7 +35,7 @@ import { DEPOT_APP_BILDER } from "@/data/depotAppBilder";
 import { kostenKurz } from "@/data/kostenKurz";
 import { zinsHinweis } from "@/data/zinsHinweise";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { anzahl, depotAnzahl, depotVorn, DEPOT_HALAL_SATZ, nachteil, tradeRepublic } from "@/data/depotRatgeber";
+import { anzahl, depotAnzahl, depotReihe, depotVorn, DEPOT_HALAL_SATZ, nachteil, tradeRepublic } from "@/data/depotRatgeber";
 
 /**
  * Kaufseite „scalable capital vs trade republic“ (SEO86, 26.11.2026) nach VORLAGEN.md Abschnitt 2 „Paar“ (M2.2), nur Vorschau.
@@ -150,7 +150,16 @@ const zinsSc = zinsHinweis("depot", sc) ?? "";
 const zinsTr = zinsHinweis("depot", tr) ?? "";
 /** Dieselben Sätze mit Namen davor, damit sie im Fließtext und in der FAQ allein verständlich sind. */
 const zinsScName = zinsSc.replace(/^Dein Guthaben (.*) hat 0 % Zinsen/, "Bei Scalable Capital hat dein Guthaben $1 0 % Zinsen");
+/** Erste Nennung erklärt das Fachwort (Seiten-Prüfer SEO86 SOLLTE 10, Leser-Skill Regel 8). */
+const zinsScErklaert = zinsScName.replace("Verrechnungskonto", "Verrechnungskonto (dem Konto im Depot, auf dem dein Geld liegt)");
+/** Seit SEO87 beginnt der TR-Satz selbst mit dem Namen (Halal-Prüfer SEO86 Gelb A); der alte Satz „Zinsen laufen …“ bekommt ihn davor. */
 const zinsTrName = zinsTr.replace(/^Zinsen laufen/, "Bei Trade Republic laufen Zinsen");
+
+/** Platz im Depot-Vergleich (Halal-Prüfer SEO86 Gelb E: Reihenfolge belegt statt „weil“). */
+const platz = (a: RohAnbieter) => depotReihe.findIndex((x) => x.id === a.id) + 1;
+const euroZahl = (s: string) => Number(s.replace(/[^\d,]/g, "").replace(",", "."));
+const euro = (n: number) => `${n.toFixed(2).replace(".", ",").replace(",00", "")} €`;
+const appNote = (a: RohAnbieter) => `iOS ${String(a.werte.appIos ?? "").replace(" / 5", "")}, Android ${String(a.werte.appAndroid ?? "").replace(" / 5", "")} von 5`;
 
 /* Titel, Meta, Adresse: Hauptwort „scalable capital vs trade republic“ (Ahrefs 26.11.2026: 1.500 Suchen). */
 export const TITEL = "Scalable Capital vs Trade Republic 2026 für Muslime";
@@ -218,7 +227,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   },
   {
     lead: "Zinsen lässt du bei beiden aus.",
-    text: `${zinsScName} ${zinsTrName}`,
+    text: `${zinsScErklaert} ${zinsTrName}`,
   },
 ];
 
@@ -232,7 +241,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   },
   {
     frage: "Scalable vs Trade Republic: Wer ist günstiger?",
-    antwort: `Fast gleich. Das Depot und der ETF-Sparplan kosten bei beiden 0 €, der Sparplan startet bei beiden mit ${sparrateAb(sc)} €. Eine einzelne Order kostet bei Scalable Capital ${orderEuro(sc)} und bei Trade Republic ${orderEuro(tr)}. ETFs von iShares, Amundi, Vanguard und Xtrackers kaufst du bei Scalable Capital von 250 € an ohne Ordergebühr.`,
+    antwort: `Fast gleich. Depot und ETF-Sparplan kosten bei beiden 0 €. Eine einzelne Order kostet bei Scalable Capital ${orderEuro(sc)} und bei Trade Republic ${orderEuro(tr)}.`,
   },
   {
     frage: "Scalable Capital vs Trade Republic Zinsen: Wer zahlt Zinsen auf mein Guthaben?",
@@ -241,7 +250,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Scalable Capital Tagesgeld Zinsen aktivieren?",
     antwort:
-      "Nein. Zinsen sind Riba, und Riba ist im Islam verboten. Das Tagesgeld ist bei Scalable Capital ein eigenes Konto, das du selbst einrichtest und befüllst: Aktiviere es nicht. Dein Guthaben auf dem Verrechnungskonto hat 0 % Zinsen.",
+      "Nein. Das Tagesgeld ist bei Scalable Capital ein eigenes Konto mit eigener IBAN, das du aktiv wählst und befüllst: Aktiviere es nicht. Dein Guthaben auf dem Verrechnungskonto hat 0 % Zinsen.",
   },
   {
     frage: "Scalable oder Trade Republic für Anfänger?",
@@ -254,12 +263,12 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Kann ich von Trade Republic zu Scalable Capital wechseln?",
     antwort:
-      "Ja. Du eröffnest das Depot bei Scalable Capital und beantragst dort den Depotübertrag. Trade Republic darf für den Übertrag kein Entgelt verlangen, nur fremde Spesen. Oder du behältst beide: Trade Republic für das, was du dort schon hast, Scalable Capital für die fehlenden Halal-ETFs.",
+      "Ja. Du eröffnest das Depot bei Scalable Capital und beantragst dort den Depotübertrag. Oder du behältst beide: Trade Republic für das, was du dort schon hast, Scalable Capital für die fehlenden Halal-ETFs.",
   },
 ];
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
-  { to: "/blog/trade-republic-alternative", name: ANKER_BEITRAG["/blog/trade-republic-alternative"], text: "Fünf Depots mit mehr Halal-ETFs als Trade Republic." },
+  { to: "/blog/trade-republic-alternative", name: ANKER_BEITRAG["/blog/trade-republic-alternative"], text: "Wenn du bei Trade Republic bleiben und nur ergänzen willst." },
   { to: "/blog/halal-etf", name: "Beste Halal ETFs 2026", text: "Welche Halal ETFs es gibt und was sie kosten." },
   { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "Stell dein Konto in zehn Minuten um." },
 ];
@@ -396,8 +405,11 @@ const ScalableVsTradeRepublic = () => {
     {
       schluessel: "zinsen",
       name: "Zinsen aufs Guthaben",
-      zellen: ["0 % auf dem Verrechnungskonto, das Tagesgeld ist ein eigenes Konto", "laufen nur, wenn du sie in der App aktivierst"],
+      zellen: ["0 % auf dem Verrechnungskonto, das Tagesgeld ist ein eigenes Konto", "nur mit der Zinsfunktion in der App, die du ein- und ausschaltest"],
     },
+    /* Seiten-Prüfer SEO86 SOLLTE 11: „Am besten für“ und App-Bewertung als belegte Zeilen (brokerVergleich.ts appIos, appAndroid). */
+    { schluessel: "fuer", name: "Am besten für", zellen: ["viele Halal-ETFs und Sukuk", "Sparpläne jede Woche"] },
+    { schluessel: "app", name: "App-Bewertung", zellen: [appNote(sc), appNote(tr)] },
   ];
 
   return (
@@ -490,7 +502,7 @@ const ScalableVsTradeRepublic = () => {
               <div className="mt-8">
                 <Text>
                   <p>
-                    Scalable Capital oder Trade Republic? Für Muslime liegt Scalable Capital vorn: Dort kaufst du {scE.text} und {scS.text} aus unserem
+                    Scalable Capital vs Trade Republic: Für Muslime liegt Scalable Capital vorn. Dort kaufst du {scE.text} und {scS.text} aus unserem
                     Vergleich. Bei Trade Republic sind es {trE.x} und {trS.x}.
                   </p>
                   <p>
@@ -518,8 +530,11 @@ const ScalableVsTradeRepublic = () => {
                   <Ueber id="vergleich" />
                   <Text>
                     <p>
-                      Die Tabelle zeigt, was du bei Scalable Capital und Trade Republic kaufst und zahlst. Gezählt sind die Halal-ETFs und Fonds und die
-                      Sukuk, die du dort kaufst.
+                      Die Tabelle zeigt, was du bei Scalable Capital und Trade Republic kaufst und zahlst. Verglichen haben wir dieselben Punkte wie im
+                      Depot-Vergleich: wie viele Halal-ETFs und Fonds, Sukuk und Gold-ETCs du kaufst, was Order und Sparplan kosten, wie oft der Sparplan
+                      läuft, wo du handelst und ob dein Guthaben Zinsen bringt. Die Reihenfolge richtet sich danach, ob du das Depot ohne Zinsen nutzen
+                      kannst und was du dort halal kaufst, nicht nach Rendite. Wie wir bewerten, steht in der{" "}
+                      <TL to="/vergleiche/methodik">Methodik unserer Vergleiche</TL>.
                     </p>
                   </Text>
                   <Tabelle
@@ -562,9 +577,9 @@ const ScalableVsTradeRepublic = () => {
                       {nurScalableEtf.length} Halal-ETFs und Fonds mehr als bei Trade Republic: {reihe(nurScalableEtf)}
                     </Haken>
                     <Haken>Alle {scS.y} Sukuk: {reihe([...nurScalableSukuk, ...beide("halalSukuk")])}</Haken>
-                    <Haken>Depot und ETF-Sparplan kostenlos, Sparplan von {sparrateAb(sc)} € an</Haken>
+                    <Haken>Depot und ETF-Sparplan kostenlos im Free Broker, dem kostenlosen Tarif, Sparplan von {sparrateAb(sc)} € an</Haken>
                     <Haken>ETFs von iShares, Amundi, Vanguard und Xtrackers von 250 € an ohne Ordergebühr</Haken>
-                    <Haken>Ohne Zinsen nutzbar: Das Tagesgeld aktivierst du nicht</Haken>
+                    <Haken>App-Bewertung {appNote(sc)}, Bank: {String(sc.werte.bank ?? "")}</Haken>
                     {kreuzSc && <Kreuz>{kreuzSc.text}</Kreuz>}
                   </ul>
                   {/* Elias' eigenes Bild aus der Scalable-App (SEO79, ~/Downloads/apps IMG_4201): zeigt, dass der iShares USD Sukuk dort mit Kaufen und Sparplan steht. */}
@@ -593,7 +608,7 @@ const ScalableVsTradeRepublic = () => {
                     <Haken>Sparplan jede Woche, alle 2 Wochen, jeden Monat oder jedes Quartal</Haken>
                     <Haken>Order {orderEuro(tr)}, Depot und ETF-Sparplan kostenlos</Haken>
                     <Haken>Handel in Deutschland, Europa, USA und an weiteren Plätzen</Haken>
-                    <Haken>Ohne Zinsen nutzbar: Du lässt die Zinsen in der App aus</Haken>
+                    <Haken>App-Bewertung {appNote(tr)}, Bank: {String(tr.werte.bank ?? "")}</Haken>
                     {kreuzTr && <Kreuz>{kreuzTr.text}</Kreuz>}
                   </ul>
                   <Text>
@@ -612,32 +627,32 @@ const ScalableVsTradeRepublic = () => {
                 <section className="mt-14">
                   <Ueber id="oder" />
                   <Tabelle
-                    kopf={[{ titel: "Wenn du …" }, { titel: "Nimm", text: true }, { titel: "Achte auf", text: true }]}
+                    kopf={[{ titel: "Wenn du …" }, { titel: "Nimm", text: true }, { titel: "Darum", text: true }]}
                     zeilen={[
                       {
                         schluessel: "w1",
                         name: `viele Halal-ETFs und alle ${scS.y} Sukuk willst`,
-                        zellen: [<Nimm key="n" a={sc} />, "Das Tagesgeld nicht aktivieren"],
+                        zellen: [<Nimm key="n" a={sc} />, `${zahl(scE)} Halal-ETFs und Fonds, ${zahl(scS)} Sukuk`],
                       },
                       {
                         schluessel: "w2",
                         name: "jede Woche sparen willst",
-                        zellen: [<Nimm key="n" a={tr} />, "Die Zinsen in der App auslassen"],
+                        zellen: [<Nimm key="n" a={tr} />, `Sparplan ${rhythmus(tr)}`],
                       },
                       {
                         schluessel: "w3",
-                        name: "ETFs von iShares ohne Ordergebühr kaufen willst",
-                        zellen: [<Nimm key="n" a={sc} />, "Das Tagesgeld nicht aktivieren"],
+                        name: "größere Summen in ETFs von iShares, Amundi, Vanguard oder Xtrackers anlegst",
+                        zellen: [<Nimm key="n" a={sc} />, "von 250 € an ohne Ordergebühr"],
                       },
                       {
                         schluessel: "w4",
                         name: "neben ETFs einzelne Aktien aus Europa und den USA willst",
-                        zellen: [<Nimm key="n" a={tr} />, "Die Zinsen in der App auslassen"],
+                        zellen: [<Nimm key="n" a={tr} />, `Order ${orderEuro(tr)}, Handel in Deutschland, Europa und den USA`],
                       },
                       {
                         schluessel: "w5",
                         name: "Trade Republic schon hast und mehr Halal-ETFs willst",
-                        zellen: ["Scalable Capital als zweites Depot", "Das Tagesgeld nicht aktivieren"],
+                        zellen: [<Nimm key="n" a={sc} />, `${nurScalableEtf.length} Halal-ETFs und Fonds mehr, als zweites Depot`],
                       },
                     ]}
                     wischen
@@ -648,7 +663,15 @@ const ScalableVsTradeRepublic = () => {
                       <H3>Und wenn dir beide nicht reichen?</H3>
                       <Text>
                         <p>
-                          Fehlt dir bei beiden ein Halal-ETF, schau auf {mehr.a.name}: Dort kaufst du {mehr.n.text}. Fünf Depots mit mehr Halal-ETFs als Trade
+                          Fehlt dir bei beiden ein Halal-ETF, schau auf{" "}
+                          {mehr.a.link ? (
+                            <a href={mehr.a.link} rel="sponsored nofollow" className="font-semibold text-primary underline underline-offset-[3px] hover:text-primary/80">
+                              {mehr.a.name}*
+                            </a>
+                          ) : (
+                            mehr.a.name
+                          )}
+                          : Dort kaufst du {mehr.n.text}. Fünf Depots mit mehr Halal-ETFs als Trade
                           Republic zeigt die Seite <TL to="/blog/trade-republic-alternative">{ANKER_BEITRAG["/blog/trade-republic-alternative"]}</TL>, alle{" "}
                           {depotAnzahl} Depots findest du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
                         </p>
@@ -665,13 +688,9 @@ const ScalableVsTradeRepublic = () => {
                   <H3>Scalable Capital vs Trade Republic Tagesgeld und Zinsen: das lässt du aus</H3>
                   <Text>
                     <p>Zinsen sind Riba, und Riba ist im Islam verboten. Darum zählt bei jedem Depot, was mit dem Geld passiert, das noch nicht angelegt ist.</p>
+                    <p>{zinsScName} Das Tagesgeld ist ein eigenes Konto mit eigener IBAN, das du aktiv wählst und befüllst.</p>
                     <p>
-                      {zinsScName} Das Tagesgeld ist ein eigenes Konto, das du selbst
-                      einrichtest und befüllst.
-                    </p>
-                    <p>
-                      {zinsTrName} Sind sie bei dir an, öffnest du in der App den Tab „Cash“, tippst
-                      auf die Kachel „Zinsen“, dann auf „Verwalten“ und „Deaktivieren“. Mehr dazu steht unter{" "}
+                      {zinsTrName} Wie du die Zinsen abschaltest, steht Schritt für Schritt unter{" "}
                       <TL to="/blog/trade-republic-alternative">{ANKER_BEITRAG["/blog/trade-republic-alternative"]}</TL>.
                     </p>
                     <p>
@@ -681,7 +700,8 @@ const ScalableVsTradeRepublic = () => {
                   <H3>Scalable Capital Halal ETF und Trade Republic: welche gibt es?</H3>
                   <Text>
                     <p>
-                      Beide führen {reihe(beideEtf)}. Nur bei Scalable Capital kommen {reihe(nurScalableEtf)} dazu.{" "}
+                      Beide führen {reihe(beideEtf)}. Nur bei Scalable Capital kommen {reihe(nurScalableEtf)} dazu. Was die Fonds kosten und wie sie
+                      geprüft sind, steht unter <TL to="/blog/halal-etf">Beste Halal ETFs 2026</TL>.{" "}
                       {keinerEtf.length > 0 && keinerEtf.every((n) => n.startsWith("HSBC"))
                         ? `Die ${ZAHLWORT[keinerEtf.length] ?? keinerEtf.length} HSBC Islamic ETFs`
                         : reihe(keinerEtf)}{" "}
@@ -698,7 +718,8 @@ const ScalableVsTradeRepublic = () => {
                   <Text>
                     <p>
                       Wer jeden Monat per Sparplan spart, zahlt bei beiden 0 € Gebühr. Erst wenn du oft einzelne Orders machst, zählt der Unterschied von{" "}
-                      {orderEuro(sc)} zu {orderEuro(tr)}.
+                      {orderEuro(sc)} zu {orderEuro(tr)}: Bei zehn einzelnen Orders im Jahr zahlst du {euro(10 * euroZahl(orderEuro(sc)))} bei Scalable
+                      Capital und {euro(10 * euroZahl(orderEuro(tr)))} bei Trade Republic.
                     </p>
                   </Text>
                 </section>
@@ -707,9 +728,10 @@ const ScalableVsTradeRepublic = () => {
                   <Ueber id="fazit" />
                   <Text>
                     <p>
-                      Für Muslime liegt Scalable Capital vorn, weil du dort mehr Halal-ETFs und alle {scS.y} Sukuk kaufst. Trade Republic passt, wenn du es
-                      schon hast oder jede Woche sparen willst. Bei beiden lässt du die Zinsen auf dein Guthaben aus.
+                      Für Muslime liegt Scalable Capital vorn: Dort kaufst du mehr Halal-ETFs und alle {scS.y} Sukuk. Im Depot-Vergleich steht es auf
+                      Platz {platz(sc)}, Trade Republic auf Platz {platz(tr)}. Trade Republic passt, wenn du es schon hast oder jede Woche sparen willst.
                     </p>
+                    <p>Eröffne das Depot kostenlos bei Scalable Capital und sieh dir die Halal-ETFs selbst an.</p>
                   </Text>
                   <div className="mt-5 flex flex-wrap items-center gap-4">
                     <ScalableKnopfInline />
